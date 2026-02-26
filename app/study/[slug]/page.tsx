@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { MODERN_MASTERS_DATA, getMasterBySlug } from "@/lib/data/modern-masters";
 import { STUDY_PACKS_TOP50, getStudyPackBySlug } from "@/lib/data/study-packs-top50";
 import { ExternalLink } from "lucide-react";
+import { getSiteUrl } from "@/lib/site-url";
 
 const SITE_NAME = "Art Valuation Protocol";
 
@@ -25,7 +26,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const entry = master || pack;
   if (!entry) return { title: "Not Found" };
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = getSiteUrl();
   const blurb = "blurb" in entry ? entry.blurb : entry.shortBlurb;
 
   return {
@@ -58,7 +59,7 @@ export default async function StudyDetailPage({ params }: PageProps) {
 
   if (!master && !pack) notFound();
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = getSiteUrl();
 
   if (master) return renderModernMaster(master, siteUrl);
   return renderStudyPack(pack!, siteUrl);

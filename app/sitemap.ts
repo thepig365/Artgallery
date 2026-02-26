@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/db/client";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+import { getSiteUrl } from "@/lib/site-url";
+const SITE_URL = getSiteUrl();
 const MASTERPIECE_LIMIT = 1000;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

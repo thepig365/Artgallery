@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { MODERN_MASTERS_DATA } from "@/lib/data/modern-masters";
 import { STUDY_PACKS_TOP50 } from "@/lib/data/study-packs-top50";
+import { getSiteUrl } from "@/lib/site-url";
 import { ArrowRight, ExternalLink } from "lucide-react";
 
 const SITE_NAME = "Art Valuation Protocol";
@@ -12,7 +13,7 @@ const allStudyItems = [
 ];
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  metadataBase: new URL(getSiteUrl()),
   title: `Modern Masters Study Guides | ${SITE_NAME}`,
   description:
     "Text-only study guides for modern and contemporary masters. Learn how to read Picasso, Rothko, Warhol, and more through the Mend Index Protocol.",
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
 };
 
 export default function StudyIndexPage() {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = getSiteUrl();
 
   const jsonLd = {
     "@context": "https://schema.org",

@@ -5,6 +5,7 @@ import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db/client";
 import { ImageOff, ExternalLink, X, BookOpen } from "lucide-react";
 import { STUDY_PACKS_TOP50 } from "@/lib/data/study-packs-top50";
+import { getSiteUrl } from "@/lib/site-url";
 
 export const revalidate = 3600;
 
@@ -111,7 +112,7 @@ interface PageProps {
 }
 
 export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
-  const metadataBase = new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000");
+  const metadataBase = new URL(getSiteUrl());
   const sp = await searchParams;
   const tag = typeof sp.tag === "string" ? sp.tag : null;
   const artistLabel = tag ? ARTIST_TAG_LABELS[tag] : null;
@@ -152,7 +153,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
 }
 
 export default async function MasterpiecesPage({ searchParams }: PageProps) {
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = getSiteUrl();
   const sp = await searchParams;
   const rawPage = typeof sp.page === "string" ? parseInt(sp.page, 10) : 1;
   const page = Number.isFinite(rawPage) && rawPage >= 1 ? rawPage : 1;

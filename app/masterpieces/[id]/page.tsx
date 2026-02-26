@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink, ImageOff } from "lucide-react";
 import { prisma } from "@/lib/db/client";
+import { getSiteUrl } from "@/lib/site-url";
 
 export const revalidate = 3600;
 
@@ -42,7 +43,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
-  const metadataBase = new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000");
+  const metadataBase = new URL(getSiteUrl());
 
   const masterpiece = await prisma.masterpiece.findUnique({
     where: { id },
@@ -108,7 +109,7 @@ export default async function MasterpieceDetailPage({ params }: PageProps) {
 
   const licenseInfo = LICENSE_LABELS[masterpiece.license];
   const sourceName = SOURCE_LABELS[masterpiece.source] || masterpiece.source;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+  const siteUrl = getSiteUrl();
 
   const artworkJsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",
