@@ -1,0 +1,346 @@
+// ─────────────────────────────────────────────────────────────
+// Art Valuation Protocol — Prisma Schema
+// Supabase-compatible PostgreSQL
+// ─────────────────────────────────────────────────────────────
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ──── Enums ────────────────────────────────────────────────
+
+enum UserRole {
+  ADMIN
+  ASSESSOR
+  ARTIST
+  VIEWER
+}
+
+enum AuditPhase {
+  BLIND_SCORING
+  OPEN_REVIEW
+  VARIANCE_CHECK
+  FINALIZED
+}
+
+enum AuditSessionStatus {
+  DRAFT
+  IN_PROGRESS
+  COMPLETED
+  ARCHIVED
+}
+
+enum TakedownStatus {
+  OPEN
+  REVIEWED
+  RESOLVED
+  REJECTED
+}
+
+enum ClaimRelationship {
+  ARTIST
+  OWNER
+  AGENT
+  RIGHTS_HOLDER
+  OTHER
+}
+
+enum ClaimStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  REVOKED
+}
+
+enum ProvenanceEventType {
+  ARTWORK_CREATED
+  ARTWORK_UPDATED
+  ARTWORK_HIDDEN
+  ARTWORK_UNHIDDEN
+  SCORE_SUBMITTED
+  SCORE_UPDATED
+  VARIANCE_FLAGGED
+  VARIANCE_RESOLVED
+  TAKEDOWN_REQUESTED
+  TAKEDOWN_RESOLVED
+  AUDIT_SESSION_CREATED
+  AUDIT_SESSION_COMPLETED
+  OWNERSHIP_CLAIMED
+  OWNERSHIP_APPROVED
+  OWNERSHIP_REJECTED
+  OWNERSHIP_REVOKED
+  OWNER_HIDDEN
+  OWNER_UNHIDDEN
+}
+
+// ──── Models ───────────────────────────────────────────────
+
+model Artist {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name      String
+  slug      String   @unique
+  bio       String?
+  website   String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  artworks Artwork[]
+
+  @@map("artists")
+}
+
+model Artwork {
+  id                  String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title               String
+  slug                String  @unique
+  medium              String?
+  year                Int?
+  dimensions          String?
+  materials           String?
+  narrative           String?
+  sourceUrl           String? @map("source_url")
+  imageUrl            String? @map("image_url")
+  sourceLicenseStatus String? @map("source_license_status")
+
+  // ── Mend Index persisted scores ──
+  scoreB Float? @map("score_b")
+  scoreP Float? @map("score_p")
+  scoreM Float? @map("score_m")
+  scoreS Float? @map("score_s")
+  finalV Float? @map("final_v")
+
+  // ── Visibility / compliance ──
+  isVisible    Boolean   @default(true) @map("is_visible")
+  hiddenReason String?   @map("hidden_reason")
+  hiddenAt     DateTime? @map("hidden_at")
+  hiddenBy     String?   @map("hidden_by") @db.Uuid
+
+  // ── Verified owner (set when ownership claim is approved) ──
+  ownerAuthUid String? @map("owner_auth_uid")
+
+  artistId String @map("artist_id") @db.Uuid
+  artist   Artist @relation(fields: [artistId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  auditSessions    AuditSession[]
+  provenanceLogs   ProvenanceLog[]
+  takedownRequests TakedownRequest[]
+  ownershipClaims  OwnershipClaim[]
+
+  @@map("artworks")
+}
+
+model AssessorUser {
+  id        String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  /// Supabase auth.users id — linked at integration time
+  authUid   String?  @unique @map("auth_uid")
+  email     String   @unique
+  name      String
+  role      UserRole @default(ASSESSOR)
+  isActive  Boolean  @default(true) @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  auditScores     AuditScore[]
+  varianceReviews AuditVarianceReview[]
+  provenanceLogs  ProvenanceLog[]
+
+  @@map("assessor_users")
+}
+
+model AuditSession {
+  id        String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  artworkId String             @map("artwork_id") @db.Uuid
+  artwork   Artwork            @relation(fields: [artworkId], references: [id])
+  phase     AuditPhase         @default(BLIND_SCORING)
+  status    AuditSessionStatus @default(DRAFT)
+  notes     String?
+  createdAt DateTime           @default(now()) @map("created_at")
+  updatedAt DateTime           @updatedAt @map("updated_at")
+
+  scores          AuditScore[]
+  varianceReviews AuditVarianceReview[]
+
+  @@map("audit_sessions")
+}
+
+model AuditScore {
+  id             String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  auditSessionId String @map("audit_session_id") @db.Uuid
+  assessorUserId String @map("assessor_user_id") @db.Uuid
+
+  auditSession AuditSession @relation(fields: [auditSessionId], references: [id])
+  assessor     AssessorUser @relation(fields: [assessorUserId], references: [id])
+
+  scoreB Float @map("score_b")
+  scoreP Float @map("score_p")
+  scoreM Float @map("score_m")
+  scoreS Float @map("score_s")
+  finalV Float @map("final_v")
+
+  notes     String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([auditSessionId, assessorUserId], name: "one_score_per_assessor_session")
+  @@map("audit_scores")
+}
+
+model AuditVarianceReview {
+  id             String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  auditSessionId String @map("audit_session_id") @db.Uuid
+  reviewerId     String @map("reviewer_id") @db.Uuid
+
+  auditSession AuditSession @relation(fields: [auditSessionId], references: [id])
+  reviewer     AssessorUser @relation(fields: [reviewerId], references: [id])
+
+  varianceThreshold Float     @map("variance_threshold")
+  maxVariance       Float     @map("max_variance")
+  flaggedField      String    @map("flagged_field")
+  resolution        String?
+  resolvedAt        DateTime? @map("resolved_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("audit_variance_reviews")
+}
+
+model ProvenanceLog {
+  id        String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  eventType ProvenanceEventType @map("event_type")
+  artworkId String?             @map("artwork_id") @db.Uuid
+  actorId   String?             @map("actor_id") @db.Uuid
+  detail    String?
+  metadata  Json?
+
+  artwork Artwork?      @relation(fields: [artworkId], references: [id])
+  actor   AssessorUser? @relation(fields: [actorId], references: [id])
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([artworkId])
+  @@index([eventType])
+  @@map("provenance_logs")
+}
+
+model OwnershipClaim {
+  id                    String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  artworkId             String            @map("artwork_id") @db.Uuid
+  artwork               Artwork           @relation(fields: [artworkId], references: [id])
+  claimantAuthUid       String            @map("claimant_auth_uid")
+  claimantEmail         String            @map("claimant_email")
+  claimantName          String            @map("claimant_name")
+  relationshipToArtwork ClaimRelationship @map("relationship_to_artwork")
+  evidenceText          String            @map("evidence_text")
+  status                ClaimStatus       @default(PENDING)
+  reviewedByAuthUid     String?           @map("reviewed_by_auth_uid")
+  reviewNotes           String?           @map("review_notes")
+  reviewedAt            DateTime?         @map("reviewed_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([artworkId, claimantAuthUid, status], name: "one_pending_claim_per_claimant")
+  @@index([artworkId])
+  @@index([status])
+  @@map("ownership_claims")
+}
+
+enum ArtistSubmissionStatus {
+  RECEIVED
+  UNDER_REVIEW
+  NEEDS_INFO
+  APPROVED
+  REJECTED
+}
+
+model ArtistSubmission {
+  id               String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  referenceId      String                 @unique @map("reference_id")
+  submitterAuthUid String                 @map("submitter_auth_uid")
+  status           ArtistSubmissionStatus @default(RECEIVED)
+
+  // ── Identity ──
+  workTitle        String                 @map("work_title")
+  artistName       String?                @map("artist_name")
+  medium           String?
+  year             Int?
+  dimensions       String?
+  editionInfo      String?                @map("edition_info")
+
+  // ── Evidence (file metadata stored as JSON until storage is wired) ──
+  evidenceFiles    Json?                  @map("evidence_files") @db.JsonB
+
+  // ── Materials ──
+  materials        String[]               @default([])
+  materialsOther   String?                @map("materials_other")
+
+  // ── Narrative ──
+  narrative        String?
+
+  // ── Consent ──
+  consentGiven     Boolean                @map("consent_given")
+
+  createdAt        DateTime               @default(now()) @map("created_at")
+  updatedAt        DateTime               @updatedAt @map("updated_at")
+
+  @@index([status])
+  @@index([submitterAuthUid])
+  @@index([createdAt])
+  @@map("artist_submissions")
+}
+
+model TakedownRequest {
+  id                  String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  artworkId           String         @map("artwork_id") @db.Uuid
+  artwork             Artwork        @relation(fields: [artworkId], references: [id])
+  complainantName     String         @map("complainant_name")
+  contactEmail        String         @map("contact_email")
+  workUrl             String         @map("work_url")
+  complaintBasis      String         @map("complaint_basis")
+  evidenceLinks       String[]       @map("evidence_links")
+  declarationAccepted Boolean        @map("declaration_accepted")
+  status              TakedownStatus @default(OPEN)
+  reviewNotes         String?        @map("review_notes")
+  reviewedAt          DateTime?      @map("reviewed_at")
+  resolvedAt          DateTime?      @map("resolved_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("takedown_requests")
+}
+
+// ──── Open-Access Masterpieces (Met / Rijksmuseum) ───────
+
+model Masterpiece {
+  id             String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  source         String   // "met" | "rijks"
+  sourceObjectId String   @map("source_object_id")
+  title          String
+  artist         String?
+  date           String?  // year or range string e.g. "1660–1665"
+  medium         String?
+  dimensions     String?
+  imageUrl       String   @map("image_url")
+  thumbnailUrl   String?  @map("thumbnail_url")
+  license        String   // "CC0" | "PDM" | "PublicDomain"
+  creditLine     String?  @map("credit_line")
+  sourceUrl      String   @map("source_url")
+  tags           String[] @default([])
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@unique([source, sourceObjectId], name: "source_object_unique")
+  @@index([source])
+  @@map("masterpieces")
+}

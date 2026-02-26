@@ -1,101 +1,141 @@
-import Image from "next/image";
+import { HeroSection } from "@/components/gallery/HeroSection";
+import Link from "next/link";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div>
+      <HeroSection />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* Featured Works — placeholder grid */}
+      <section className="py-16 sm:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-end justify-between mb-10">
+            <div>
+              <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
+                Curated Picks
+              </p>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gallery-text tracking-tight">
+                Featured Works
+              </h2>
+            </div>
+            <Link
+              href="/archive"
+              className="text-sm text-gallery-accent font-medium hover:text-gallery-accent-hover transition-colors hidden sm:block"
+            >
+              View all &rarr;
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className="bg-gallery-surface border border-gallery-border/60 rounded-lg overflow-hidden"
+              >
+                <div className="aspect-[4/3] bg-gallery-surface-alt flex items-center justify-center">
+                  <span className="text-xs text-gallery-muted/40 tracking-wide">
+                    Awaiting imagery
+                  </span>
+                </div>
+                <div className="p-5">
+                  <div className="h-4 w-2/3 bg-gallery-surface-alt rounded mb-2" />
+                  <div className="h-3 w-1/3 bg-gallery-surface-alt rounded" />
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 text-center sm:hidden">
+            <Link
+              href="/archive"
+              className="text-sm text-gallery-accent font-medium hover:text-gallery-accent-hover transition-colors"
+            >
+              View all works &rarr;
+            </Link>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* Browse by Medium */}
+      <section className="py-16 sm:py-20 bg-gallery-surface-alt">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
+            Explore by Medium
+          </p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-gallery-text tracking-tight mb-10">
+            Browse Categories
+          </h2>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+            {["Painting", "Sculpture", "Mixed Media", "Textile"].map(
+              (medium) => (
+                <Link
+                  key={medium}
+                  href="/archive"
+                  className="bg-gallery-surface border border-gallery-border rounded-lg p-6 hover:shadow-md hover:border-gallery-accent/30 transition-all duration-200"
+                >
+                  <span className="text-sm font-medium text-gallery-text">
+                    {medium}
+                  </span>
+                </Link>
+              )
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Open Masterpieces Library */}
+      <section className="py-16 sm:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gallery-surface border border-gallery-border rounded-xl p-8 sm:p-12 text-center">
+            <p className="text-xs font-medium uppercase tracking-widest text-gallery-accent mb-3">
+              Open-Access Collection
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gallery-text tracking-tight mb-4">
+              Open Masterpieces Library
+            </h2>
+            <p className="text-sm text-gallery-muted max-w-lg mx-auto leading-relaxed mb-6">
+              Explore iconic works from The Met and the Art Institute of Chicago,
+              all sourced from museum open-access programs under public-domain licenses.
+            </p>
+            <Link
+              href="/masterpieces"
+              className="inline-flex items-center px-6 py-3 border border-gallery-border text-gallery-text text-sm font-medium rounded-lg hover:bg-gallery-surface-alt transition-colors duration-200"
+            >
+              Browse Open Masterpieces
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Submit CTA */}
+      <section className="py-16 sm:py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-gallery-surface border border-gallery-border rounded-xl p-8 sm:p-12 text-center">
+            <p className="text-xs font-medium uppercase tracking-widest text-gallery-accent mb-3">
+              For Artists &amp; Practitioners
+            </p>
+            <h2 className="text-2xl sm:text-3xl font-bold text-gallery-text tracking-tight mb-4">
+              Submit Your Work
+            </h2>
+            <p className="text-sm text-gallery-muted max-w-lg mx-auto leading-relaxed mb-6">
+              Share your practice with our curatorial community. Works may
+              optionally be evaluated through the Mend Index scoring methodology.
+            </p>
+            <div className="flex flex-wrap justify-center gap-3">
+              <Link
+                href="/portal/submit"
+                className="inline-flex items-center px-6 py-3 bg-gallery-accent text-white text-sm font-medium rounded-lg hover:bg-gallery-accent-hover transition-colors duration-200"
+              >
+                Submit Work
+              </Link>
+              <Link
+                href="/protocol"
+                className="inline-flex items-center px-6 py-3 border border-gallery-border text-gallery-text text-sm font-medium rounded-lg hover:bg-gallery-surface-alt transition-colors duration-200"
+              >
+                Read Protocol
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

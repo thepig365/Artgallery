@@ -1,0 +1,135 @@
+import type { ArtworkWithVisibility } from "@/lib/services/public-artwork-query";
+
+/**
+ * Mock archive dataset including both visible and hidden artworks.
+ * Hidden items MUST be filtered out by the public query layer before rendering.
+ */
+export const MOCK_ARCHIVE_ARTWORKS: ArtworkWithVisibility[] = [
+  {
+    id: "AW-001",
+    title: "Erosion Study No. 7",
+    slug: "erosion-study-no-7",
+    medium: "Mixed media on prepared panel",
+    year: 2024,
+    dimensions: "120 × 90 cm",
+    materials:
+      "Oil pigment (Cadmium Yellow), Cold wax medium, Iron oxide (natural), Raw linen canvas",
+    narrative:
+      "This work investigates the material tension between synthetic binders and mineral pigments under controlled oxidation. The surface was developed over fourteen months through repeated layering and selective removal, allowing the substrate to participate in the final image.",
+    sourceUrl: null,
+    imageUrl:
+      "https://placehold.co/800x600/111111/9A9A9A?text=Erosion+Study+No.+7",
+    sourceLicenseStatus: null,
+    scoreB: 7.2,
+    scoreP: 8.1,
+    scoreM: 6.5,
+    scoreS: 7.8,
+    finalV: 7.27,
+    artist: {
+      id: "ART-001",
+      name: "Elena Voss",
+      slug: "elena-voss",
+      bio: "Emerging mixed-media artist working with mineral pigments and natural oxidation processes.",
+    },
+    isVisible: true,
+  },
+  {
+    id: "AW-002",
+    title: "Sediment Cartography III",
+    slug: "sediment-cartography-iii",
+    medium: "Oil on linen",
+    year: 2023,
+    dimensions: "180 × 140 cm",
+    materials: "Linseed oil, Earth pigments, Belgian linen",
+    narrative:
+      "A topographic investigation of layered earth pigments applied through controlled sedimentation, charting the geological memory embedded in mineral color.",
+    sourceUrl: null,
+    imageUrl:
+      "https://placehold.co/800x600/111111/9A9A9A?text=Sediment+Cartography+III",
+    sourceLicenseStatus: null,
+    scoreB: 8.0,
+    scoreP: 7.5,
+    scoreM: 8.8,
+    scoreS: 7.2,
+    finalV: 7.96,
+    artist: {
+      id: "ART-002",
+      name: "Marcus Chen",
+      slug: "marcus-chen",
+      bio: "Painter exploring geological materiality through earth pigment processes.",
+    },
+    isVisible: true,
+  },
+  {
+    id: "AW-003",
+    title: "Thermal Residue (Withdrawn)",
+    slug: "thermal-residue",
+    medium: "Encaustic on wood",
+    year: 2022,
+    dimensions: "60 × 45 cm",
+    materials: "Beeswax, Damar resin, Dry pigments",
+    narrative: "An encaustic study exploring heat as a sculptural medium.",
+    sourceUrl: null,
+    imageUrl: null,
+    sourceLicenseStatus: null,
+    artist: {
+      id: "ART-003",
+      name: "Anya Petrov",
+      slug: "anya-petrov",
+    },
+    isVisible: false,
+    hiddenReason: "Artist requested withdrawal pending copyright review",
+    hiddenAt: "2024-06-15T14:00:00Z",
+    hiddenBy: "ADMIN-001",
+  },
+  {
+    id: "AW-004",
+    title: "Patina Protocol No. 1",
+    slug: "patina-protocol-no-1",
+    medium: "Copper leaf on panel",
+    year: 2024,
+    dimensions: "90 × 90 cm",
+    materials: "Copper leaf, Gesso, Birch panel, Vinegar patina solution",
+    narrative:
+      "Controlled corrosion of copper leaf on gessoed birch panel. The patina was developed through daily application of diluted acetic acid over eight weeks, creating a living surface that continues to evolve under ambient humidity.",
+    sourceUrl: null,
+    imageUrl:
+      "https://placehold.co/800x600/111111/9A9A9A?text=Patina+Protocol+No.+1",
+    sourceLicenseStatus: null,
+    scoreB: 6.8,
+    scoreP: 9.0,
+    scoreM: 7.5,
+    scoreS: 8.2,
+    finalV: 7.87,
+    artist: {
+      id: "ART-004",
+      name: "James Okafor",
+      slug: "james-okafor",
+      bio: "Sculptor and installation artist working with metal oxidation and entropy.",
+    },
+    isVisible: true,
+  },
+  {
+    id: "AW-005",
+    title: "Stratum (Pending Review)",
+    slug: "stratum",
+    medium: "Acrylic and sand on canvas",
+    year: 2023,
+    dimensions: "200 × 150 cm",
+    materials: "Acrylic medium, Silica sand, Cotton duck canvas",
+    narrative:
+      "Horizontal strata of mixed acrylic and sand medium built up over months.",
+    sourceUrl: null,
+    imageUrl: null,
+    sourceLicenseStatus: null,
+    artist: {
+      id: "ART-005",
+      name: "Sofia Reyes",
+      slug: "sofia-reyes",
+    },
+    isVisible: false,
+    hiddenReason: "Under takedown review — complaint filed 2024-08-01",
+    hiddenAt: "2024-08-01T09:00:00Z",
+    hiddenBy: "ADMIN-001",
+  },
+];
