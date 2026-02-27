@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getPublicArtworks } from "@/lib/services/artwork-visibility";
-import { resolveArtworkImageUrls } from "@/lib/supabase/storage";
+import { resolveArtworksToGalleryPublicUrls } from "@/lib/supabase/gallery-public";
 
 /**
  * GET /api/artworks/public
@@ -12,7 +12,7 @@ import { resolveArtworkImageUrls } from "@/lib/supabase/storage";
 export async function GET() {
   try {
     const artworks = await getPublicArtworks({ take: 100 });
-    const resolved = await resolveArtworkImageUrls(artworks);
+    const resolved = resolveArtworksToGalleryPublicUrls(artworks);
     return NextResponse.json(resolved);
   } catch (err) {
     console.error("[GET /api/artworks/public] Error:", err);

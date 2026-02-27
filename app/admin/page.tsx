@@ -31,8 +31,7 @@ export default function AdminPage() {
   function normalizeImageUrl(value: string): string {
     const v = value.trim();
     if (!v) return "";
-    if (v.startsWith("http://") || v.startsWith("https://") || v.startsWith("/")) return v;
-    return `/api/storage/${v.replace(/^\/+/, "")}`;
+    return v.replace(/^\/+/, "");
   }
 
   const handleSetImage = async (artwork: ArtworkWithVisibility) => {
@@ -357,7 +356,7 @@ export default function AdminPage() {
                     <div className="mt-3 flex flex-wrap items-end gap-2">
                       <div className="flex-1 min-w-[180px]">
                         <Label htmlFor={`image-${artwork.id}`} className="text-[10px]">
-                          Set image URL or storage path
+                          Set gallery-public URL or object path
                         </Label>
                         <Input
                           id={`image-${artwork.id}`}
@@ -368,7 +367,7 @@ export default function AdminPage() {
                               [artwork.id]: e.target.value,
                             }))
                           }
-                          placeholder="e.g. intake/uid/2026/02/xxx/file.jpg or full URL"
+                          placeholder="e.g. published/<artworkId>/image.jpg or gallery-public URL"
                           className="mt-1 text-xs"
                         />
                       </div>

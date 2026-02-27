@@ -1,3 +1,5 @@
+import "server-only";
+
 // ─────────────────────────────────────────────────────────────
 // Server-side Supabase Storage URL resolution
 //
@@ -9,6 +11,10 @@
 
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
+/**
+ * @deprecated Legacy signed-url utilities for old /api/storage references.
+ * Prefer `lib/supabase/gallery-public.ts` for permanent public URLs.
+ */
 const BUCKET = "artist-submissions-evidence";
 const SIGNED_URL_TTL = 60 * 60 * 24 * 7; // 7 days
 const PROXY_PREFIX = "/api/storage/";

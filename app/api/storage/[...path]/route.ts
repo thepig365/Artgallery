@@ -3,6 +3,8 @@ import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 
 const BUCKET = "artist-submissions-evidence";
 const SIGNED_URL_EXPIRY = 3600; // 1 hour
+const ENABLE_LEGACY_STORAGE_PROXY =
+  process.env.ENABLE_LEGACY_STORAGE_PROXY === "true";
 
 /**
  * GET /api/storage/<storagePath>
@@ -14,6 +16,19 @@ export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ path: string[] }> }
 ) {
+  if (!ENABLE_LEGACY_STORAGE_PROXY) {
+    return new NextResponse(
+      JSON.stringify({ error: "Legacy storage proxy is disabled" }),
+      {
+        status: 410,
+        headers: {
+          "content-type": "application/json; charset=utf-8",
+          "cache-control": "no-store",
+        },
+      }
+    );
+  }
+
   const { path: segments } = await params;
   const storagePath = segments
     .map((s) => decodeURIComponent(s))

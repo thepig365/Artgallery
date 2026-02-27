@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db/client";
 import { resolveSessionUser } from "@/lib/auth/session";
 import { requireRole, AuthorizationError } from "@/lib/auth/roles";
+import { createSupabaseAdminClient } from "@/lib/supabase/admin";
+import { normalizeGalleryPublicPath } from "@/lib/supabase/gallery-public";
+
+const PRIVATE_BUCKET = "artist-submissions-evidence";
+const PUBLIC_BUCKET = "gallery-public";
 
 function slugify(text: string): string {
   return text
@@ -11,11 +16,90 @@ function slugify(text: string): string {
     .slice(0, 200);
 }
 
-function normalizeImageUrl(value: string): string {
-  const v = value.trim();
-  if (!v) return "";
-  if (v.startsWith("http://") || v.startsWith("https://") || v.startsWith("/")) return v;
-  return `/api/storage/${v.replace(/^\/+/, "")}`;
+function sanitizeFileName(name: string): string {
+  return name.replace(/[^a-zA-Z0-9._-]/g, "_").replace(/_{2,}/g, "_");
+}
+
+function parseStorageReference(
+  value: string
+): { bucket: string; objectPath: string } | null {
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+
+  if (trimmed.startsWith("/api/storage/")) {
+    return {
+      bucket: PRIVATE_BUCKET,
+      objectPath: trimmed.replace(/^\/api\/storage\/+/, ""),
+    };
+  }
+
+  if (!trimmed.startsWith("http://") && !trimmed.startsWith("https://")) {
+    const normalized = normalizeGalleryPublicPath(trimmed);
+    if (!normalized) return null;
+    return { bucket: PUBLIC_BUCKET, objectPath: normalized };
+  }
+
+  try {
+    const url = new URL(trimmed);
+    const m = url.pathname.match(
+      /\/storage\/v1\/object\/(sign|public)\/([^/]+)\/(.+)$/
+    );
+    if (!m) return null;
+    return {
+      bucket: decodeURIComponent(m[2]),
+      objectPath: decodeURIComponent(m[3]),
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function copyToPublicBucket(params: {
+  sourceBucket: string;
+  sourcePath: string;
+  recordId: string;
+}) {
+  const { sourceBucket, sourcePath, recordId } = params;
+  const supabase = createSupabaseAdminClient();
+
+  const fileName = sanitizeFileName(sourcePath.split("/").pop() || "image.jpg");
+  const targetPath = `published/${recordId}/${fileName}`;
+
+  const { data: existing, error: existsError } = await supabase.storage
+    .from(PUBLIC_BUCKET)
+    .download(targetPath);
+
+  if (existing && !existsError) {
+    return targetPath;
+  }
+
+  const { data: srcData, error: srcErr } = await supabase.storage
+    .from(sourceBucket)
+    .download(sourcePath);
+  if (srcErr || !srcData) {
+    throw new Error(`Source image not found: ${sourceBucket}/${sourcePath}`);
+  }
+
+  const contentType =
+    srcData.type ||
+    (fileName.endsWith(".png")
+      ? "image/png"
+      : fileName.endsWith(".webp")
+        ? "image/webp"
+        : "image/jpeg");
+
+  const { error: uploadErr } = await supabase.storage
+    .from(PUBLIC_BUCKET)
+    .upload(targetPath, srcData, {
+      upsert: false,
+      contentType,
+    });
+
+  if (uploadErr && !String(uploadErr.message).toLowerCase().includes("exists")) {
+    throw new Error(`Failed to publish image: ${uploadErr.message}`);
+  }
+
+  return targetPath;
 }
 
 export async function POST(
@@ -46,21 +130,43 @@ export async function POST(
       );
     }
 
-    const evidenceFiles = (submission.evidenceFiles as Array<{ path?: string }> | null) ?? [];
+    const evidenceFiles =
+      (submission.evidenceFiles as Array<{ path?: string }> | null) ?? [];
     const firstImagePath = evidenceFiles.find((f) => f.path?.trim())?.path?.trim();
-    let imageUrl: string | null = firstImagePath
-      ? `/api/storage/${firstImagePath}`
-      : null;
 
-    if (!imageUrl) {
+    let publicImagePath: string | null = null;
+    if (firstImagePath) {
+      publicImagePath = await copyToPublicBucket({
+        sourceBucket: PRIVATE_BUCKET,
+        sourcePath: firstImagePath,
+        recordId: submission.id,
+      });
+    }
+
+    if (!publicImagePath) {
       const body = await request.json().catch(() => ({}));
       const pasted = typeof body.imageUrl === "string" ? body.imageUrl.trim() : "";
       if (pasted) {
-        imageUrl = normalizeImageUrl(pasted);
+        const parsed = parseStorageReference(pasted);
+        if (parsed) {
+          if (parsed.bucket === PUBLIC_BUCKET) {
+            publicImagePath = normalizeGalleryPublicPath(parsed.objectPath);
+          } else {
+            publicImagePath = await copyToPublicBucket({
+              sourceBucket: parsed.bucket,
+              sourcePath: parsed.objectPath,
+              recordId: submission.id,
+            });
+          }
+        }
       }
-      if (!imageUrl) {
+      if (!publicImagePath) {
         return NextResponse.json(
-          { error: "Image required to approve", code: "IMAGE_REQUIRED" },
+          {
+            error:
+              "Image required to approve. Paste a gallery-public URL/path or a valid storage URL/path.",
+            code: "IMAGE_REQUIRED",
+          },
           { status: 400 }
         );
       }
@@ -94,7 +200,7 @@ export async function POST(
           dimensions: submission.dimensions,
           materials: submission.materials?.join(", ") || null,
           narrative: submission.narrative,
-          imageUrl,
+          imageUrl: publicImagePath,
           artistId: artist.id,
           isVisible: true,
           ownerAuthUid: submission.submitterAuthUid,

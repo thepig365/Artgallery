@@ -5,7 +5,7 @@ import { MendScoreDisplay } from "@/components/gallery/MendScoreDisplay";
 import { ArtworkOwnerActions } from "@/components/gallery/ArtworkOwnerActions";
 import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
 import { getPublicArtworkBySlug } from "@/lib/services/artwork-visibility";
-import { resolveStorageUrl } from "@/lib/supabase/storage";
+import { toGalleryPublicUrl } from "@/lib/supabase/gallery-public";
 
 export const revalidate = 60;
 
@@ -24,7 +24,7 @@ export default async function ArtworkDetailPage({
     notFound();
   }
 
-  const resolvedImageUrl = await resolveStorageUrl(artwork.imageUrl);
+  const resolvedImageUrl = toGalleryPublicUrl(artwork.imageUrl);
 
   const hasScores =
     artwork.scoreB != null &&

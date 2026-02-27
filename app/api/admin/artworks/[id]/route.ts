@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db/client";
 import { resolveSessionUser } from "@/lib/auth/session";
 import { requireRole, AuthorizationError } from "@/lib/auth/roles";
+import { normalizeGalleryPublicPath } from "@/lib/supabase/gallery-public";
 
 /**
  * PATCH /api/admin/artworks/[id]
@@ -20,7 +21,9 @@ export async function PATCH(
     const body = await request.json();
 
     const imageUrl =
-      typeof body.imageUrl === "string" ? body.imageUrl.trim() || null : undefined;
+      typeof body.imageUrl === "string"
+        ? normalizeGalleryPublicPath(body.imageUrl) ?? null
+        : undefined;
 
     if (imageUrl === undefined) {
       return NextResponse.json(
