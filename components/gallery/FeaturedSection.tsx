@@ -26,8 +26,8 @@ function FeaturedImage({
       <div
         className={`flex flex-col items-center justify-center bg-gallery-surface-alt gap-2 ${className ?? ""}`}
       >
-        <ImageOff className="w-8 h-8 text-gallery-muted/25" strokeWidth={1} />
-        <span className="text-[11px] text-gallery-muted/40 tracking-wide">
+        <ImageOff className="w-8 h-8 text-subtle" strokeWidth={1} />
+        <span className="text-[11px] text-subtle tracking-wide">
           Awaiting imagery
         </span>
       </div>
@@ -107,7 +107,7 @@ export function FeaturedSection({ artworks }: FeaturedSectionProps) {
                     </p>
                   )}
                   {(hero.medium || hero.year) && (
-                    <p className="text-xs text-gallery-muted/60 mt-2 tracking-wide">
+                    <p className="text-xs text-subtle mt-2 tracking-wide">
                       {[hero.medium, hero.year].filter(Boolean).join(" · ")}
                     </p>
                   )}
@@ -142,7 +142,7 @@ export function FeaturedSection({ artworks }: FeaturedSectionProps) {
                       {artwork.artist.name}
                     </p>
                   )}
-                  <p className="text-[10px] text-gallery-muted/60 mt-1.5 tracking-wide">
+                  <p className="text-[10px] text-subtle mt-1.5 tracking-wide">
                     {[artwork.medium, artwork.year]
                       .filter(Boolean)
                       .join(" · ")}

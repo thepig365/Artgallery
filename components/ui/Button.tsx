@@ -13,11 +13,11 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantStyles: Record<ButtonVariant, string> = {
   default:
-    "border border-noir-border text-noir-text hover:bg-noir-surface hover:text-white",
+    "border border-border text-fg hover:bg-fg hover:text-bg transition-colors",
   accent:
-    "border border-noir-accent bg-noir-accent/10 text-noir-accent hover:bg-noir-accent hover:text-white",
+    "bg-accent text-white hover:bg-accent-hover border border-accent",
   ghost:
-    "border border-transparent text-noir-muted hover:text-noir-text hover:border-noir-border",
+    "border border-transparent text-muted hover:text-fg hover:border-border",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -41,7 +41,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
           font-medium tracking-widest uppercase
           transition-colors duration-120
           disabled:opacity-40 disabled:cursor-not-allowed
-          focus-visible:outline focus-visible:outline-1 focus-visible:outline-noir-text
+          focus-visible:outline focus-visible:outline-1 focus-visible:outline-accent
           ${variantStyles[variant]}
           ${sizeStyles[size]}
           ${className}

@@ -32,7 +32,7 @@ export default function HomePage() {
                 className="bg-gallery-surface border border-gallery-border/60 rounded-lg overflow-hidden"
               >
                 <div className="aspect-[4/3] bg-gallery-surface-alt flex items-center justify-center">
-                  <span className="text-xs text-gallery-muted/40 tracking-wide">
+                  <span className="text-xs text-subtle tracking-wide">
                     Awaiting imagery
                   </span>
                 </div>

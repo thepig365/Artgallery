@@ -9,27 +9,27 @@ export function SiteFooter() {
 
   if (zone === "gallery") {
     return (
-      <footer className="border-t border-gallery-border bg-gallery-surface mt-auto">
+      <footer className="border-t border-border bg-surface mt-auto">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8">
             <div>
-              <h3 className="text-sm font-semibold text-gallery-text mb-3">
+              <h3 className="text-sm font-semibold text-fg mb-3 font-serif">
                 Art Valuation Protocol
               </h3>
-              <p className="text-xs text-gallery-muted leading-relaxed">
+              <p className="text-xs text-muted leading-relaxed">
                 Curatorial protocol system for material sincerity assessment.
                 Forensic-grade evaluation framework.
               </p>
             </div>
             <div>
-              <h4 className="text-xs font-semibold text-gallery-text mb-3 uppercase tracking-wide">
+              <h4 className="text-xs font-semibold text-fg mb-3 uppercase tracking-wide">
                 Explore
               </h4>
               <ul className="space-y-2">
                 <li>
                   <Link
                     href="/archive"
-                    className="text-xs text-gallery-muted hover:text-gallery-accent transition-colors"
+                    className="text-xs text-muted hover:text-fg transition-colors"
                   >
                     Browse Archive
                   </Link>
@@ -37,7 +37,7 @@ export function SiteFooter() {
                 <li>
                   <Link
                     href="/protocol"
-                    className="text-xs text-gallery-muted hover:text-gallery-accent transition-colors"
+                    className="text-xs text-muted hover:text-fg transition-colors"
                   >
                     Assessment Protocol
                   </Link>
@@ -45,7 +45,7 @@ export function SiteFooter() {
                 <li>
                   <Link
                     href="/portal/submit"
-                    className="text-xs text-gallery-muted hover:text-gallery-accent transition-colors"
+                    className="text-xs text-muted hover:text-fg transition-colors"
                   >
                     Submit Work
                   </Link>
@@ -53,14 +53,14 @@ export function SiteFooter() {
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-semibold text-gallery-text mb-3 uppercase tracking-wide">
+              <h4 className="text-xs font-semibold text-fg mb-3 uppercase tracking-wide">
                 Legal & Access
               </h4>
               <ul className="space-y-2">
                 <li>
                   <Link
                     href="/takedown"
-                    className="text-xs text-gallery-muted hover:text-gallery-accent transition-colors"
+                    className="text-xs text-muted hover:text-fg transition-colors"
                   >
                     Takedown Request
                   </Link>
@@ -68,7 +68,7 @@ export function SiteFooter() {
                 <li>
                   <Link
                     href="/protocol"
-                    className="text-xs text-gallery-muted hover:text-gallery-accent transition-colors"
+                    className="text-xs text-muted hover:text-fg transition-colors"
                   >
                     Scoring Methodology
                   </Link>
@@ -76,7 +76,7 @@ export function SiteFooter() {
                 <li>
                   <Link
                     href="/login"
-                    className="text-xs text-gallery-muted hover:text-gallery-accent transition-colors"
+                    className="text-xs text-muted hover:text-fg transition-colors"
                   >
                     Sign In
                   </Link>
@@ -84,7 +84,7 @@ export function SiteFooter() {
                 <li>
                   <Link
                     href="/masterpieces"
-                    className="text-xs text-gallery-muted/50 hover:text-gallery-muted transition-colors"
+                    className="text-xs text-subtle hover:text-muted transition-colors"
                   >
                     Open Masterpieces
                   </Link>
@@ -92,7 +92,7 @@ export function SiteFooter() {
                 <li>
                   <Link
                     href="/portal"
-                    className="text-xs text-gallery-muted/50 hover:text-gallery-muted transition-colors"
+                    className="text-xs text-subtle hover:text-muted transition-colors"
                   >
                     Creator Portal
                   </Link>
@@ -100,8 +100,8 @@ export function SiteFooter() {
               </ul>
             </div>
           </div>
-          <div className="border-t border-gallery-border pt-6">
-            <p className="text-[11px] text-gallery-muted/70 leading-relaxed max-w-4xl">
+          <div className="border-t border-border pt-6">
+            <p className="text-[11px] text-muted leading-relaxed max-w-4xl">
               {DISCLAIMERS.global}
             </p>
           </div>

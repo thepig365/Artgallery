@@ -10,7 +10,7 @@ export function GalleryGrid({ artworks }: GalleryGridProps) {
     return (
       <div className="py-20 text-center">
         <p className="text-sm text-gallery-muted mb-2">No works found</p>
-        <p className="text-xs text-gallery-muted/60 max-w-md mx-auto leading-relaxed">
+        <p className="text-xs text-subtle max-w-md mx-auto leading-relaxed">
           There are no publicly visible assessed works matching your criteria.
           Works enter the archive after completing the full assessment protocol.
         </p>
