@@ -4,8 +4,7 @@ import { prisma } from "@/lib/db/client";
 import { MODERN_MASTERS_DATA } from "@/lib/data/modern-masters";
 import { STUDY_PACKS_TOP50 } from "@/lib/data/study-packs-top50";
 import { toGalleryPublicUrl } from "@/lib/supabase/gallery-public";
-import { getSiteUrl } from "@/lib/site-url";
-const SITE_URL = getSiteUrl();
+const SITE_URL = "https://gallery.bayviewhub.me";
 const MASTERPIECE_LIMIT = 1000;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -18,7 +17,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/study`, changeFrequency: "weekly", priority: 0.7 },
     { url: `${SITE_URL}/protocol`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${SITE_URL}/takedown`, changeFrequency: "monthly", priority: 0.3 },
-    { url: `${SITE_URL}/login`, changeFrequency: "yearly", priority: 0.2 },
   ];
 
   const studySlugs = [

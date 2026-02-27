@@ -1,14 +1,13 @@
 import type { MetadataRoute } from "next";
 
-import { getSiteUrl } from "@/lib/site-url";
-const SITE_URL = getSiteUrl();
+const SITE_URL = "https://gallery.bayviewhub.me";
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
         userAgent: "*",
-        allow: ["/"],
+        allow: "/",
         disallow: ["/admin", "/api", "/login", "/portal"],
       },
     ],

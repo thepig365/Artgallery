@@ -8,14 +8,14 @@ export const revalidate = 60;
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Collection Archive | Bayview Hub Gallery",
+  title: "Collection | Bayview Hub Art Gallery",
   description:
     "Browse publicly visible artworks assessed through the Mend Index protocol.",
   alternates: {
     canonical: "/archive",
   },
   openGraph: {
-    title: "Collection Archive | Bayview Hub Gallery",
+    title: "Collection | Bayview Hub Art Gallery",
     description:
       "Browse publicly visible artworks assessed through the Mend Index protocol.",
     type: "website",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Collection Archive | Bayview Hub Gallery",
+    title: "Collection | Bayview Hub Art Gallery",
     description:
       "Browse publicly visible artworks assessed through the Mend Index protocol.",
   },

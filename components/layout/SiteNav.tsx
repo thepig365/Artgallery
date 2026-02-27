@@ -12,9 +12,9 @@ const NOIR_NAV_ITEMS = [
 
 const GALLERY_NAV_ITEMS = [
   { label: "Collection", href: "/archive" },
-  { label: "Submit Artwork", href: "/portal/submit" },
+  { label: "Submit Artwork", href: "/submit" },
   { label: "Assessment Protocol", href: "/protocol" },
-  { label: "Rights & Licensing", href: "/takedown" },
+  { label: "Rights & Licensing", href: "/rights" },
 ] as const;
 
 export function SiteNav() {
