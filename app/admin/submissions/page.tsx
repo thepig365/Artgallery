@@ -512,13 +512,19 @@ export default function AdminSubmissionsPage() {
                           )}
                           <div className="flex items-end gap-3">
                             <button
-                              onClick={() =>
+                              onClick={() => {
+                                if (!canApprove) {
+                                  setApiError(
+                                    "Image required to approve. Paste image URL or storage path first."
+                                  );
+                                  return;
+                                }
                                 handleApprove(
                                   sub.id,
                                   hasEvidencePath ? undefined : pastedUrl
-                                )
-                              }
-                              disabled={action === "loading" || !canApprove}
+                                );
+                              }}
+                              disabled={action === "loading"}
                               className="px-4 py-2 text-xs font-medium bg-green-900/30 text-green-400 border border-green-700/40 hover:bg-green-900/50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1.5"
                             >
                               {action === "loading" ? (
