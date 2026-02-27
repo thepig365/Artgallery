@@ -293,7 +293,6 @@ export default function AdminSubmissionsPage() {
               const hasEvidencePath = Array.isArray(sub.evidenceFiles) &&
                 sub.evidenceFiles.some((f) => (f as EvidenceDescriptor).path?.trim());
               const pastedUrl = imageUrlOverrides[sub.id]?.trim();
-              const canApprove = hasEvidencePath || !!pastedUrl;
 
               return (
                 <div key={sub.id} className="border border-[#222] bg-[#111111]">
@@ -493,12 +492,12 @@ export default function AdminSubmissionsPage() {
                         <div className="flex flex-col gap-3 pt-3 border-t border-[#222]">
                           {!hasEvidencePath && (
                             <div className="space-y-1">
-                              <p className="text-xs text-amber-400 font-medium">
-                                Image required to approve
+                              <p className="text-xs text-[#9A9A9A] font-medium">
+                                Image URL (optional)
                               </p>
                               <input
                                 type="text"
-                                placeholder="Paste image URL or storage path (e.g. intake/uid/2026/02/xxx/file.jpg)"
+                                placeholder="Optional: paste image URL or storage path"
                                 value={imageUrlOverrides[sub.id] ?? ""}
                                 onChange={(e) =>
                                   setImageUrlOverrides((s) => ({
@@ -513,12 +512,6 @@ export default function AdminSubmissionsPage() {
                           <div className="flex items-end gap-3">
                             <button
                               onClick={() => {
-                                if (!canApprove) {
-                                  setApiError(
-                                    "Image required to approve. Paste image URL or storage path first."
-                                  );
-                                  return;
-                                }
                                 handleApprove(
                                   sub.id,
                                   hasEvidencePath ? undefined : pastedUrl

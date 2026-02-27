@@ -160,16 +160,6 @@ export async function POST(
           }
         }
       }
-      if (!publicImagePath) {
-        return NextResponse.json(
-          {
-            error:
-              "Image required to approve. Paste a gallery-public URL/path or a valid storage URL/path.",
-            code: "IMAGE_REQUIRED",
-          },
-          { status: 400 }
-        );
-      }
     }
 
     const baseSlug = slugify(submission.workTitle);
