@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import Link from "next/link";
 import { ImageOff } from "lucide-react";
 import type { ArtworkWithVisibility } from "@/lib/services/public-artwork-query";
@@ -11,15 +11,23 @@ interface GalleryCardProps {
 
 /**
  * Image loading logic:
- * - showPlaceholder when: no imageUrl in DB, OR image failed to load (imgError)
- * - imageUrl comes from DB: set at approval from submission evidence, or via Admin "Set Image"
- * - /api/storage/... URLs redirect to Supabase signed URLs; img follows redirects
+ * - showPlaceholder when: no imageUrl, OR image failed to load (imgError)
+ * - imageUrl is resolved server-side to a fresh Supabase signed URL before reaching this component
  * - On refresh: state resets; if imageUrl exists, img loads; if it fails, onError → placeholder
  */
 export function GalleryCard({ artwork }: GalleryCardProps) {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
+
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  // Handle images that loaded before React hydration attached onLoad
+  useEffect(() => {
+    if (imgRef.current?.complete && imgRef.current.naturalWidth > 0) {
+      setImgLoaded(true);
+    }
+  }, []);
 
   const showPlaceholder = !artwork.imageUrl || imgError;
 
@@ -55,6 +63,7 @@ export function GalleryCard({ artwork }: GalleryCardProps) {
               )}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
+                ref={imgRef}
                 key={retryCount}
                 src={artwork.imageUrl!}
                 alt={artwork.title}

@@ -1,5 +1,6 @@
 import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
 import { getPublicArtworks } from "@/lib/services/artwork-visibility";
+import { resolveArtworkImageUrls } from "@/lib/supabase/storage";
 import { ArchiveClient } from "./archive-client";
 
 export const revalidate = 60;
@@ -8,7 +9,8 @@ export const dynamic = "force-dynamic";
 export default async function ArchivePage() {
   let publicArtworks: Awaited<ReturnType<typeof getPublicArtworks>> = [];
   try {
-    publicArtworks = await getPublicArtworks({ take: 100 });
+    const artworks = await getPublicArtworks({ take: 100 });
+    publicArtworks = await resolveArtworkImageUrls(artworks);
   } catch (err) {
     console.error("[Archive] Failed to load artworks:", err);
   }

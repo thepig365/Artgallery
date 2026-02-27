@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { ImageOff } from "lucide-react";
 import type { ArtworkWithVisibility } from "@/lib/services/public-artwork-query";
@@ -20,6 +20,14 @@ function FeaturedImage({
 }) {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+
+  // Handle images that loaded before React hydration attached onLoad
+  useEffect(() => {
+    if (imgRef.current?.complete && imgRef.current.naturalWidth > 0) {
+      setLoaded(true);
+    }
+  }, []);
 
   if (!artwork.imageUrl || error) {
     return (
@@ -38,6 +46,7 @@ function FeaturedImage({
       )}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
+        ref={imgRef}
         src={artwork.imageUrl}
         alt={artwork.title}
         className={`absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out ${

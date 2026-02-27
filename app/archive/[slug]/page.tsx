@@ -5,6 +5,7 @@ import { MendScoreDisplay } from "@/components/gallery/MendScoreDisplay";
 import { ArtworkOwnerActions } from "@/components/gallery/ArtworkOwnerActions";
 import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
 import { getPublicArtworkBySlug } from "@/lib/services/artwork-visibility";
+import { resolveStorageUrl } from "@/lib/supabase/storage";
 
 export const revalidate = 60;
 
@@ -22,6 +23,8 @@ export default async function ArtworkDetailPage({
   if (!artwork) {
     notFound();
   }
+
+  const resolvedImageUrl = await resolveStorageUrl(artwork.imageUrl);
 
   const hasScores =
     artwork.scoreB != null &&
@@ -60,10 +63,10 @@ export default async function ArtworkDetailPage({
         {/* Image — dominant left column */}
         <div className="lg:col-span-7">
           <div className="relative bg-gallery-surface-alt rounded-lg overflow-hidden border border-gallery-border">
-            {artwork.imageUrl ? (
+            {resolvedImageUrl ? (
               /* eslint-disable-next-line @next/next/no-img-element */
               <img
-                src={artwork.imageUrl}
+                src={resolvedImageUrl}
                 alt={artwork.title}
                 className="w-full h-auto block"
                 loading="eager"
