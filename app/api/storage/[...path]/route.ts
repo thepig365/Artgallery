@@ -15,7 +15,9 @@ export async function GET(
   { params }: { params: Promise<{ path: string[] }> }
 ) {
   const { path: segments } = await params;
-  const storagePath = segments.join("/");
+  const storagePath = segments
+    .map((s) => decodeURIComponent(s))
+    .join("/");
 
   if (!storagePath || storagePath.includes("..")) {
     return NextResponse.json({ error: "Invalid path" }, { status: 400 });

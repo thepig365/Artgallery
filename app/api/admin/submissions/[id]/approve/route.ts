@@ -57,10 +57,8 @@ export async function POST(
       });
     }
 
-    const evidenceFiles = submission.evidenceFiles as
-      | Array<{ path?: string }>
-      | null;
-    const firstImagePath = evidenceFiles?.[0]?.path;
+    const evidenceFiles = (submission.evidenceFiles as Array<{ path?: string }> | null) ?? [];
+    const firstImagePath = evidenceFiles.find((f) => f.path?.trim())?.path?.trim();
     const imageUrl = firstImagePath
       ? `/api/storage/${firstImagePath}`
       : null;

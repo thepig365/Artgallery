@@ -15,7 +15,6 @@ interface StepEvidenceProps {
   onAdd: (files: EvidenceFile[]) => void;
   onRemove: (id: string) => void;
   onUpdateFile: (id: string, updates: Partial<EvidenceFile>) => void;
-  error?: string;
 }
 
 function getFileExtension(name: string): string {
@@ -83,7 +82,6 @@ export function StepEvidence({
   onAdd,
   onRemove,
   onUpdateFile,
-  error,
 }: StepEvidenceProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -242,10 +240,6 @@ export function StepEvidence({
       <p className="text-[10px] text-noir-muted/70 mt-2 italic">
         Tip: 3–6 clear images usually work best (front view, detail views, signature/back if relevant).
       </p>
-
-      {error && (
-        <p className="text-[10px] text-noir-accent mt-2">{error}</p>
-      )}
 
       {fileErrors.length > 0 && (
         <div className="mt-3 space-y-1">
