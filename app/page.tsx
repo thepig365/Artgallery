@@ -1,57 +1,23 @@
 import { HeroSection } from "@/components/gallery/HeroSection";
+import { FeaturedSection } from "@/components/gallery/FeaturedSection";
+import { getPublicArtworks } from "@/lib/services/artwork-visibility";
+import { resolveArtworksToGalleryPublicUrls } from "@/lib/supabase/gallery-public";
 import Link from "next/link";
-import { ImageOff } from "lucide-react";
 
-export default function HomePage() {
+export default async function HomePage() {
+  let featuredArtworks: Awaited<ReturnType<typeof getPublicArtworks>> = [];
+  try {
+    const artworks = await getPublicArtworks({ take: 8 });
+    featuredArtworks = resolveArtworksToGalleryPublicUrls(artworks);
+  } catch (err) {
+    console.error("[Home] Failed to load featured artworks:", err);
+  }
+
   return (
     <div>
       <HeroSection />
 
-      {/* Featured Works — placeholder grid */}
-      <section className="py-16 sm:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-end justify-between mb-10">
-            <div>
-              <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
-                Curated Picks
-              </p>
-              <h2 className="text-2xl sm:text-3xl font-bold text-gallery-text tracking-tight">
-                Featured Works
-              </h2>
-            </div>
-            <Link
-              href="/archive"
-              className="text-sm text-gallery-accent font-medium hover:text-gallery-accent-hover transition-colors hidden sm:block"
-            >
-              View all &rarr;
-            </Link>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="bg-gallery-surface border border-gallery-border/60 rounded-lg overflow-hidden"
-              >
-                <div className="aspect-[4/3] bg-gallery-surface-alt/80 flex items-center justify-center">
-                  <ImageOff className="w-8 h-8 text-subtle/40" strokeWidth={1} aria-hidden />
-                </div>
-                <div className="p-5">
-                  <div className="h-4 w-2/3 bg-gallery-surface-alt rounded mb-2" />
-                  <div className="h-3 w-1/3 bg-gallery-surface-alt rounded" />
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="mt-8 text-center sm:hidden">
-            <Link
-              href="/archive"
-              className="text-sm text-gallery-accent font-medium hover:text-gallery-accent-hover transition-colors"
-            >
-              View all works &rarr;
-            </Link>
-          </div>
-        </div>
-      </section>
+      <FeaturedSection artworks={featuredArtworks} />
 
       {/* Browse by Medium */}
       <section className="py-16 sm:py-20 bg-gallery-surface-alt">
