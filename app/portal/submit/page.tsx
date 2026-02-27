@@ -56,6 +56,7 @@ export default function ArtistSubmitPage() {
 
   const [identity, setIdentity] = useState<IdentityFormData>({
     workTitle: "",
+    artistName: "",
     medium: "",
     year: "",
     dimensions: "",
@@ -66,6 +67,7 @@ export default function ArtistSubmitPage() {
   const [materialsOther, setMaterialsOther] = useState("");
   const [narrative, setNarrative] = useState("");
   const [consentGiven, setConsentGiven] = useState(false);
+  const [submitterPrintName, setSubmitterPrintName] = useState("");
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
@@ -97,11 +99,13 @@ export default function ArtistSubmitPage() {
         case "narrative":
           result = validateNarrative(narrative);
           break;
-        case "consent":
-          result = consentGiven
-            ? { success: true, errors: {} }
-            : { success: false, errors: { consent: "You must agree to the terms before submission" } };
+        case "consent": {
+          const consentErrors: Record<string, string> = {};
+          if (!consentGiven) consentErrors.consent = "You must agree to the terms before submission";
+          if (submitterPrintName.trim().length === 0) consentErrors.submitterPrintName = "Print name is required";
+          result = Object.keys(consentErrors).length === 0 ? { success: true, errors: {} } : { success: false, errors: consentErrors };
           break;
+        }
         default:
           result = { success: true, errors: {} };
       }
@@ -109,7 +113,7 @@ export default function ArtistSubmitPage() {
       setErrors(result.errors);
       return result.success;
     },
-    [identity, selectedMaterials, materialsOther, narrative, consentGiven]
+    [identity, selectedMaterials, materialsOther, narrative, consentGiven, submitterPrintName]
   );
 
   const handleNext = () => {
@@ -148,6 +152,7 @@ export default function ArtistSubmitPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           workTitle: identity.workTitle,
+          artistName: identity.artistName.trim(),
           medium: identity.medium || undefined,
           year: Number.isNaN(yearNum) ? null : yearNum,
           dimensions: identity.dimensions || undefined,
@@ -156,6 +161,7 @@ export default function ArtistSubmitPage() {
           narrative: narrative || undefined,
           evidenceFiles,
           consentGiven,
+          submitterPrintName: submitterPrintName.trim(),
         }),
       });
       const data = await res.json();
@@ -205,6 +211,7 @@ export default function ArtistSubmitPage() {
     setCompletedSteps(new Set());
     setIdentity({
       workTitle: "",
+      artistName: "",
       medium: "",
       year: "",
       dimensions: "",
@@ -214,6 +221,7 @@ export default function ArtistSubmitPage() {
     setMaterialsOther("");
     setNarrative("");
     setConsentGiven(false);
+    setSubmitterPrintName("");
     setErrors({});
     setSubmitError(null);
   }, []);
@@ -288,6 +296,8 @@ export default function ArtistSubmitPage() {
             <StepConsent
               consentGiven={consentGiven}
               onToggle={() => setConsentGiven((p) => !p)}
+              submitterPrintName={submitterPrintName}
+              onPrintNameChange={setSubmitterPrintName}
               errors={errors}
             />
           )}

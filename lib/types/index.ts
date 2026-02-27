@@ -87,10 +87,11 @@ export interface EvidenceFile {
   error?: string;
 }
 
-export type IdentityFields = "workTitle" | "medium" | "year" | "dimensions";
+export type IdentityFields = "workTitle" | "artistName" | "medium" | "year" | "dimensions";
 
 export interface IdentityFormData {
   workTitle: string;
+  artistName: string;
   medium: string;
   year: string;
   dimensions: string;

@@ -165,7 +165,8 @@ export const evidenceFileDescriptorSchema = z.object({
 
 export const createArtistSubmissionSchema = z.object({
   workTitle: z.string().min(1, "Title is required").max(300),
-  artistName: z.string().max(300).optional(),
+  artistName: z.string().min(1, "Artist name is required").max(300),
+  submitterPrintName: z.string().min(1, "Print name is required").max(300),
   medium: z.string().max(200).optional(),
   year: z
     .number()

@@ -2,17 +2,23 @@
 
 import { AlertTriangle, Shield } from "lucide-react";
 import { Panel } from "@/components/ui/Panel";
+import { Input } from "@/components/ui/Input";
+import { Label } from "@/components/ui/Label";
 import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
 
 interface StepConsentProps {
   consentGiven: boolean;
   onToggle: () => void;
+  submitterPrintName: string;
+  onPrintNameChange: (value: string) => void;
   errors: Record<string, string>;
 }
 
 export function StepConsent({
   consentGiven,
   onToggle,
+  submitterPrintName,
+  onPrintNameChange,
   errors,
 }: StepConsentProps) {
   return (
@@ -75,6 +81,32 @@ export function StepConsent({
         </div>
         <p className="text-xs text-noir-text group-hover:text-white transition-colors duration-120">
           I have read and agree to the assessment protocol terms outlined above.
+        </p>
+      </div>
+
+      <div className="mt-6 space-y-4">
+        <div>
+          <Label htmlFor="submitterPrintName" required>
+            Print name (signature)
+          </Label>
+          <Input
+            id="submitterPrintName"
+            value={submitterPrintName}
+            onChange={(e) => onPrintNameChange(e.target.value)}
+            placeholder="Full legal or professional name"
+            error={!!errors.submitterPrintName}
+          />
+          <p className="text-[10px] text-noir-muted mt-1">
+            Artist or authorized curator signing this submission.
+          </p>
+          {errors.submitterPrintName && (
+            <p className="text-noir-accent text-[10px] mt-1 tracking-wider">
+              {errors.submitterPrintName}
+            </p>
+          )}
+        </div>
+        <p className="text-[10px] text-noir-muted">
+          Date of submission will be recorded upon final submission.
         </p>
       </div>
 

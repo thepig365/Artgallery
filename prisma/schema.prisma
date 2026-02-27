@@ -287,7 +287,8 @@ model ArtistSubmission {
   narrative        String?
 
   // ── Consent ──
-  consentGiven     Boolean                @map("consent_given")
+  consentGiven       Boolean                @map("consent_given")
+  submitterPrintName String?                @map("submitter_print_name")
 
   createdAt        DateTime               @default(now()) @map("created_at")
   updatedAt        DateTime               @updatedAt @map("updated_at")

@@ -1,0 +1,16 @@
+---
+description: Always commit and push changes to trigger redeploy
+alwaysApply: true
+---
+
+# Deploy After Changes
+
+After making code changes to this project:
+
+1. **Stage all changes**: `git add -A`
+2. **Commit** with a clear message describing the changes
+3. **Push to main**: `git push origin main`
+
+Do this **without the user asking** — treat it as the default final step after each set of edits. Vercel will auto-deploy on push.
+
+Skip only when the user explicitly says not to deploy or to keep changes local.

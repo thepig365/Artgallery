@@ -15,6 +15,10 @@ export const identitySchema = z.object({
     .string()
     .min(1, "Title is required")
     .max(300, "Title must be 300 characters or fewer"),
+  artistName: z
+    .string()
+    .min(1, "Artist name is required")
+    .max(300, "Artist name must be 300 characters or fewer"),
   medium: z.string().min(1, "Medium is required"),
   year: z
     .string()

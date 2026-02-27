@@ -38,6 +38,23 @@ export function StepIdentity({ data, onChange, errors }: StepIdentityProps) {
           )}
         </div>
         <div>
+          <Label htmlFor="artistName" required>
+            Artist Name
+          </Label>
+          <Input
+            id="artistName"
+            value={data.artistName}
+            onChange={(e) => onChange("artistName", e.target.value)}
+            placeholder="e.g., Jane Smith"
+            error={!!errors.artistName}
+          />
+          {errors.artistName && (
+            <p className="text-noir-accent text-[10px] mt-1 tracking-wider">
+              {errors.artistName}
+            </p>
+          )}
+        </div>
+        <div>
           <Label htmlFor="medium" required>
             Medium
           </Label>
