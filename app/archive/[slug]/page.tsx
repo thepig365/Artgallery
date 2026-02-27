@@ -6,6 +6,8 @@ import { ArtworkOwnerActions } from "@/components/gallery/ArtworkOwnerActions";
 import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
 import { getPublicArtworkBySlug } from "@/lib/services/artwork-visibility";
 
+export const revalidate = 60;
+
 interface ArtworkDetailPageProps {
   params: Promise<{ slug: string }>;
 }

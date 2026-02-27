@@ -18,6 +18,7 @@ import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
 
 interface SubmissionSuccessProps {
   referenceId: string | null;
+  onSubmitAnother?: () => void;
 }
 
 const NEXT_STEPS = [
@@ -51,7 +52,7 @@ const CTA_LINKS = [
   { href: "/portal/submit", label: "Submit Another Work", icon: PenTool },
 ];
 
-export function SubmissionSuccess({ referenceId }: SubmissionSuccessProps) {
+export function SubmissionSuccess({ referenceId, onSubmitAnother }: SubmissionSuccessProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
@@ -170,16 +171,32 @@ export function SubmissionSuccess({ referenceId }: SubmissionSuccessProps) {
 
       {/* CTA buttons */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
-        {CTA_LINKS.map((cta) => (
-          <Link
-            key={cta.href}
-            href={cta.href}
-            className="flex items-center justify-center gap-2 border border-noir-border text-noir-text hover:bg-noir-surface hover:text-white px-4 py-3 text-xs font-medium tracking-widest uppercase transition-colors duration-120 focus-visible:outline focus-visible:outline-1 focus-visible:outline-noir-text"
-          >
-            <cta.icon className="w-3.5 h-3.5" strokeWidth={1.5} />
-            {cta.label}
-          </Link>
-        ))}
+        {CTA_LINKS.map((cta) => {
+          const isSubmitAnother = cta.href === "/portal/submit";
+          if (isSubmitAnother && onSubmitAnother) {
+            return (
+              <button
+                key={cta.href}
+                type="button"
+                onClick={onSubmitAnother}
+                className="flex items-center justify-center gap-2 border border-noir-border text-noir-text hover:bg-noir-surface hover:text-white px-4 py-3 text-xs font-medium tracking-widest uppercase transition-colors duration-120 focus-visible:outline focus-visible:outline-1 focus-visible:outline-noir-text"
+              >
+                <cta.icon className="w-3.5 h-3.5" strokeWidth={1.5} />
+                {cta.label}
+              </button>
+            );
+          }
+          return (
+            <Link
+              key={cta.href}
+              href={cta.href}
+              className="flex items-center justify-center gap-2 border border-noir-border text-noir-text hover:bg-noir-surface hover:text-white px-4 py-3 text-xs font-medium tracking-widest uppercase transition-colors duration-120 focus-visible:outline focus-visible:outline-1 focus-visible:outline-noir-text"
+            >
+              <cta.icon className="w-3.5 h-3.5" strokeWidth={1.5} />
+              {cta.label}
+            </Link>
+          );
+        })}
       </div>
 
       {/* Disclaimer */}

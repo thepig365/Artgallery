@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createArtistSubmissionSchema } from "@/lib/validation/schemas";
 import { resolveAuthUser } from "@/lib/auth/session";
 import { prisma } from "@/lib/db/client";
+import { notifyAdminNewSubmission } from "@/lib/email/notify-admin";
 
 function generateReferenceId(): string {
   const timestamp = Date.now().toString(36).toUpperCase();
@@ -64,6 +65,15 @@ export async function POST(request: NextRequest) {
           data.evidenceFiles.length > 0 ? data.evidenceFiles : undefined,
       },
     });
+
+    notifyAdminNewSubmission({
+      referenceId: submission.referenceId,
+      workTitle: submission.workTitle,
+      artistName: submission.artistName,
+      medium: submission.medium,
+      year: submission.year,
+      createdAt: submission.createdAt.toISOString(),
+    }).catch((err) => console.error("[notifyAdminNewSubmission]", err));
 
     return NextResponse.json(
       { ok: true, referenceId: submission.referenceId },

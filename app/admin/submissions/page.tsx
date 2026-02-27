@@ -507,14 +507,21 @@ export default function AdminSubmissionsPage() {
                             strokeWidth={1.5}
                           />
                           <span className="text-xs text-[#9A9A9A]">
-                            Artwork created (hidden by default). Go to{" "}
+                            Artwork created and visible in the{" "}
+                            <Link
+                              href="/archive"
+                              className="text-[#E5E5E5] underline hover:text-white"
+                            >
+                              Assessment Archive
+                            </Link>
+                            . Use{" "}
                             <Link
                               href="/admin"
                               className="text-[#E5E5E5] underline hover:text-white"
                             >
                               Visibility Control
                             </Link>{" "}
-                            to publish it.
+                            to hide if needed.
                           </span>
                         </div>
                       )}

@@ -2,6 +2,8 @@ import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
 import { getPublicArtworks } from "@/lib/services/artwork-visibility";
 import { ArchiveClient } from "./archive-client";
 
+export const revalidate = 60;
+
 export default async function ArchivePage() {
   const publicArtworks = await getPublicArtworks({ take: 100 });
 

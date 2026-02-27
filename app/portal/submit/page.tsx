@@ -198,6 +198,26 @@ export default function ArtistSubmitPage() {
     );
   };
 
+  const handleSubmitAnother = useCallback(() => {
+    setIsSubmitted(false);
+    setReferenceId(null);
+    setCurrentStep("identity");
+    setCompletedSteps(new Set());
+    setIdentity({
+      workTitle: "",
+      medium: "",
+      year: "",
+      dimensions: "",
+    });
+    setFiles([]);
+    setSelectedMaterials([]);
+    setMaterialsOther("");
+    setNarrative("");
+    setConsentGiven(false);
+    setErrors({});
+    setSubmitError(null);
+  }, []);
+
   if (!authReady) {
     return (
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
@@ -209,7 +229,12 @@ export default function ArtistSubmitPage() {
   }
 
   if (isSubmitted) {
-    return <SubmissionSuccess referenceId={referenceId} />;
+    return (
+      <SubmissionSuccess
+        referenceId={referenceId}
+        onSubmitAnother={handleSubmitAnother}
+      />
+    );
   }
 
   return (
