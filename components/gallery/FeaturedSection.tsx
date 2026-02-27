@@ -24,12 +24,9 @@ function FeaturedImage({
   if (!artwork.imageUrl || error) {
     return (
       <div
-        className={`flex flex-col items-center justify-center bg-gallery-surface-alt gap-2 ${className ?? ""}`}
+        className={`flex items-center justify-center bg-gallery-surface-alt/80 ${className ?? ""}`}
       >
-        <ImageOff className="w-8 h-8 text-subtle" strokeWidth={1} />
-        <span className="text-[11px] text-subtle tracking-wide">
-          Awaiting imagery
-        </span>
+        <ImageOff className="w-8 h-8 text-subtle/40" strokeWidth={1} aria-hidden />
       </div>
     );
   }

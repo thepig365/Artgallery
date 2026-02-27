@@ -11,6 +11,11 @@ const nextConfig = {
         hostname: "lakeimagesweb.artic.edu",
         pathname: "/iiif/**",
       },
+      {
+        protocol: "https",
+        hostname: "**.supabase.co",
+        pathname: "/storage/v1/object/**",
+      },
     ],
   },
 };

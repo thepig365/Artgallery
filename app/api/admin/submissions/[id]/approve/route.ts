@@ -11,8 +11,15 @@ function slugify(text: string): string {
     .slice(0, 200);
 }
 
+function normalizeImageUrl(value: string): string {
+  const v = value.trim();
+  if (!v) return "";
+  if (v.startsWith("http://") || v.startsWith("https://") || v.startsWith("/")) return v;
+  return `/api/storage/${v.replace(/^\/+/, "")}`;
+}
+
 export async function POST(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
@@ -39,6 +46,26 @@ export async function POST(
       );
     }
 
+    const evidenceFiles = (submission.evidenceFiles as Array<{ path?: string }> | null) ?? [];
+    const firstImagePath = evidenceFiles.find((f) => f.path?.trim())?.path?.trim();
+    let imageUrl: string | null = firstImagePath
+      ? `/api/storage/${firstImagePath}`
+      : null;
+
+    if (!imageUrl) {
+      const body = await request.json().catch(() => ({}));
+      const pasted = typeof body.imageUrl === "string" ? body.imageUrl.trim() : "";
+      if (pasted) {
+        imageUrl = normalizeImageUrl(pasted);
+      }
+      if (!imageUrl) {
+        return NextResponse.json(
+          { error: "Image required to approve", code: "IMAGE_REQUIRED" },
+          { status: 400 }
+        );
+      }
+    }
+
     const baseSlug = slugify(submission.workTitle);
     const uniqueSuffix = submission.id.slice(0, 8);
     const slug = `${baseSlug}-${uniqueSuffix}`;
@@ -56,12 +83,6 @@ export async function POST(
         data: { name: artistName, slug: artistSlug },
       });
     }
-
-    const evidenceFiles = (submission.evidenceFiles as Array<{ path?: string }> | null) ?? [];
-    const firstImagePath = evidenceFiles.find((f) => f.path?.trim())?.path?.trim();
-    const imageUrl = firstImagePath
-      ? `/api/storage/${firstImagePath}`
-      : null;
 
     const [artwork] = await prisma.$transaction([
       prisma.artwork.create({

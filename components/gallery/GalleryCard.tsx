@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Link from "next/link";
 import { ImageOff } from "lucide-react";
 import type { ArtworkWithVisibility } from "@/lib/services/public-artwork-query";
@@ -9,11 +9,28 @@ interface GalleryCardProps {
   artwork: ArtworkWithVisibility;
 }
 
+/**
+ * Image loading logic:
+ * - showPlaceholder when: no imageUrl in DB, OR image failed to load (imgError)
+ * - imageUrl comes from DB: set at approval from submission evidence, or via Admin "Set Image"
+ * - /api/storage/... URLs redirect to Supabase signed URLs; img follows redirects
+ * - On refresh: state resets; if imageUrl exists, img loads; if it fails, onError → placeholder
+ */
 export function GalleryCard({ artwork }: GalleryCardProps) {
   const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
+  const [retryCount, setRetryCount] = useState(0);
 
   const showPlaceholder = !artwork.imageUrl || imgError;
+
+  const handleError = useCallback(() => {
+    if (retryCount < 1) {
+      setRetryCount((c) => c + 1);
+      setImgError(false);
+    } else {
+      setImgError(true);
+    }
+  }, [retryCount]);
 
   return (
     <Link
@@ -24,14 +41,12 @@ export function GalleryCard({ artwork }: GalleryCardProps) {
         {/* Image — natural aspect ratio */}
         <div className="relative overflow-hidden bg-surface-alt">
           {showPlaceholder ? (
-            <div className="flex flex-col items-center justify-center w-full aspect-[4/3] gap-2">
+            <div className="flex items-center justify-center w-full aspect-[4/3] bg-surface-alt/80">
               <ImageOff
-                className="w-7 h-7 text-subtle"
+                className="w-8 h-8 text-subtle/40"
                 strokeWidth={1}
+                aria-hidden
               />
-              <span className="text-[11px] text-subtle tracking-wide">
-                Awaiting imagery
-              </span>
             </div>
           ) : (
             <>
@@ -40,14 +55,18 @@ export function GalleryCard({ artwork }: GalleryCardProps) {
               )}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
+                key={retryCount}
                 src={artwork.imageUrl!}
                 alt={artwork.title}
                 className={`w-full h-auto block group-hover:scale-[1.03] transition-transform duration-500 ease-out ${
                   imgLoaded ? "opacity-100" : "opacity-0"
                 }`}
                 loading="lazy"
-                onLoad={() => setImgLoaded(true)}
-                onError={() => setImgError(true)}
+                onLoad={() => {
+                  setImgLoaded(true);
+                  setImgError(false);
+                }}
+                onError={handleError}
               />
             </>
           )}

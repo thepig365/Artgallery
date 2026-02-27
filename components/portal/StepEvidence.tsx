@@ -38,6 +38,9 @@ function validateFile(file: File): string | null {
   return null;
 }
 
+const FALLBACK_ERROR =
+  "Upload failed. Please try again. If the issue persists, refresh the page and retry.";
+
 async function uploadFile(file: File): Promise<{
   ok: boolean;
   descriptor?: EvidenceFile;
@@ -46,20 +49,44 @@ async function uploadFile(file: File): Promise<{
   const formData = new FormData();
   formData.append("file", file);
 
-  const res = await fetch("/api/submissions/upload", {
-    method: "POST",
-    body: formData,
-  });
+  let res: Response;
+  try {
+    res = await fetch("/api/submissions/upload", {
+      method: "POST",
+      body: formData,
+    });
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : "Network error";
+    return {
+      ok: false,
+      error: msg.includes("fetch") || msg.includes("network")
+        ? "Network error. Check your connection and try again."
+        : msg,
+    };
+  }
 
-  const data = await res.json();
+  let data: { error?: string; file?: { id: string; name: string; path: string; mimeType: string; size: number; uploadedAt: string } };
+  try {
+    data = await res.json();
+  } catch {
+    return {
+      ok: false,
+      error:
+        res.status >= 500
+          ? "Server error. Please try again later."
+          : FALLBACK_ERROR,
+    };
+  }
 
   if (!res.ok) {
     return {
       ok: false,
-      error:
-        data.error ??
-        "Upload failed. Please try again. If the issue persists, refresh the page and retry.",
+      error: data?.error ?? FALLBACK_ERROR,
     };
+  }
+
+  if (!data?.file) {
+    return { ok: false, error: "Invalid response from server." };
   }
 
   return {
@@ -126,16 +153,14 @@ export function StepEvidence({
           } else {
             onUpdateFile(placeholder.id, {
               status: "error",
-              error:
-                result.error ??
-                "Upload failed. Please try again. If the issue persists, refresh the page and retry.",
+              error: result.error ?? FALLBACK_ERROR,
             });
           }
-        } catch {
+        } catch (err) {
+          const msg = err instanceof Error ? err.message : "Unknown error";
           onUpdateFile(placeholder.id, {
             status: "error",
-            error:
-              "Upload failed. Please try again. If the issue persists, refresh the page and retry.",
+            error: msg || FALLBACK_ERROR,
           });
         }
       }
@@ -289,8 +314,7 @@ export function StepEvidence({
                 )}
                 {file.status === "error" && (
                   <span className="text-[10px] text-noir-accent flex-shrink-0">
-                    {file.error ??
-                      "Upload failed. Please try again. If the issue persists, refresh the page and retry."}
+                    {file.error ?? FALLBACK_ERROR}
                   </span>
                 )}
                 {file.status === "done" && (

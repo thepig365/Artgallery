@@ -51,7 +51,7 @@ async function main() {
       narrative:
         "An investigation into material degradation as an expressive force. The surface is built through successive layers of oil and wax, punctuated by iron oxide deposits that bleed into the linen ground.",
       sourceUrl: "https://source.example.com/erosion-study-7",
-      imageUrl: "https://images.example.com/erosion-study-7.jpg",
+      imageUrl: "https://picsum.photos/seed/erosion7/800/600",
       sourceLicenseStatus: "CC BY-NC 4.0",
       scoreB: 7.2,
       scoreP: 8.1,

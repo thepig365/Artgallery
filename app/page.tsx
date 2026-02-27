@@ -1,5 +1,6 @@
 import { HeroSection } from "@/components/gallery/HeroSection";
 import Link from "next/link";
+import { ImageOff } from "lucide-react";
 
 export default function HomePage() {
   return (
@@ -31,10 +32,8 @@ export default function HomePage() {
                 key={i}
                 className="bg-gallery-surface border border-gallery-border/60 rounded-lg overflow-hidden"
               >
-                <div className="aspect-[4/3] bg-gallery-surface-alt flex items-center justify-center">
-                  <span className="text-xs text-subtle tracking-wide">
-                    Awaiting imagery
-                  </span>
+                <div className="aspect-[4/3] bg-gallery-surface-alt/80 flex items-center justify-center">
+                  <ImageOff className="w-8 h-8 text-subtle/40" strokeWidth={1} aria-hidden />
                 </div>
                 <div className="p-5">
                   <div className="h-4 w-2/3 bg-gallery-surface-alt rounded mb-2" />

@@ -29,12 +29,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  const masterpieces = await prisma.masterpiece.findMany({
-    where: { license: { in: ["CC0", "PDM", "PublicDomain"] } },
-    select: { id: true, updatedAt: true },
-    orderBy: { createdAt: "desc" },
-    take: MASTERPIECE_LIMIT,
-  });
+  let masterpieces: { id: string; updatedAt: Date }[] = [];
+  try {
+    masterpieces = await prisma.masterpiece.findMany({
+      where: { license: { in: ["CC0", "PDM", "PublicDomain"] } },
+      select: { id: true, updatedAt: true },
+      orderBy: { createdAt: "desc" },
+      take: MASTERPIECE_LIMIT,
+    });
+  } catch (err) {
+    console.error("[Sitemap] Failed to load masterpieces:", err);
+  }
 
   const masterpieceRoutes: MetadataRoute.Sitemap = masterpieces.map((m) => ({
     url: `${SITE_URL}/masterpieces/${m.id}`,

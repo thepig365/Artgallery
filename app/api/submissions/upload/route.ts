@@ -80,8 +80,11 @@ export async function POST(request: NextRequest) {
 
     if (uploadError) {
       console.error("[POST /api/submissions/upload] Storage error:", uploadError);
+      const msg =
+        uploadError.message ||
+        "Storage service error. Please check your connection and try again.";
       return NextResponse.json(
-        { error: "Upload failed — storage error" },
+        { error: msg },
         { status: 500 }
       );
     }
@@ -98,8 +101,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: true, file: descriptor }, { status: 200 });
   } catch (err) {
     console.error("[POST /api/submissions/upload]", err);
+    const message =
+      err instanceof Error ? err.message : "An unexpected error occurred";
+    const safeMessage =
+      message.includes("SUPABASE") || message.includes("service role")
+        ? "Storage is not configured. Please contact support."
+        : message;
     return NextResponse.json(
-      { error: "Upload failed" },
+      { error: safeMessage },
       { status: 500 }
     );
   }

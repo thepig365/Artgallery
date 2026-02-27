@@ -103,8 +103,12 @@ export default function AdminSubmissionsPage() {
   const [rejectReasons, setRejectReasons] = useState<Record<string, string>>(
     {}
   );
+  const [imageUrlOverrides, setImageUrlOverrides] = useState<
+    Record<string, string>
+  >({});
   const [filter, setFilter] = useState<FilterKey>("all");
   const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const loadSubmissions = useCallback(async () => {
     try {
@@ -126,18 +130,28 @@ export default function AdminSubmissionsPage() {
     loadSubmissions();
   }, [loadSubmissions]);
 
-  const handleApprove = async (id: string) => {
+  const handleApprove = async (
+    id: string,
+    imageUrlOverride?: string
+  ) => {
     setActionState((s) => ({ ...s, [id]: "loading" }));
     try {
+      const body =
+        imageUrlOverride?.trim() ?
+          JSON.stringify({ imageUrl: imageUrlOverride.trim() })
+        : undefined;
       const res = await fetch(`/api/admin/submissions/${id}/approve`, {
         method: "POST",
+        headers: body ? { "Content-Type": "application/json" } : undefined,
+        body,
       });
+      const data = await res.json().catch(() => null);
       if (!res.ok) {
-        const data = await res.json().catch(() => null);
-        console.error("Approve failed:", data?.error);
         setActionState((s) => ({ ...s, [id]: "error" }));
+        setApiError(data?.error ?? "Approve failed");
         return;
       }
+      setApiError(null);
       setActionState((s) => ({ ...s, [id]: "done" }));
       await loadSubmissions();
     } catch {
@@ -276,14 +290,19 @@ export default function AdminSubmissionsPage() {
               const evidenceCount = Array.isArray(sub.evidenceFiles)
                 ? sub.evidenceFiles.length
                 : 0;
+              const hasEvidencePath = Array.isArray(sub.evidenceFiles) &&
+                sub.evidenceFiles.some((f) => (f as EvidenceDescriptor).path?.trim());
+              const pastedUrl = imageUrlOverrides[sub.id]?.trim();
+              const canApprove = hasEvidencePath || !!pastedUrl;
 
               return (
                 <div key={sub.id} className="border border-[#222] bg-[#111111]">
                   {/* Summary row */}
                   <button
-                    onClick={() =>
-                      setExpandedId(isExpanded ? null : sub.id)
-                    }
+                    onClick={() => {
+                      setExpandedId(isExpanded ? null : sub.id);
+                      setApiError(null);
+                    }}
                     className="w-full px-4 py-3 flex items-center gap-4 text-left hover:bg-[#1a1a1a] transition-colors"
                   >
                     <div className="flex-1 min-w-0">
@@ -451,6 +470,18 @@ export default function AdminSubmissionsPage() {
                                     {formatBytes(f.size)}
                                   </span>
                                 )}
+                                {f.path && sub.status === "APPROVED" && (
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      navigator.clipboard.writeText(f.path!);
+                                    }}
+                                    className="flex-shrink-0 text-[#666] hover:text-[#E5E5E5] underline"
+                                    title="Copy storage path for Visibility Control"
+                                  >
+                                    Copy path
+                                  </button>
+                                )}
                               </div>
                             ))}
                           </div>
@@ -459,43 +490,69 @@ export default function AdminSubmissionsPage() {
 
                       {/* Actions */}
                       {canReview && (
-                        <div className="flex items-end gap-3 pt-3 border-t border-[#222]">
-                          <button
-                            onClick={() => handleApprove(sub.id)}
-                            disabled={action === "loading"}
-                            className="px-4 py-2 text-xs font-medium bg-green-900/30 text-green-400 border border-green-700/40 hover:bg-green-900/50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1.5"
-                          >
-                            {action === "loading" ? (
-                              "Processing…"
-                            ) : (
-                              <>
-                                <CheckCircle className="w-3.5 h-3.5" />
-                                Approve & Create Artwork
-                              </>
-                            )}
-                          </button>
-                          <div className="flex-1 space-y-1">
-                            <input
-                              type="text"
-                              placeholder="Rejection reason (optional)"
-                              value={rejectReasons[sub.id] ?? ""}
-                              onChange={(e) =>
-                                setRejectReasons((s) => ({
-                                  ...s,
-                                  [sub.id]: e.target.value,
-                                }))
+                        <div className="flex flex-col gap-3 pt-3 border-t border-[#222]">
+                          {!hasEvidencePath && (
+                            <div className="space-y-1">
+                              <p className="text-xs text-amber-400 font-medium">
+                                Image required to approve
+                              </p>
+                              <input
+                                type="text"
+                                placeholder="Paste image URL or storage path (e.g. intake/uid/2026/02/xxx/file.jpg)"
+                                value={imageUrlOverrides[sub.id] ?? ""}
+                                onChange={(e) =>
+                                  setImageUrlOverrides((s) => ({
+                                    ...s,
+                                    [sub.id]: e.target.value,
+                                  }))
+                                }
+                                className="w-full px-3 py-2 text-xs bg-[#0a0a0a] border border-amber-700/50 text-[#E5E5E5] placeholder:text-[#555] focus:outline-none focus:border-amber-600 transition-colors"
+                              />
+                            </div>
+                          )}
+                          <div className="flex items-end gap-3">
+                            <button
+                              onClick={() =>
+                                handleApprove(
+                                  sub.id,
+                                  hasEvidencePath ? undefined : pastedUrl
+                                )
                               }
-                              className="w-full px-3 py-2 text-xs bg-[#0a0a0a] border border-[#222] text-[#E5E5E5] placeholder:text-[#555] focus:outline-none focus:border-[#444] transition-colors"
-                            />
-                          </div>
-                          <button
+                              disabled={action === "loading" || !canApprove}
+                              className="px-4 py-2 text-xs font-medium bg-green-900/30 text-green-400 border border-green-700/40 hover:bg-green-900/50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1.5"
+                            >
+                              {action === "loading" ? (
+                                "Processing…"
+                              ) : (
+                                <>
+                                  <CheckCircle className="w-3.5 h-3.5" />
+                                  Approve & Create Artwork
+                                </>
+                              )}
+                            </button>
+                            <div className="flex-1 space-y-1">
+                              <input
+                                type="text"
+                                placeholder="Rejection reason (optional)"
+                                value={rejectReasons[sub.id] ?? ""}
+                                onChange={(e) =>
+                                  setRejectReasons((s) => ({
+                                    ...s,
+                                    [sub.id]: e.target.value,
+                                  }))
+                                }
+                                className="w-full px-3 py-2 text-xs bg-[#0a0a0a] border border-[#222] text-[#E5E5E5] placeholder:text-[#555] focus:outline-none focus:border-[#444] transition-colors"
+                              />
+                            </div>
+                            <button
                             onClick={() => handleReject(sub.id)}
                             disabled={action === "loading"}
                             className="px-4 py-2 text-xs font-medium bg-red-900/30 text-red-400 border border-red-700/40 hover:bg-red-900/50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1.5"
                           >
-                            <XCircle className="w-3.5 h-3.5" />
-                            Reject
-                          </button>
+                              <XCircle className="w-3.5 h-3.5" />
+                              Reject
+                            </button>
+                          </div>
                         </div>
                       )}
 
@@ -526,10 +583,10 @@ export default function AdminSubmissionsPage() {
                         </div>
                       )}
 
-                      {action === "error" && (
+                      {(action === "error" || apiError) && (
                         <div className="flex items-center gap-2 text-xs text-red-400">
                           <AlertTriangle className="w-3.5 h-3.5" />
-                          Action failed. Please try again.
+                          {apiError ?? "Action failed. Please try again."}
                         </div>
                       )}
                     </div>

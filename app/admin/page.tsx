@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Eye, EyeOff, AlertTriangle, Shield, LogOut } from "lucide-react";
 import { Panel } from "@/components/ui/Panel";
 import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Label } from "@/components/ui/Label";
 import { Badge } from "@/components/ui/Badge";
@@ -20,8 +21,55 @@ export default function AdminPage() {
   const [actionState, setActionState] = useState<
     Record<string, "idle" | "loading" | "done">
   >({});
+  const [imageUrlInput, setImageUrlInput] = useState<Record<string, string>>({});
+  const [imageUpdateState, setImageUpdateState] = useState<
+    Record<string, "idle" | "loading" | "done">
+  >({});
   const [filter, setFilter] = useState<"all" | "visible" | "hidden">("all");
   const [apiError, setApiError] = useState<string | null>(null);
+
+  function normalizeImageUrl(value: string): string {
+    const v = value.trim();
+    if (!v) return "";
+    if (v.startsWith("http://") || v.startsWith("https://") || v.startsWith("/")) return v;
+    return `/api/storage/${v.replace(/^\/+/, "")}`;
+  }
+
+  const handleSetImage = async (artwork: ArtworkWithVisibility) => {
+    const raw = imageUrlInput[artwork.id]?.trim();
+    if (!raw) return;
+    const imageUrl = normalizeImageUrl(raw);
+    if (!imageUrl) return;
+
+    setImageUpdateState((prev) => ({ ...prev, [artwork.id]: "loading" }));
+    try {
+      const res = await fetch(`/api/admin/artworks/${artwork.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ imageUrl }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        setApiError(data?.error ?? `Update failed (${res.status})`);
+        setImageUpdateState((prev) => ({ ...prev, [artwork.id]: "idle" }));
+        return;
+      }
+      setArtworks((prev) =>
+        prev.map((a) =>
+          a.id === artwork.id ? { ...a, imageUrl } : a
+        )
+      );
+      setImageUrlInput((prev) => ({ ...prev, [artwork.id]: "" }));
+      setApiError(null);
+      setImageUpdateState((prev) => ({ ...prev, [artwork.id]: "done" }));
+      setTimeout(() => {
+        setImageUpdateState((prev) => ({ ...prev, [artwork.id]: "idle" }));
+      }, 1500);
+    } catch {
+      setApiError("Network error");
+      setImageUpdateState((prev) => ({ ...prev, [artwork.id]: "idle" }));
+    }
+  };
 
   const loadArtworks = useCallback(async () => {
     try {
@@ -296,11 +344,51 @@ export default function AdminPage() {
                     <span>{artwork.id}</span>
                     {artwork.artist && <span>{artwork.artist.name}</span>}
                     {artwork.medium && <span>{artwork.medium}</span>}
+                    {!artwork.imageUrl && (
+                      <span className="text-amber-400">NO IMAGE</span>
+                    )}
                   </div>
                   {!artwork.isVisible && artwork.hiddenReason && (
                     <p className="text-[10px] text-noir-accent/80 mt-1.5 leading-relaxed">
                       Reason: {artwork.hiddenReason}
                     </p>
+                  )}
+                  {!artwork.imageUrl && (
+                    <div className="mt-3 flex flex-wrap items-end gap-2">
+                      <div className="flex-1 min-w-[180px]">
+                        <Label htmlFor={`image-${artwork.id}`} className="text-[10px]">
+                          Set image URL or storage path
+                        </Label>
+                        <Input
+                          id={`image-${artwork.id}`}
+                          value={imageUrlInput[artwork.id] ?? ""}
+                          onChange={(e) =>
+                            setImageUrlInput((prev) => ({
+                              ...prev,
+                              [artwork.id]: e.target.value,
+                            }))
+                          }
+                          placeholder="e.g. intake/uid/2026/02/xxx/file.jpg or full URL"
+                          className="mt-1 text-xs"
+                        />
+                      </div>
+                      <Button
+                        variant="default"
+                        size="sm"
+                        onClick={() => handleSetImage(artwork)}
+                        disabled={
+                          !imageUrlInput[artwork.id]?.trim() ||
+                          imageUpdateState[artwork.id] === "loading"
+                        }
+                        aria-busy={imageUpdateState[artwork.id] === "loading"}
+                      >
+                        {imageUpdateState[artwork.id] === "loading"
+                          ? "Saving…"
+                          : imageUpdateState[artwork.id] === "done"
+                            ? "Saved"
+                            : "Set Image"}
+                      </Button>
+                    </div>
                   )}
                 </div>
 

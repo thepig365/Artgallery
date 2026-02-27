@@ -75,7 +75,7 @@ export default async function ArtworkDetailPage({
                   strokeWidth={1}
                 />
                 <span className="text-sm text-gallery-muted/50">
-                  Image pending assessment
+                  Image not yet available
                 </span>
               </div>
             )}

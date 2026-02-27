@@ -3,9 +3,15 @@ import { getPublicArtworks } from "@/lib/services/artwork-visibility";
 import { ArchiveClient } from "./archive-client";
 
 export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 export default async function ArchivePage() {
-  const publicArtworks = await getPublicArtworks({ take: 100 });
+  let publicArtworks: Awaited<ReturnType<typeof getPublicArtworks>> = [];
+  try {
+    publicArtworks = await getPublicArtworks({ take: 100 });
+  } catch (err) {
+    console.error("[Archive] Failed to load artworks:", err);
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
