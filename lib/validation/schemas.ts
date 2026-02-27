@@ -182,8 +182,8 @@ export const createArtistSubmissionSchema = z.object({
   narrative: z.string().max(10000).optional(),
   evidenceFiles: z
     .array(evidenceFileDescriptorSchema)
-    .max(50)
-    .default([]),
+    .min(1, "At least one evidence image is required")
+    .max(50),
   consentGiven: z.literal(true, {
     message: "Consent must be given",
   }),

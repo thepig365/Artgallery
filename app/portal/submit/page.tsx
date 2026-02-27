@@ -90,9 +90,20 @@ export default function ArtistSubmitPage() {
         case "identity":
           result = validateIdentity(identity);
           break;
-        case "evidence":
-          result = { success: true, errors: {} };
+        case "evidence": {
+          const doneFiles = files.filter((f) => f.status === "done");
+          result =
+            doneFiles.length >= 1
+              ? { success: true, errors: {} }
+              : {
+                  success: false,
+                  errors: {
+                    evidence:
+                      "At least one evidence image is required. Upload at least one image to continue.",
+                  },
+                };
           break;
+        }
         case "materials":
           result = validateMaterials({ selectedMaterials, materialsOther });
           break;
@@ -113,7 +124,7 @@ export default function ArtistSubmitPage() {
       setErrors(result.errors);
       return result.success;
     },
-    [identity, selectedMaterials, materialsOther, narrative, consentGiven, submitterPrintName]
+    [identity, files, selectedMaterials, materialsOther, narrative, consentGiven, submitterPrintName]
   );
 
   const handleNext = () => {
@@ -133,6 +144,12 @@ export default function ArtistSubmitPage() {
   };
 
   const handleSubmit = async () => {
+    const hasEvidence = files.filter((f) => f.status === "done").length >= 1;
+    if (!hasEvidence) {
+      setErrors({ evidence: "At least one evidence image is required before submission." });
+      setCurrentStep("evidence");
+      return;
+    }
     if (!validateStep("consent")) return;
     setIsSubmitting(true);
     setSubmitError(null);
@@ -275,6 +292,7 @@ export default function ArtistSubmitPage() {
               onAdd={addFiles}
               onRemove={removeFile}
               onUpdateFile={updateFile}
+              error={errors.evidence}
             />
           )}
           {currentStep === "materials" && (
