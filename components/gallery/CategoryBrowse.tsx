@@ -27,7 +27,7 @@ const CATEGORIES: Category[] = [
 export function CategoryBrowse() {
   return (
     <section className="py-16 sm:py-20 bg-gallery-surface">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4">
         <div className="text-center mb-10">
           <p className="text-xs font-medium uppercase tracking-widest text-gallery-accent mb-2">
             Explore by Medium

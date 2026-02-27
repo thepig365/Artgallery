@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { SiteNav } from "./SiteNav";
 import { useZone } from "./useZone";
+import { Container } from "./Container";
 
 export function SiteHeader() {
   const zone = useZone();
@@ -14,7 +15,7 @@ export function SiteHeader() {
   if (zone === "gallery") {
     return (
       <header className="border-b border-border bg-surface/95 backdrop-blur-sm sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Container>
           <div className="flex items-center justify-between h-16 md:h-20">
             <Link
               href="https://bayviewhub.me"
@@ -45,14 +46,14 @@ export function SiteHeader() {
             </Link>
             <SiteNav />
           </div>
-        </div>
+        </Container>
       </header>
     );
   }
 
   return (
     <header className="border-b border-border bg-surface sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <Container>
         <div className="flex items-center justify-between h-14 md:h-16">
           <Link
             href="https://bayviewhub.me"
@@ -83,7 +84,7 @@ export function SiteHeader() {
           </Link>
           <SiteNav />
         </div>
-      </div>
+      </Container>
     </header>
   );
 }

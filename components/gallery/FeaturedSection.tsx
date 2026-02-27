@@ -9,6 +9,14 @@ interface FeaturedSectionProps {
   artworks: ArtworkWithVisibility[];
 }
 
+function buildArtworkAlt(artwork: ArtworkWithVisibility): string {
+  const creator = artwork.artist?.name ?? "Unknown artist";
+  const mediumYear = [artwork.medium, artwork.year].filter(Boolean).join(", ");
+  return mediumYear
+    ? `${creator} - ${artwork.title} (${mediumYear})`
+    : `${creator} - ${artwork.title}`;
+}
+
 function FeaturedImage({
   artwork,
   priority,
@@ -48,7 +56,9 @@ function FeaturedImage({
       <img
         ref={imgRef}
         src={artwork.imageUrl}
-        alt={artwork.title}
+        alt={buildArtworkAlt(artwork)}
+        width={1200}
+        height={900}
         className={`absolute inset-0 w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out ${
           loaded ? "opacity-100" : "opacity-0"
         }`}
@@ -70,7 +80,7 @@ export function FeaturedSection({ artworks }: FeaturedSectionProps) {
 
   return (
     <section className="py-16 sm:py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4">
         {/* Header */}
         <div className="flex items-end justify-between mb-10">
           <div>

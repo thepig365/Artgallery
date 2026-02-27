@@ -174,7 +174,7 @@ export default function AdminPage() {
 
   if (loadState === "loading") {
     return (
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <div className="container mx-auto px-4 py-8 sm:py-12">
         <div className="flex items-center gap-3 mb-6">
           <Shield className="w-4 h-4 text-noir-muted" strokeWidth={1} aria-hidden="true" />
           <h1 className="text-lg font-medium tracking-forensic text-noir-text">
@@ -194,7 +194,7 @@ export default function AdminPage() {
 
   if (loadState === "error") {
     return (
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+      <div className="container mx-auto px-4 py-8 sm:py-12">
         <div className="flex items-center gap-3 mb-6">
           <Shield className="w-4 h-4 text-noir-muted" strokeWidth={1} aria-hidden="true" />
           <h1 className="text-lg font-medium tracking-forensic text-noir-text">
@@ -218,7 +218,7 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div className="container mx-auto px-4 py-8 sm:py-12">
 
 
       {apiError && (
@@ -271,6 +271,12 @@ export default function AdminPage() {
             className="inline-flex items-center gap-1.5 text-[10px] text-noir-muted hover:text-noir-text border border-noir-border px-2 py-1 tracking-widest uppercase transition-colors"
           >
             Ownership Claims
+          </Link>
+          <Link
+            href="/admin/enquiries"
+            className="inline-flex items-center gap-1.5 text-[10px] text-noir-muted hover:text-noir-text border border-noir-border px-2 py-1 tracking-widest uppercase transition-colors"
+          >
+            Enquiries
           </Link>
           <Badge variant="muted">{counts.total} total</Badge>
           <button

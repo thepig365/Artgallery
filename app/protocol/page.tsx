@@ -2,6 +2,27 @@ import { Panel } from "@/components/ui/Panel";
 import { Divider } from "@/components/ui/Divider";
 import { Badge } from "@/components/ui/Badge";
 import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Assessment Protocol | Bayview Hub Gallery",
+  description:
+    "Read the Mend Index assessment framework, methodology, and legal disclaimers.",
+  alternates: { canonical: "/protocol" },
+  openGraph: {
+    title: "Assessment Protocol | Bayview Hub Gallery",
+    description:
+      "Read the Mend Index assessment framework, methodology, and legal disclaimers.",
+    type: "article",
+    url: "/protocol",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Assessment Protocol | Bayview Hub Gallery",
+    description:
+      "Read the Mend Index assessment framework, methodology, and legal disclaimers.",
+  },
+};
 
 const AXES = [
   {
@@ -40,7 +61,7 @@ const AXES = [
 
 export default function ProtocolPage() {
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div className="container mx-auto px-4 py-8 sm:py-12">
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <h1 className="text-xl font-medium tracking-forensic text-noir-text">

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
 import { useZone } from "./useZone";
+import { Container } from "./Container";
 
 export function SiteFooter() {
   const zone = useZone();
@@ -10,7 +11,7 @@ export function SiteFooter() {
   if (zone === "gallery") {
     return (
       <footer className="border-t border-border bg-surface mt-auto">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+        <Container className="py-10">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8">
             <div>
               <h3 className="text-sm font-semibold text-fg mb-3 font-serif">
@@ -105,14 +106,14 @@ export function SiteFooter() {
               {DISCLAIMERS.global}
             </p>
           </div>
-        </div>
+        </Container>
       </footer>
     );
   }
 
   return (
     <footer className="border-t border-noir-border bg-noir-bg mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <Container className="py-6">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-noir-muted text-xs tracking-widest uppercase">
             Curatorial Protocol System v0.1
@@ -124,7 +125,7 @@ export function SiteFooter() {
         <p className="text-noir-muted/60 text-[10px] leading-relaxed mt-4 max-w-4xl">
           {DISCLAIMERS.global}
         </p>
-      </div>
+      </Container>
     </footer>
   );
 }

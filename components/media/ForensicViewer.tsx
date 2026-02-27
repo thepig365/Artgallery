@@ -13,7 +13,7 @@ interface ForensicViewerProps {
 
 export function ForensicViewer({
   src,
-  alt = "Evidence",
+  alt = "Forensic evidence image",
   sourceUrl,
   sourceLabel,
   className = "",
@@ -43,6 +43,8 @@ export function ForensicViewer({
           <img
             src={src}
             alt={alt}
+            width={1600}
+            height={1200}
             className="w-full h-full object-contain"
             loading="lazy"
           />

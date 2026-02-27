@@ -43,7 +43,7 @@ export default async function AssessorPortalPage() {
   });
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <div className="container mx-auto px-4 py-12 sm:py-16">
       <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
         Assessor Portal
       </p>

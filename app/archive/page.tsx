@@ -2,9 +2,32 @@ import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
 import { getPublicArtworks } from "@/lib/services/artwork-visibility";
 import { resolveArtworksToGalleryPublicUrls } from "@/lib/supabase/gallery-public";
 import { ArchiveClient } from "./archive-client";
+import type { Metadata } from "next";
 
 export const revalidate = 60;
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Collection Archive | Bayview Hub Gallery",
+  description:
+    "Browse publicly visible artworks assessed through the Mend Index protocol.",
+  alternates: {
+    canonical: "/archive",
+  },
+  openGraph: {
+    title: "Collection Archive | Bayview Hub Gallery",
+    description:
+      "Browse publicly visible artworks assessed through the Mend Index protocol.",
+    type: "website",
+    url: "/archive",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Collection Archive | Bayview Hub Gallery",
+    description:
+      "Browse publicly visible artworks assessed through the Mend Index protocol.",
+  },
+};
 
 export default async function ArchivePage() {
   let publicArtworks: Awaited<ReturnType<typeof getPublicArtworks>> = [];
@@ -16,7 +39,7 @@ export default async function ArchivePage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+    <div className="container mx-auto px-4 py-10 sm:py-16">
       <header className="mb-10">
         <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
           Public Collection

@@ -21,7 +21,7 @@ export default async function HomePage() {
 
       {/* Browse by Medium */}
       <section className="py-16 sm:py-20 bg-gallery-surface-alt">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="container mx-auto px-4 text-center">
           <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
             Explore by Medium
           </p>
@@ -48,7 +48,7 @@ export default async function HomePage() {
 
       {/* Open Masterpieces Library */}
       <section className="py-16 sm:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto px-4">
           <div className="bg-gallery-surface border border-gallery-border rounded-xl p-8 sm:p-12 text-center">
             <p className="text-xs font-medium uppercase tracking-widest text-gallery-accent mb-3">
               Open-Access Collection
@@ -72,7 +72,7 @@ export default async function HomePage() {
 
       {/* Submit CTA */}
       <section className="py-16 sm:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto px-4">
           <div className="bg-gallery-surface border border-gallery-border rounded-xl p-8 sm:p-12 text-center">
             <p className="text-xs font-medium uppercase tracking-widest text-gallery-accent mb-3">
               For Artists &amp; Practitioners

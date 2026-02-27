@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db/client";
 
 import { MODERN_MASTERS_DATA } from "@/lib/data/modern-masters";
 import { STUDY_PACKS_TOP50 } from "@/lib/data/study-packs-top50";
+import { toGalleryPublicUrl } from "@/lib/supabase/gallery-public";
 import { getSiteUrl } from "@/lib/site-url";
 const SITE_URL = getSiteUrl();
 const MASTERPIECE_LIMIT = 1000;
@@ -11,6 +12,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/`, changeFrequency: "weekly", priority: 1.0 },
     { url: `${SITE_URL}/archive`, changeFrequency: "daily", priority: 0.9 },
+    { url: `${SITE_URL}/submit`, changeFrequency: "weekly", priority: 0.7 },
+    { url: `${SITE_URL}/rights`, changeFrequency: "monthly", priority: 0.5 },
     { url: `${SITE_URL}/masterpieces`, changeFrequency: "weekly", priority: 0.8 },
     { url: `${SITE_URL}/study`, changeFrequency: "weekly", priority: 0.7 },
     { url: `${SITE_URL}/protocol`, changeFrequency: "monthly", priority: 0.6 },
@@ -48,5 +51,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   }));
 
-  return [...staticRoutes, ...studyRoutes, ...masterpieceRoutes];
+  let archiveArtworks: { slug: string; updatedAt: Date; imageUrl: string | null }[] = [];
+  try {
+    archiveArtworks = await prisma.artwork.findMany({
+      where: { isVisible: true },
+      select: { slug: true, updatedAt: true, imageUrl: true },
+      orderBy: { createdAt: "desc" },
+      take: 2000,
+    });
+  } catch (err) {
+    console.error("[Sitemap] Failed to load archive artworks:", err);
+  }
+
+  const archiveRoutes: MetadataRoute.Sitemap = archiveArtworks.map((a) => ({
+    url: `${SITE_URL}/archive/${a.slug}`,
+    lastModified: a.updatedAt,
+    changeFrequency: "weekly" as const,
+    priority: 0.8,
+    images: toGalleryPublicUrl(a.imageUrl) ? [toGalleryPublicUrl(a.imageUrl)!] : [],
+  }));
+
+  return [...staticRoutes, ...archiveRoutes, ...studyRoutes, ...masterpieceRoutes];
 }

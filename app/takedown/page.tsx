@@ -115,7 +115,7 @@ export default function TakedownRequestPage() {
 
   if (submitState === "success") {
     return (
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
+      <div className="container mx-auto px-4 py-24 text-center">
         <div className="bg-gallery-surface border border-gallery-border rounded-xl p-10">
           <div className="w-12 h-12 rounded-full bg-gallery-accent/10 flex items-center justify-center mx-auto mb-4">
             <CheckCircle className="w-6 h-6 text-gallery-accent" strokeWidth={1.5} />
@@ -144,7 +144,7 @@ export default function TakedownRequestPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div className="container mx-auto px-4 py-8 sm:py-12">
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <h1 className="text-2xl font-bold text-gallery-text tracking-tight">

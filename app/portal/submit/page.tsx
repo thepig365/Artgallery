@@ -228,7 +228,7 @@ export default function ArtistSubmitPage() {
 
   if (!authReady) {
     return (
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
+      <div className="container mx-auto px-4 py-24 text-center">
         <p className="text-xs text-noir-muted tracking-widest uppercase animate-pulse">
           Checking authentication…
         </p>
@@ -246,7 +246,7 @@ export default function ArtistSubmitPage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div className="container mx-auto px-4 py-8 sm:py-12">
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <h1 className="text-lg font-medium tracking-forensic text-noir-text">

@@ -1,16 +1,127 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, ImageOff } from "lucide-react";
+import type { Metadata } from "next";
 import { MendScoreDisplay } from "@/components/gallery/MendScoreDisplay";
 import { ArtworkOwnerActions } from "@/components/gallery/ArtworkOwnerActions";
+import { EnquiryModalTrigger } from "@/components/enquiry/EnquiryModalTrigger";
 import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
 import { getPublicArtworkBySlug } from "@/lib/services/artwork-visibility";
 import { toGalleryPublicUrl } from "@/lib/supabase/gallery-public";
+import { getSiteUrl } from "@/lib/site-url";
 
 export const revalidate = 60;
 
 interface ArtworkDetailPageProps {
   params: Promise<{ slug: string }>;
+}
+
+function parseDimensionsToStructured(
+  dimensions: string | null | undefined
+): {
+  width?: { "@type": "QuantitativeValue"; value: number; unitText?: string };
+  height?: { "@type": "QuantitativeValue"; value: number; unitText?: string };
+} {
+  const raw = dimensions?.trim();
+  if (!raw) return {};
+
+  // Matches common formats like:
+  // "100X80", "100 x 80 cm", "120/105cm"
+  const match = raw.match(/(\d+(?:\.\d+)?)\s*[xX\/]\s*(\d+(?:\.\d+)?)(.*)?$/);
+  if (!match) return {};
+
+  const widthValue = Number(match[1]);
+  const heightValue = Number(match[2]);
+  if (!Number.isFinite(widthValue) || !Number.isFinite(heightValue)) return {};
+
+  const unitRaw = (match[3] || "").trim().toLowerCase();
+  const unitText =
+    unitRaw.includes("cm") ? "cm" : unitRaw.includes("mm") ? "mm" : undefined;
+
+  return {
+    width: {
+      "@type": "QuantitativeValue",
+      value: widthValue,
+      ...(unitText ? { unitText } : {}),
+    },
+    height: {
+      "@type": "QuantitativeValue",
+      value: heightValue,
+      ...(unitText ? { unitText } : {}),
+    },
+  };
+}
+
+function buildArtworkAlt(artwork: {
+  title: string;
+  medium: string | null;
+  year: number | null;
+  artist?: { name: string } | null;
+}): string {
+  const creator = artwork.artist?.name ?? "Unknown artist";
+  const mediumYear = [artwork.medium, artwork.year].filter(Boolean).join(", ");
+  return mediumYear
+    ? `${creator} - ${artwork.title} (${mediumYear})`
+    : `${creator} - ${artwork.title}`;
+}
+
+function wordCount(text: string): number {
+  return text.trim().split(/\s+/).filter(Boolean).length;
+}
+
+function toCuratorNote(narrative: string | null | undefined): string {
+  const fallback =
+    "This work is part of Chelsey's ongoing exploration of material memory, surface tension, and emotional atmosphere. The composition rewards slow viewing: subtle shifts in texture and rhythm reveal how the artist balances control with chance. Presented in the BayviewHub context, the piece is read as both object and record, linking studio process, provenance cues, and contemporary collecting conversations. It invites careful looking before any market conclusion is made.";
+
+  const source = narrative?.trim();
+  if (!source) return fallback;
+
+  const words = source.split(/\s+/).filter(Boolean);
+  const sliced = words.slice(0, 120).join(" ");
+  const count = wordCount(sliced);
+  if (count < 60) return fallback;
+  return sliced;
+}
+
+export async function generateMetadata({
+  params,
+}: ArtworkDetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const artwork = await getPublicArtworkBySlug(slug);
+
+  if (!artwork) {
+    return {
+      title: "Artwork not found | Bayview Hub Gallery",
+      description: "The requested artwork could not be found.",
+    };
+  }
+
+  const image = toGalleryPublicUrl(artwork.imageUrl) ?? undefined;
+  const title = `${artwork.title} | Bayview Hub Gallery`;
+  const description =
+    artwork.narrative?.slice(0, 160) ||
+    `View ${artwork.title} in the Bayview Hub gallery archive.`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `/archive/${artwork.slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      url: `/archive/${artwork.slug}`,
+      images: image ? [{ url: image }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: image ? [image] : undefined,
+    },
+  };
 }
 
 export default async function ArtworkDetailPage({
@@ -47,9 +158,55 @@ export default async function ArtworkDetailPage({
         .map((s) => s.trim())
         .filter(Boolean)
     : [];
+  const displayArtist = artwork.artist?.name?.trim() || "Chelsey";
+
+  const sameAs =
+    artwork.sourceUrl && artwork.sourceUrl.includes("chelseyartwork.com")
+      ? artwork.sourceUrl
+      : undefined;
+
+  const dimensionsStructured = parseDimensionsToStructured(artwork.dimensions);
+  const artworkFacts = {
+    artist: displayArtist,
+    title: artwork.title,
+    year: artwork.year ? String(artwork.year) : "—",
+    mediumMaterials:
+      [artwork.medium, materials.length > 0 ? materials.join(", ") : null]
+        .filter(Boolean)
+        .join(" / ") || "—",
+    dimensions:
+      dimensionsStructured.width && dimensionsStructured.height
+        ? `${dimensionsStructured.width.value} x ${dimensionsStructured.height.value}${dimensionsStructured.width.unitText ? ` ${dimensionsStructured.width.unitText}` : ""}`
+        : "—",
+    location: "BayviewHub Gallery, Mornington Peninsula",
+    availability: "Available on enquiry",
+  };
+  const curatorNote = toCuratorNote(artwork.narrative);
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "VisualArtwork",
+    name: artwork.title,
+    ...(resolvedImageUrl ? { image: resolvedImageUrl } : {}),
+    description:
+      artwork.narrative ||
+      `${artwork.title}${artwork.artist ? ` by ${artwork.artist.name}` : ""}`,
+    creator: { "@type": "Person", name: displayArtist },
+    ...(artwork.year ? { dateCreated: String(artwork.year) } : {}),
+    ...(artwork.medium ? { artMedium: artwork.medium } : {}),
+    ...(materials.length > 0 ? { material: materials } : {}),
+    ...dimensionsStructured,
+    ...(sameAs ? { sameAs } : {}),
+    url: `${getSiteUrl()}/archive/${artwork.slug}`,
+  };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div className="container mx-auto px-4 py-8 sm:py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       {/* Breadcrumb */}
       <Link
         href="/archive"
@@ -67,7 +224,9 @@ export default async function ArtworkDetailPage({
               /* eslint-disable-next-line @next/next/no-img-element */
               <img
                 src={resolvedImageUrl}
-                alt={artwork.title}
+                alt={buildArtworkAlt(artwork)}
+                width={1400}
+                height={1050}
                 className="w-full h-auto block"
                 loading="eager"
               />
@@ -109,32 +268,65 @@ export default async function ArtworkDetailPage({
             )}
           </div>
 
-          {/* Metadata grid */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
-                Medium
-              </p>
-              <p className="text-sm text-gallery-text">
-                {artwork.medium ?? "—"}
-              </p>
+          {/* Artwork facts (matches JSON-LD fields) */}
+          <div className="border border-gallery-border rounded-lg bg-gallery-surface-alt p-4">
+            <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-3">
+              Artwork Facts
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
+                  Artist
+                </p>
+                <p className="text-sm text-gallery-text">{artworkFacts.artist}</p>
+              </div>
+              <div>
+                <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
+                  Title
+                </p>
+                <p className="text-sm text-gallery-text">{artworkFacts.title}</p>
+              </div>
+              <div>
+                <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
+                  Year
+                </p>
+                <p className="text-sm text-gallery-text">{artworkFacts.year}</p>
+              </div>
+              <div>
+                <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
+                  Medium / Materials
+                </p>
+                <p className="text-sm text-gallery-text">{artworkFacts.mediumMaterials}</p>
+              </div>
+              <div>
+                <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
+                  Dimensions
+                </p>
+                <p className="text-sm text-gallery-text">{artworkFacts.dimensions}</p>
+              </div>
+              <div>
+                <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
+                  Location
+                </p>
+                <p className="text-sm text-gallery-text">{artworkFacts.location}</p>
+              </div>
+              <div>
+                <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
+                  Availability
+                </p>
+                <p className="text-sm text-gallery-text">{artworkFacts.availability}</p>
+              </div>
             </div>
-            <div>
-              <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
-                Year
-              </p>
-              <p className="text-sm text-gallery-text">
-                {artwork.year ?? "—"}
-              </p>
-            </div>
-            <div>
-              <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
-                Dimensions
-              </p>
-              <p className="text-sm text-gallery-text">
-                {artwork.dimensions ?? "—"}
-              </p>
-            </div>
+          </div>
+
+          {/* Curator note */}
+          <div className="border-t border-gallery-border pt-4">
+            <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-2">
+              Curator Note
+            </p>
+            <p className="text-sm text-gallery-muted leading-relaxed">
+              {curatorNote}
+            </p>
           </div>
 
           {/* Materials */}
@@ -184,6 +376,40 @@ export default async function ArtworkDetailPage({
             artworkId={artwork.id}
             isVisible={artwork.isVisible}
           />
+
+          <div className="border-t border-gallery-border pt-4">
+            <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-2">
+              Viewing & Enquiries
+            </p>
+            <p className="text-sm text-gallery-muted leading-relaxed mb-3">
+              Viewings are by appointment at BayviewHub Gallery.
+              <br />
+              We respond within 1-2 business days.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <EnquiryModalTrigger
+                ctaType="enquire"
+                label="Enquire"
+                artworkId={artwork.id}
+                artworkSlug={artwork.slug}
+                artworkTitle={artwork.title}
+              />
+              <EnquiryModalTrigger
+                ctaType="viewing"
+                label="Book a Viewing"
+                artworkId={artwork.id}
+                artworkSlug={artwork.slug}
+                artworkTitle={artwork.title}
+              />
+              <EnquiryModalTrigger
+                ctaType="price"
+                label="Request Price & Availability"
+                artworkId={artwork.id}
+                artworkSlug={artwork.slug}
+                artworkTitle={artwork.title}
+              />
+            </div>
+          </div>
         </div>
       </div>
 

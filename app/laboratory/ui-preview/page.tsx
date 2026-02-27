@@ -19,7 +19,7 @@ export default function UIPreviewPage() {
   const [selectVal, setSelectVal] = useState("");
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-16">
+    <div className="container mx-auto px-4 py-12 space-y-16">
       <header>
         <h1 className="text-xl font-medium tracking-forensic text-noir-text mb-2">
           UI Component Laboratory

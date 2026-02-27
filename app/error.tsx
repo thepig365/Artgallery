@@ -7,7 +7,7 @@ interface ErrorProps {
 
 export default function ErrorPage({ error, reset }: ErrorProps) {
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
+    <div className="container mx-auto px-4 py-24 text-center">
       <div className="border border-noir-accent/30 bg-noir-surface p-8">
         <p className="text-[10px] text-noir-accent tracking-widest uppercase mb-4">
           System Error

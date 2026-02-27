@@ -1,5 +1,6 @@
 import { GalleryCard } from "./GalleryCard";
 import type { ArtworkWithVisibility } from "@/lib/services/public-artwork-query";
+import Link from "next/link";
 
 interface GalleryGridProps {
   artworks: ArtworkWithVisibility[];
@@ -14,6 +15,12 @@ export function GalleryGrid({ artworks }: GalleryGridProps) {
           There are no publicly visible assessed works matching your criteria.
           Works enter the archive after completing the full assessment protocol.
         </p>
+        <Link
+          href="/archive"
+          className="inline-flex mt-5 items-center justify-center border border-gallery-border px-4 py-2 text-xs font-medium tracking-wide uppercase text-gallery-text hover:border-gallery-accent hover:text-gallery-accent transition-colors"
+        >
+          Back to Archive
+        </Link>
       </div>
     );
   }

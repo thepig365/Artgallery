@@ -67,7 +67,7 @@ export function SubmissionSuccess({ referenceId, onSubmitAnother }: SubmissionSu
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <div className="container mx-auto px-4 py-12 sm:py-16">
       {/* Confirmation */}
       <div className="border border-noir-border bg-noir-surface p-6 sm:p-8 mb-6">
         <div className="flex items-center gap-3 mb-4">

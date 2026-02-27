@@ -3,7 +3,7 @@ import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
 
 export default function AssessorInvitePage() {
   return (
-    <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20">
+    <div className="container mx-auto px-4 py-12 sm:py-20">
       {/* Header */}
       <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
         Invitation

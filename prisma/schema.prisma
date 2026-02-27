@@ -133,6 +133,8 @@ model Artwork {
   provenanceLogs   ProvenanceLog[]
   takedownRequests TakedownRequest[]
   ownershipClaims  OwnershipClaim[]
+  enquiries        Enquiry[]
+  ctaEvents        CtaEvent[]
 
   @@map("artworks")
 }
@@ -262,6 +264,17 @@ enum ArtistSubmissionStatus {
   REJECTED
 }
 
+enum EnquiryStatus {
+  NEW
+  IN_PROGRESS
+  CLOSED
+}
+
+enum CtaEventType {
+  CLICK
+  SUBMIT_SUCCESS
+}
+
 model ArtistSubmission {
   id               String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   referenceId      String                 @unique @map("reference_id")
@@ -318,6 +331,54 @@ model TakedownRequest {
   updatedAt DateTime @updatedAt @map("updated_at")
 
   @@map("takedown_requests")
+}
+
+model Enquiry {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt   DateTime @default(now()) @map("created_at")
+  name        String
+  email       String
+  phone       String?
+  message     String
+  status      EnquiryStatus @default(NEW)
+  ctaType     String   @map("cta_type")
+  artworkId   String?  @map("artwork_id") @db.Uuid
+  artworkSlug String?  @map("artwork_slug")
+  sourceUrl   String?  @map("source_url")
+  userAgent   String?  @map("user_agent")
+  ip          String?
+
+  artwork Artwork? @relation(fields: [artworkId], references: [id])
+  events  CtaEvent[]
+
+  @@index([createdAt])
+  @@index([artworkId])
+  @@index([ctaType])
+  @@index([status])
+  @@map("enquiries")
+}
+
+model CtaEvent {
+  id        String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  createdAt DateTime     @default(now()) @map("created_at")
+  eventType CtaEventType @map("event_type")
+  ctaType   String       @map("cta_type")
+  artworkId String?      @map("artwork_id") @db.Uuid
+  artworkSlug String?    @map("artwork_slug")
+  sourceUrl String?      @map("source_url")
+  userAgent String?      @map("user_agent")
+  ip        String?
+  enquiryId String?      @map("enquiry_id") @db.Uuid
+
+  artwork Artwork? @relation(fields: [artworkId], references: [id])
+  enquiry Enquiry? @relation(fields: [enquiryId], references: [id])
+
+  @@index([createdAt])
+  @@index([eventType])
+  @@index([ctaType])
+  @@index([artworkId])
+  @@index([enquiryId])
+  @@map("cta_events")
 }
 
 // ──── Open-Access Masterpieces (Met / Rijksmuseum) ───────

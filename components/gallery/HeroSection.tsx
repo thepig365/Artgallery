@@ -3,7 +3,7 @@ import Link from "next/link";
 export function HeroSection() {
   return (
     <section className="relative bg-gallery-surface-alt overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 lg:py-32">
+      <div className="container mx-auto px-4 py-20 sm:py-28 lg:py-32">
         <div className="max-w-2xl">
           <p className="text-xs font-medium uppercase tracking-widest text-gallery-accent mb-4">
             Curated Gallery &bull; Optional Mend Index

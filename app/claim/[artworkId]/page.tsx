@@ -87,7 +87,7 @@ export default function ClaimPage() {
 
   if (authenticated === null) {
     return (
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
+      <div className="container mx-auto px-4 py-24 text-center">
         <p className="text-sm text-gallery-muted animate-pulse">Loading…</p>
       </div>
     );
@@ -95,7 +95,7 @@ export default function ClaimPage() {
 
   if (submitState === "success") {
     return (
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-24 text-center">
+      <div className="container mx-auto px-4 py-24 text-center">
         <div className="bg-gallery-surface border border-gallery-border rounded-xl p-10">
           <div className="w-12 h-12 rounded-full bg-gallery-accent/10 flex items-center justify-center mx-auto mb-4">
             <CheckCircle
@@ -125,7 +125,7 @@ export default function ClaimPage() {
   }
 
   return (
-    <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div className="container mx-auto px-4 py-8 sm:py-12">
       <Link
         href="/archive"
         className="inline-flex items-center gap-1.5 text-sm text-gallery-muted hover:text-gallery-accent transition-colors duration-200 mb-6"

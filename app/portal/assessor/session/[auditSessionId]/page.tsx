@@ -161,7 +161,7 @@ export default function AssessorSessionPage({
 
   if (loadError) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <div className="container mx-auto px-4 py-24">
         <div className="border border-noir-border bg-noir-surface p-8 max-w-md mx-auto text-center">
           <AlertTriangle className="w-8 h-8 text-noir-accent mx-auto mb-3" strokeWidth={1} />
           <p className="text-sm text-noir-text mb-1">Session unavailable</p>
@@ -173,7 +173,7 @@ export default function AssessorSessionPage({
 
   if (!submission) {
     return (
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+      <div className="container mx-auto px-4 py-24">
         <div className="border border-noir-border bg-noir-surface p-8 max-w-md mx-auto text-center">
           <div className="flex justify-center gap-1.5 mb-4" aria-hidden="true">
             <div className="w-1.5 h-1.5 bg-noir-muted animate-pulse" style={{ animationDelay: "0ms" }} />
@@ -189,7 +189,7 @@ export default function AssessorSessionPage({
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
           <div className="flex items-center gap-3 mb-1">
