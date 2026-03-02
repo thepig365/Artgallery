@@ -49,7 +49,7 @@ const WHILE_YOU_WAIT = [
 const CTA_LINKS = [
   { href: "/archive", label: "View Archive", icon: Archive },
   { href: "/protocol", label: "Read the Protocol", icon: BookOpen },
-  { href: "/portal/submit", label: "Submit Another Work", icon: PenTool },
+  { href: "/submit", label: "Submit Another Work", icon: PenTool },
 ];
 
 export function SubmissionSuccess({ referenceId, onSubmitAnother }: SubmissionSuccessProps) {
@@ -172,7 +172,7 @@ export function SubmissionSuccess({ referenceId, onSubmitAnother }: SubmissionSu
       {/* CTA buttons */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8">
         {CTA_LINKS.map((cta) => {
-          const isSubmitAnother = cta.href === "/portal/submit";
+          const isSubmitAnother = cta.href === "/submit";
           if (isSubmitAnother && onSubmitAnother) {
             return (
               <button

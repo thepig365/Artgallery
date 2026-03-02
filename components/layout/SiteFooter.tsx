@@ -45,7 +45,7 @@ export function SiteFooter() {
                 </li>
                 <li>
                   <Link
-                    href="/portal/submit"
+                    href="/submit"
                     className="text-xs text-muted hover:text-fg transition-colors"
                   >
                     Submit Work

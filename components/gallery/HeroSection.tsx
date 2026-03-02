@@ -26,7 +26,7 @@ export function HeroSection() {
               Browse Archive
             </Link>
             <Link
-              href="/portal/submit"
+              href="/submit"
               className="inline-flex items-center px-6 py-3 border border-gallery-border text-gallery-text text-sm font-medium rounded-lg hover:bg-gallery-surface-alt transition-colors duration-200"
             >
               Submit Work

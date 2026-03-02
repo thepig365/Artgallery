@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 
-const GALLERY_ROUTES = ["/", "/archive", "/masterpieces", "/takedown", "/portal", "/protocol", "/claim", "/login"];
+const GALLERY_ROUTES = ["/", "/archive", "/masterpieces", "/takedown", "/rights", "/submit", "/privacy", "/terms", "/portal", "/protocol", "/claim", "/login"];
 
 export function useZone(): "gallery" | "noir" {
   const pathname = usePathname();

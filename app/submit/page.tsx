@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ArtistSubmitPage from "@/app/portal/submit/page";
+import ArtistSubmitClient from "@/app/portal/submit/ArtistSubmitClient";
 
 export const metadata: Metadata = {
   title: "Submit Artwork | Bayview Hub Gallery",
@@ -22,5 +22,5 @@ export const metadata: Metadata = {
 };
 
 export default function SubmitAliasPage() {
-  return <ArtistSubmitPage />;
+  return <ArtistSubmitClient />;
 }
