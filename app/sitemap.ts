@@ -1,11 +1,54 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/db/client";
+import { Prisma } from "@prisma/client";
 
 import { MODERN_MASTERS_DATA } from "@/lib/data/modern-masters";
 import { STUDY_PACKS_TOP50 } from "@/lib/data/study-packs-top50";
 import { toGalleryPublicUrl } from "@/lib/supabase/gallery-public";
 const SITE_URL = "https://gallery.bayviewhub.me";
 const MASTERPIECE_LIMIT = 1000;
+
+/**
+ * Safely load masterpieces, returning empty array if table doesn't exist (P2021)
+ */
+async function loadMasterpieces(): Promise<{ id: string; updatedAt: Date }[]> {
+  try {
+    return await prisma.masterpiece.findMany({
+      where: { license: { in: ["CC0", "PDM", "PublicDomain"] } },
+      select: { id: true, updatedAt: true },
+      orderBy: { createdAt: "desc" },
+      take: MASTERPIECE_LIMIT,
+    });
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2021") {
+      console.warn("[Sitemap] masterpieces table missing; skipping.");
+      return [];
+    }
+    console.error("[Sitemap] Failed to load masterpieces:", err);
+    return [];
+  }
+}
+
+/**
+ * Safely load artworks, returning empty array if table doesn't exist (P2021)
+ */
+async function loadArchiveArtworks(): Promise<{ slug: string; updatedAt: Date; imageUrl: string | null }[]> {
+  try {
+    return await prisma.artwork.findMany({
+      where: { isVisible: true },
+      select: { slug: true, updatedAt: true, imageUrl: true },
+      orderBy: { createdAt: "desc" },
+      take: 2000,
+    });
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2021") {
+      console.warn("[Sitemap] artworks table missing; skipping.");
+      return [];
+    }
+    console.error("[Sitemap] Failed to load archive artworks:", err);
+    return [];
+  }
+}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -30,17 +73,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  let masterpieces: { id: string; updatedAt: Date }[] = [];
-  try {
-    masterpieces = await prisma.masterpiece.findMany({
-      where: { license: { in: ["CC0", "PDM", "PublicDomain"] } },
-      select: { id: true, updatedAt: true },
-      orderBy: { createdAt: "desc" },
-      take: MASTERPIECE_LIMIT,
-    });
-  } catch (err) {
-    console.error("[Sitemap] Failed to load masterpieces:", err);
-  }
+  const masterpieces = await loadMasterpieces();
 
   const masterpieceRoutes: MetadataRoute.Sitemap = masterpieces.map((m) => ({
     url: `${SITE_URL}/masterpieces/${m.id}`,
@@ -49,17 +82,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.5,
   }));
 
-  let archiveArtworks: { slug: string; updatedAt: Date; imageUrl: string | null }[] = [];
-  try {
-    archiveArtworks = await prisma.artwork.findMany({
-      where: { isVisible: true },
-      select: { slug: true, updatedAt: true, imageUrl: true },
-      orderBy: { createdAt: "desc" },
-      take: 2000,
-    });
-  } catch (err) {
-    console.error("[Sitemap] Failed to load archive artworks:", err);
-  }
+  const archiveArtworks = await loadArchiveArtworks();
 
   const archiveRoutes: MetadataRoute.Sitemap = archiveArtworks.map((a) => ({
     url: `${SITE_URL}/archive/${a.slug}`,
