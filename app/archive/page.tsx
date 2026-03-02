@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 export default async function ArchivePage() {
   let publicArtworks: Awaited<ReturnType<typeof getPublicArtworks>> = [];
   try {
-    const artworks = await getPublicArtworks({ take: 100 });
+    const artworks = await getPublicArtworks({ take: 500 });
     publicArtworks = resolveArtworksToGalleryPublicUrls(artworks);
   } catch (err) {
     console.error("[Archive] Failed to load artworks:", err);
@@ -45,7 +45,7 @@ export default async function ArchivePage() {
           Public Collection
         </p>
         <h1 className="text-3xl sm:text-4xl font-bold text-gallery-text tracking-tight mb-3">
-          Assessment Archive
+          Public Collection
         </h1>
         <p className="text-sm text-gallery-muted max-w-xl leading-relaxed">
           Browse works evaluated through the Mend Index protocol. Each piece has
