@@ -62,7 +62,6 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [checking, setChecking] = useState(true);
 
   const redirectParam = searchParams.get("redirect");
   const hasExplicitRedirect = !!redirectParam;
@@ -81,6 +80,7 @@ function LoginForm() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  // Check auth in background - don't block UI
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
     supabase.auth.getUser().then(({ data: { user } }) => {
@@ -88,11 +88,8 @@ function LoginForm() {
         router.replace(safeRedirect(redirectParam));
       } else if (user) {
         setIsLoggedIn(true);
-        setChecking(false);
-      } else {
-        setChecking(false);
       }
-    }).catch(() => setChecking(false));
+    }).catch(() => {/* ignore */});
   }, [router, redirectParam, hasExplicitRedirect]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -121,12 +118,7 @@ function LoginForm() {
     }
   };
 
-  if (checking) {
-    return (
-      <p className="text-xs text-gallery-muted animate-pulse">Checking session…</p>
-    );
-  }
-
+  // Show portal chooser immediately (no loading state)
   const showPortalChooser = !hasExplicitRedirect && !selectedPortal;
 
   if (showPortalChooser) {
@@ -285,7 +277,17 @@ export default function LoginPage() {
     <div className="min-h-[60vh] flex items-center justify-center px-4">
       <Suspense
         fallback={
-          <p className="text-xs text-gallery-muted animate-pulse">Loading…</p>
+          <div className="w-full max-w-md">
+            <div className="flex items-center gap-3 mb-2">
+              <Shield className="w-5 h-5 text-gallery-muted" strokeWidth={1} aria-hidden="true" />
+              <h1 className="text-lg font-semibold text-gallery-text tracking-tight">
+                Sign In
+              </h1>
+            </div>
+            <p className="text-sm text-gallery-muted mb-8">
+              Select your portal to continue.
+            </p>
+          </div>
         }
       >
         <LoginForm />

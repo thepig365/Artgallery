@@ -69,17 +69,17 @@ function wordCount(text: string): number {
   return text.trim().split(/\s+/).filter(Boolean).length;
 }
 
-function toCuratorNote(narrative: string | null | undefined): string {
-  const fallback =
-    "This work is part of Chelsey's ongoing exploration of material memory, surface tension, and emotional atmosphere. The composition rewards slow viewing: subtle shifts in texture and rhythm reveal how the artist balances control with chance. Presented in the BayviewHub context, the piece is read as both object and record, linking studio process, provenance cues, and contemporary collecting conversations. It invites careful looking before any market conclusion is made.";
-
+function toCuratorNote(narrative: string | null | undefined): string | null {
+  // Return null if no unique content - don't use a fallback that causes duplication
   const source = narrative?.trim();
-  if (!source) return fallback;
+  if (!source) return null;
 
   const words = source.split(/\s+/).filter(Boolean);
   const sliced = words.slice(0, 120).join(" ");
   const count = wordCount(sliced);
-  if (count < 60) return fallback;
+  
+  // Only show curator note if we have substantial unique content (60+ words)
+  if (count < 60) return null;
   return sliced;
 }
 
@@ -166,19 +166,26 @@ export default async function ArtworkDetailPage({
       : undefined;
 
   const dimensionsStructured = parseDimensionsToStructured(artwork.dimensions);
+  
+  // Deduplicate medium and materials - avoid showing "Mixed media on canvas / Mixed media on canvas"
+  const mediumValue = artwork.medium?.trim() || null;
+  const materialsValue = materials.length > 0 ? materials.join(", ") : null;
+  
+  // Only show materials if different from medium
+  const showMaterials = materialsValue && 
+    materialsValue.toLowerCase() !== mediumValue?.toLowerCase();
+  
   const artworkFacts = {
     artist: displayArtist,
     title: artwork.title,
-    year: artwork.year ? String(artwork.year) : "—",
-    mediumMaterials:
-      [artwork.medium, materials.length > 0 ? materials.join(", ") : null]
-        .filter(Boolean)
-        .join(" / ") || "—",
+    year: artwork.year ? String(artwork.year) : null,
+    medium: mediumValue,
+    materials: showMaterials ? materialsValue : null,
     dimensions:
       dimensionsStructured.width && dimensionsStructured.height
         ? `${dimensionsStructured.width.value} x ${dimensionsStructured.height.value}${dimensionsStructured.width.unitText ? ` ${dimensionsStructured.width.unitText}` : ""}`
-        : "—",
-    location: "BayviewHub Gallery, Mornington Peninsula",
+        : artwork.dimensions?.trim() || null,
+    location: "Bayview Hub Gallery, Mornington Peninsula",
     availability: "Available on enquiry",
   };
   const curatorNote = toCuratorNote(artwork.narrative);
@@ -290,19 +297,27 @@ export default async function ArtworkDetailPage({
                 <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
                   Year
                 </p>
-                <p className="text-sm text-gallery-text">{artworkFacts.year}</p>
+                <p className="text-sm text-gallery-text">{artworkFacts.year || "—"}</p>
               </div>
               <div>
                 <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
-                  Medium / Materials
+                  Medium
                 </p>
-                <p className="text-sm text-gallery-text">{artworkFacts.mediumMaterials}</p>
+                <p className="text-sm text-gallery-text">{artworkFacts.medium || "—"}</p>
               </div>
+              {artworkFacts.materials && (
+                <div>
+                  <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
+                    Materials
+                  </p>
+                  <p className="text-sm text-gallery-text">{artworkFacts.materials}</p>
+                </div>
+              )}
               <div>
                 <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
                   Dimensions
                 </p>
-                <p className="text-sm text-gallery-text">{artworkFacts.dimensions}</p>
+                <p className="text-sm text-gallery-text">{artworkFacts.dimensions || "—"}</p>
               </div>
               <div>
                 <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
@@ -319,15 +334,17 @@ export default async function ArtworkDetailPage({
             </div>
           </div>
 
-          {/* Curator note */}
-          <div className="border-t border-gallery-border pt-4">
-            <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-2">
-              Curator Note
-            </p>
-            <p className="text-sm text-gallery-muted leading-relaxed">
-              {curatorNote}
-            </p>
-          </div>
+          {/* Curator note - only show if unique content exists */}
+          {curatorNote && (
+            <div className="border-t border-gallery-border pt-4">
+              <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-2">
+                Curator Note
+              </p>
+              <p className="text-sm text-gallery-muted leading-relaxed">
+                {curatorNote}
+              </p>
+            </div>
+          )}
 
           {/* Materials */}
           {materials.length > 0 && (
@@ -381,12 +398,12 @@ export default async function ArtworkDetailPage({
             <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-2">
               Viewing & Enquiries
             </p>
-            <p className="text-sm text-gallery-muted leading-relaxed mb-3">
-              Viewings are by appointment at BayviewHub Gallery.
+            <p className="text-sm text-gallery-muted leading-relaxed mb-4">
+              Viewings are by appointment at Bayview Hub Gallery.
               <br />
               We respond within 1-2 business days.
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3">
               <EnquiryModalTrigger
                 ctaType="enquire"
                 label="Enquire"

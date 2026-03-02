@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Panel } from "@/components/ui/Panel";
 import { Input } from "@/components/ui/Input";
@@ -15,8 +16,30 @@ import { ForensicViewer } from "@/components/media/ForensicViewer";
 import { MEDIUM_OPTIONS } from "@/lib/types";
 
 export default function UIPreviewPage() {
+  const router = useRouter();
   const [numberVal, setNumberVal] = useState(5.0);
   const [selectVal, setSelectVal] = useState("");
+  const [allowed, setAllowed] = useState(false);
+
+  // Block in production - only allow in development
+  useEffect(() => {
+    const isDev = process.env.NODE_ENV === "development" || 
+                  window.location.hostname === "localhost" ||
+                  window.location.hostname === "127.0.0.1";
+    if (!isDev) {
+      router.replace("/");
+    } else {
+      setAllowed(true);
+    }
+  }, [router]);
+
+  if (!allowed) {
+    return (
+      <div className="container mx-auto px-4 py-24 text-center">
+        <p className="text-sm text-gallery-muted">This page is not available.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-12 space-y-16">

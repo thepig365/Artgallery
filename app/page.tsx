@@ -29,15 +29,19 @@ export default async function HomePage() {
             Browse Categories
           </h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {["Painting", "Sculpture", "Mixed Media", "Textile"].map(
-              (medium) => (
+            {[
+              { label: "Painting", filter: "painting" },
+              { label: "Sculpture", filter: "sculpture" },
+              { label: "Mixed Media", filter: "mixed-media" },
+              { label: "Textile", filter: "textile" },
+            ].map(({ label, filter }) => (
                 <Link
-                  key={medium}
-                  href="/archive"
+                  key={filter}
+                  href={`/archive?medium=${filter}`}
                   className="bg-gallery-surface border border-gallery-border rounded-lg p-6 hover:shadow-md hover:border-gallery-accent/30 transition-all duration-200"
                 >
                   <span className="text-sm font-medium text-gallery-text">
-                    {medium}
+                    {label}
                   </span>
                 </Link>
               )

@@ -24,6 +24,8 @@ import { StepNarrative } from "@/components/portal/StepNarrative";
 import { StepConsent } from "@/components/portal/StepConsent";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import Link from "next/link";
+import { LogIn } from "lucide-react";
 
 const STEP_ORDER: WizardStep[] = [
   "identity",
@@ -43,7 +45,7 @@ const stepMotion = {
 export default function ArtistSubmitPage() {
   const router = useRouter();
 
-  const [authReady, setAuthReady] = useState(false);
+  const [authState, setAuthState] = useState<"checking" | "authenticated" | "unauthenticated">("checking");
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState<WizardStep>("identity");
   const [completedSteps, setCompletedSteps] = useState<Set<WizardStep>>(
@@ -73,11 +75,11 @@ export default function ArtistSubmitPage() {
     const supabase = createSupabaseBrowserClient();
     supabase.auth.getUser().then(({ data: { user } }) => {
       if (!user) {
-        router.replace("/login?redirect=/portal/submit");
+        setAuthState("unauthenticated");
       } else {
-        setAuthReady(true);
+        setAuthState("authenticated");
       }
-    }).catch(() => router.replace("/login?redirect=/portal/submit"));
+    }).catch(() => setAuthState("unauthenticated"));
   }, [router]);
 
   const currentIndex = STEP_ORDER.indexOf(currentStep);
@@ -226,11 +228,34 @@ export default function ArtistSubmitPage() {
     setSubmitError(null);
   }, []);
 
-  if (!authReady) {
+  // Show sign-in prompt if not authenticated
+  if (authState === "unauthenticated") {
     return (
       <div className="container mx-auto px-4 py-24 text-center">
-        <p className="text-xs text-noir-muted tracking-widest uppercase animate-pulse">
-          Checking authentication…
+        <div className="max-w-md mx-auto">
+          <LogIn className="w-12 h-12 text-gallery-muted mx-auto mb-4" strokeWidth={1} />
+          <h1 className="text-xl font-semibold text-gallery-text mb-2">
+            Sign In Required
+          </h1>
+          <p className="text-sm text-gallery-muted mb-6">
+            Please sign in to submit your artwork for assessment.
+          </p>
+          <Link
+            href="/login?redirect=/portal/submit"
+            className="inline-flex items-center px-6 py-3 bg-gallery-accent text-white text-sm font-medium rounded-lg hover:bg-gallery-accent-hover transition-colors duration-200"
+          >
+            Sign In to Continue
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  if (authState === "checking") {
+    return (
+      <div className="container mx-auto px-4 py-24 text-center">
+        <p className="text-xs text-gallery-muted tracking-widest uppercase animate-pulse">
+          Loading…
         </p>
       </div>
     );
