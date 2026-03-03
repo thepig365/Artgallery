@@ -2,6 +2,7 @@
  * Variance flag logic — when >=2 submitted scores exist and deltas exceed threshold.
  */
 
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db/client";
 import { writeAuditLog } from "./audit-log";
 
@@ -74,7 +75,7 @@ export async function checkAndFlagVariance(artworkId: string): Promise<void> {
   } else if (!shouldFlag && current) {
     await prisma.artwork.update({
       where: { id: artworkId },
-      data: { varianceFlag: false, varianceMeta: null },
+      data: { varianceFlag: false, varianceMeta: Prisma.DbNull },
     });
   }
 }
