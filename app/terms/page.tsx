@@ -27,7 +27,7 @@ export default function TermsPage() {
           Terms of Use
         </h1>
         <p className="text-gallery-muted leading-relaxed">
-          Last updated: March 2025. By using this site, you agree to these
+          Last updated: March 2026. By using this site, you agree to these
           terms.
         </p>
       </div>

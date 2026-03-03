@@ -27,7 +27,7 @@ export default function PrivacyPage() {
           Privacy Policy
         </h1>
         <p className="text-gallery-muted leading-relaxed">
-          Last updated: March 2025. Bayview Hub Gallery operates this site for
+          Last updated: March 2026. Bayview Hub Gallery operates this site for
           curatorial assessment and archival purposes.
         </p>
       </div>
