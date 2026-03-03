@@ -25,7 +25,7 @@ import { StepConsent } from "@/components/portal/StepConsent";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import Link from "next/link";
-import { LogIn, FileImage, Clock, ExternalLink } from "lucide-react";
+import { LogIn } from "lucide-react";
 
 const STEP_ORDER: WizardStep[] = [
   "identity",
@@ -245,34 +245,25 @@ export default function ArtistSubmitClient() {
     setSubmitError(null);
   }, []);
 
-  if (authState === "unauthenticated") {
+  /* Show Sign In for both checking and unauthenticated — avoids loading shell */
+  if (authState === "unauthenticated" || authState === "checking") {
     return (
-      <div className="container mx-auto px-4 py-24 text-center">
-        <div className="max-w-md mx-auto">
-          <LogIn className="w-12 h-12 text-gallery-muted mx-auto mb-4" strokeWidth={1} />
-          <h1 className="text-xl font-semibold text-gallery-text mb-2">
-            Sign In Required
-          </h1>
-          <p className="text-sm text-gallery-muted mb-6">
-            Please sign in to submit your artwork for assessment.
-          </p>
-          <Link
-            href="/login?redirect=/portal/submit"
-            className="inline-flex items-center px-6 py-3 bg-gallery-accent text-white text-sm font-medium rounded-lg hover:bg-gallery-accent-hover transition-colors duration-200"
-          >
-            Sign In to Continue
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  if (authState === "checking") {
-    return (
-      <div className="container mx-auto px-4 py-24 text-center">
-        <p className="text-xs text-gallery-muted tracking-widest uppercase animate-pulse">
-          Loading…
+      <div className="max-w-md mx-auto py-12 text-center border border-gallery-border rounded-lg bg-gallery-surface-alt/50 px-6">
+        <LogIn className="w-12 h-12 text-gallery-muted mx-auto mb-4" strokeWidth={1} />
+        <h2 className="text-lg font-semibold text-gallery-text mb-2">
+          Sign In Required
+        </h2>
+        <p className="text-sm text-gallery-muted mb-6">
+          {authState === "checking"
+            ? "Verifying session…"
+            : "Please sign in to submit your artwork for assessment."}
         </p>
+        <Link
+          href="/login?redirect=/portal/submit"
+          className="inline-flex items-center px-6 py-3 bg-gallery-accent text-white text-sm font-medium rounded-lg hover:bg-gallery-accent-hover transition-colors duration-200"
+        >
+          Sign In to Continue
+        </Link>
       </div>
     );
   }
@@ -287,60 +278,13 @@ export default function ArtistSubmitClient() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 sm:py-12">
+    <div className="border-t border-gallery-border pt-10">
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
-          <h1 className="text-lg font-medium tracking-forensic text-noir-text">
+          <h2 className="text-lg font-medium tracking-forensic text-gallery-text">
             Artist Intake Protocol
-          </h1>
-          <Badge variant="muted">Draft</Badge>
-        </div>
-
-        {/* Submission Requirements */}
-        <div className="border border-noir-border bg-noir-bg p-5 mb-6">
-          <h2 className="text-sm font-semibold text-noir-text uppercase tracking-widest mb-3 flex items-center gap-2">
-            <FileImage className="w-4 h-4" strokeWidth={1.5} />
-            Submission Requirements
           </h2>
-          <div className="text-xs text-noir-muted space-y-2">
-            <p>
-              <strong className="text-noir-text">Formats:</strong> JPG, PNG, WebP
-              (TIFF also accepted for archival quality).
-            </p>
-            <p>
-              <strong className="text-noir-text">Max file size:</strong> 50MB per
-              file. Recommended: 2000px+ on the long edge, good lighting for
-              assessment.
-            </p>
-            <p>
-              <strong className="text-noir-text">Larger files?</strong> Compress
-              images before upload, or provide a share link (Google Drive,
-              Dropbox) in your narrative. For alternative transfer, contact us
-              via the enquiry system.
-            </p>
-            <p className="flex items-center gap-2">
-              <Clock className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={1.5} />
-              <strong className="text-noir-text">Review timeline:</strong>{" "}
-              Typically 3–7 business days for initial review.
-            </p>
-            <p className="pt-2 border-t border-noir-border/50 flex flex-wrap items-center gap-x-2 gap-y-1">
-              <Link
-                href="/takedown"
-                className="text-noir-accent hover:underline inline-flex items-center gap-1"
-              >
-                <ExternalLink className="w-3 h-3" strokeWidth={1.5} />
-                Takedown / Removal
-              </Link>
-              <span className="text-noir-muted/70">·</span>
-              <Link
-                href="/rights"
-                className="text-noir-accent hover:underline inline-flex items-center gap-1"
-              >
-                <ExternalLink className="w-3 h-3" strokeWidth={1.5} />
-                Rights & Licensing
-              </Link>
-            </p>
-          </div>
+          <Badge variant="muted">Draft</Badge>
         </div>
 
         <WizardProgress
