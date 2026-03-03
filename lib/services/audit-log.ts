@@ -2,6 +2,7 @@
  * Audit log service — records critical actions for compliance.
  */
 
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/db/client";
 
 export type AuditAction =
@@ -33,7 +34,7 @@ export async function writeAuditLog(params: {
       action: params.action,
       entityType: params.entityType,
       entityId: params.entityId,
-      meta: params.meta ?? undefined,
+      meta: (params.meta ?? undefined) as Prisma.InputJsonValue | undefined,
     },
   });
 }
