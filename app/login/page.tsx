@@ -13,9 +13,12 @@ const ALLOWED_REDIRECTS = [
   "/admin",
   "/admin/submissions",
   "/admin/claims",
+  "/admin/enquiries",
   "/archive",
   "/takedown",
   "/protocol",
+  "/submit",
+  "/claim",
 ];
 
 const DEFAULT_REDIRECT = "/portal";

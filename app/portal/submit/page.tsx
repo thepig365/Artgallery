@@ -5,7 +5,7 @@ import ArtistSubmitClient from "./ArtistSubmitClient";
 export default async function PortalSubmitPage() {
   const user = await resolveSessionUser();
   if (!user) {
-    redirect("/login?next=/portal/submit");
+    redirect("/login?redirect=/portal/submit");
   }
   if (user.role !== "ADMIN" && user.role !== "ASSESSOR") {
     return (

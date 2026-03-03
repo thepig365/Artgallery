@@ -15,7 +15,10 @@ const RELATIONSHIPS = [
 ] as const;
 
 export default function ClaimPage() {
-  const { artworkId } = useParams<{ artworkId: string }>();
+  const params = useParams<{ artworkId: string }>();
+  const artworkId = Array.isArray(params.artworkId)
+    ? params.artworkId[0]
+    : params.artworkId ?? "";
   const router = useRouter();
   const [form, setForm] = useState({
     claimantName: "",
@@ -32,6 +35,7 @@ export default function ClaimPage() {
   const [authenticated, setAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
+    if (!artworkId) return;
     fetch(`/api/owner/status?artworkId=${artworkId}`)
       .then((r) => r.json())
       .then((data) => {
@@ -42,6 +46,17 @@ export default function ClaimPage() {
       })
       .catch(() => setAuthenticated(false));
   }, [artworkId, router]);
+
+  if (!artworkId) {
+    return (
+      <div className="container mx-auto px-4 py-24 text-center">
+        <p className="text-sm text-gallery-muted">Invalid artwork ID.</p>
+        <Link href="/archive" className="mt-4 inline-block text-sm text-gallery-accent hover:underline">
+          Back to Archive
+        </Link>
+      </div>
+    );
+  }
 
   const handleSubmit = async () => {
     const validation = createOwnershipClaimSchema.safeParse({
