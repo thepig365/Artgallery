@@ -95,7 +95,7 @@ export default function RightsPage() {
           </h2>
           <div className="text-sm text-gallery-muted leading-relaxed space-y-3">
             <p>
-              The Mend Index scoring system is a curatorial opinion tool designed to evaluate material sincerity across four axes: Body, Provenance, Material, and Surface. Assessment scores do not constitute financial appraisals, market valuations, or investment recommendations.
+              The Mend Index scoring system is a curatorial opinion tool designed to evaluate material sincerity across four axes: Body, Process, Material, and Surface. Assessment scores do not constitute financial appraisals, market valuations, or investment recommendations.
             </p>
             <p>
               Participation in the Mend Index assessment is entirely optional. Artists may submit work without requesting scoring, and existing scores may be removed upon artist request.

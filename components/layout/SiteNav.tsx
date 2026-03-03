@@ -11,10 +11,11 @@ const NOIR_NAV_ITEMS = [
 ] as const;
 
 const GALLERY_NAV_ITEMS = [
-  { label: "Collection", href: "/archive" },
+  { label: "Archive", href: "/archive" },
   { label: "Submit Artwork", href: "/submit" },
   { label: "Assessment Protocol", href: "/protocol" },
   { label: "Rights & Licensing", href: "/rights" },
+  { label: "Open Masterpieces", href: "/masterpieces" },
 ] as const;
 
 export function SiteNav() {
@@ -24,12 +25,6 @@ export function SiteNav() {
   if (zone === "gallery") {
     return (
       <nav aria-label="Main navigation" className="flex items-center gap-1">
-        <Link
-          href="https://www.bayviewhub.me/"
-          className="px-3 py-2 text-sm font-medium rounded-md text-gallery-muted hover:text-gallery-text hover:bg-gallery-surface-alt transition-colors duration-200"
-        >
-          Back to BayviewHub
-        </Link>
         {GALLERY_NAV_ITEMS.map((item) => {
           const isActive = pathname.startsWith(item.href);
           return (

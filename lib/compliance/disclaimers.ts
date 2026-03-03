@@ -12,7 +12,7 @@ export const DISCLAIMERS = {
   /**
    * Report-level disclaimer — display on every assessment report.
    */
-  report: `This assessment is a curatorial opinion generated through the Mend Index protocol. It reflects a structured evaluation of material sincerity across four axes (Body, Provenance, Material, Surface) and does not represent a financial appraisal, market valuation, or investment recommendation. The score is not a price indicator. No warranty is made regarding accuracy, completeness, or fitness for any particular purpose.`,
+  report: `This assessment is a curatorial opinion generated through the Mend Index protocol. It reflects a structured evaluation of material sincerity across four axes (Body, Process, Material, Surface) and does not represent a financial appraisal, market valuation, or investment recommendation. The score is not a price indicator. No warranty is made regarding accuracy, completeness, or fitness for any particular purpose.`,
 
   /**
    * Submission consent text — artist must accept before submitting work.

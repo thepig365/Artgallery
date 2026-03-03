@@ -5,6 +5,10 @@ import { resolveSessionUser } from "@/lib/auth/session";
 export default async function PortalPage() {
   const user = await resolveSessionUser();
 
+  if (!user) {
+    redirect("/login?redirect=/portal");
+  }
+
   if (user) {
     if (user.role === "ADMIN") {
       redirect("/admin");
@@ -20,7 +24,7 @@ export default async function PortalPage() {
         Portal
       </p>
       <h1 className="text-3xl sm:text-4xl font-bold text-gallery-text tracking-tight mb-4">
-        No Portal Access
+        Access restricted
       </h1>
       <p className="text-sm text-gallery-muted leading-relaxed mb-4 max-w-lg">
         Your account does not have an assigned portal role. If you believe

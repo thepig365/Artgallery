@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 const mendLabels: Record<string, string> = {
   B: "Brushwork & Physical Evidence",
-  P: "Provenance",
+  P: "Process",
   M: "Materials & Medium",
   S: "Style & Period Consistency",
 };

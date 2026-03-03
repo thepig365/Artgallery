@@ -23,7 +23,13 @@ export function GalleryFilters({
   const mediums = useMemo(() => {
     const set = new Set<string>();
     artworks.forEach((a) => {
-      if (a.medium) set.add(a.medium);
+      if (!a.medium) return;
+      const parts = a.medium
+        .split(/[,;]/)
+        .map((p) => p.trim())
+        .filter(Boolean);
+      if (parts.length) parts.forEach((p) => set.add(p));
+      else set.add(a.medium.trim());
     });
     return Array.from(set).sort();
   }, [artworks]);
@@ -39,21 +45,26 @@ export function GalleryFilters({
               : "bg-transparent text-gallery-muted border-gallery-border hover:border-gallery-text hover:text-gallery-text"
           }`}
         >
-          All&ensp;{artworks.length}
+          All <span className="tabular-nums">({artworks.length})</span>
         </button>
-        {mediums.map((medium) => (
-          <button
-            key={medium}
-            onClick={() => onMediumChange(medium)}
-            className={`px-3.5 py-1.5 text-[11px] font-medium tracking-wide rounded-full border transition-all duration-200 ${
-              selectedMedium === medium
-                ? "bg-gallery-text text-white border-gallery-text"
-                : "bg-transparent text-gallery-muted border-gallery-border hover:border-gallery-text hover:text-gallery-text"
-            }`}
-          >
-            {medium}
-          </button>
-        ))}
+        {mediums.map((medium) => {
+          const count = artworks.filter((a) =>
+            a.medium?.toLowerCase().includes(medium.toLowerCase())
+          ).length;
+          return (
+            <button
+              key={medium}
+              onClick={() => onMediumChange(medium)}
+              className={`px-3.5 py-1.5 text-[11px] font-medium tracking-wide rounded-full border transition-all duration-200 ${
+                selectedMedium === medium
+                  ? "bg-gallery-text text-white border-gallery-text"
+                  : "bg-transparent text-gallery-muted border-gallery-border hover:border-gallery-text hover:text-gallery-text"
+              }`}
+            >
+              {medium} <span className="tabular-nums">({count})</span>
+            </button>
+          );
+        })}
       </div>
       <div className="flex items-center gap-3 flex-shrink-0">
         <span className="text-[11px] text-gallery-muted/70 tabular-nums">

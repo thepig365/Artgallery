@@ -55,47 +55,39 @@ export function SiteFooter() {
             </div>
             <div>
               <h4 className="text-xs font-semibold text-fg mb-3 uppercase tracking-wide">
-                Legal & Access
+                Legal
               </h4>
               <ul className="space-y-2">
+                <li>
+                  <Link
+                    href="/privacy"
+                    className="text-xs text-muted hover:text-fg transition-colors"
+                  >
+                    Privacy
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/terms"
+                    className="text-xs text-muted hover:text-fg transition-colors"
+                  >
+                    Terms
+                  </Link>
+                </li>
                 <li>
                   <Link
                     href="/takedown"
                     className="text-xs text-muted hover:text-fg transition-colors"
                   >
-                    Takedown Request
+                    Takedown
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/protocol"
+                    href="/rights"
                     className="text-xs text-muted hover:text-fg transition-colors"
                   >
-                    Scoring Methodology
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/login"
-                    className="text-xs text-muted hover:text-fg transition-colors"
-                  >
-                    Sign In
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/masterpieces"
-                    className="text-xs text-subtle hover:text-muted transition-colors"
-                  >
-                    Open Masterpieces
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/portal"
-                    className="text-xs text-subtle hover:text-muted transition-colors"
-                  >
-                    Creator Portal
+                    Rights & Licensing
                   </Link>
                 </li>
               </ul>
