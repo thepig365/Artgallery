@@ -259,7 +259,7 @@ export default function ArtistSubmitClient() {
             : "Please sign in to submit your artwork for assessment."}
         </p>
         <Link
-          href="/login?redirect=/portal/submit"
+          href="/login?redirect=/submit"
           className="inline-flex items-center px-6 py-3 bg-gallery-accent text-white text-sm font-medium rounded-lg hover:bg-gallery-accent-hover transition-colors duration-200"
         >
           Sign In to Continue

@@ -20,7 +20,7 @@ export function SiteHeaderServer() {
         <Container>
           <div className="flex items-center justify-between h-16 md:h-20">
             <Link
-              href="https://bayviewhub.me"
+              href="/archive"
               className="flex items-center gap-3 hover:opacity-90 transition-opacity"
             >
               <Image

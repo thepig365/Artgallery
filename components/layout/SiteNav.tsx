@@ -11,7 +11,7 @@ const NOIR_NAV_ITEMS = [
 ] as const;
 
 const GALLERY_NAV_ITEMS = [
-  { label: "Archive", href: "/archive" },
+  { label: "Gallery", href: "/archive" },
   { label: "Submit Artwork", href: "/submit" },
   { label: "Assessment Protocol", href: "/protocol" },
   { label: "Rights & Licensing", href: "/rights" },
