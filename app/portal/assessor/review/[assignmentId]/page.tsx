@@ -16,7 +16,8 @@ import { TerminologyWarning } from "@/components/portal/TerminologyWarning";
 import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
 import { computeMendIndex } from "@/lib/mend-index";
 import { mendScoresSchema } from "@/lib/validation/schemas";
-import type { BPMSScores } from "@/lib/mend-index";
+
+type BPMSScores = { B: number; P: number; M: number; S: number };
 
 const SCORE_LABELS: Record<keyof BPMSScores, string> = {
   B: "Body — Physical Integrity",
