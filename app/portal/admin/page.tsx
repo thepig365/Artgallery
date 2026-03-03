@@ -54,9 +54,11 @@ interface Assignment {
     slug: string;
     imageUrl: string | null;
     varianceFlag: boolean;
+    varianceMeta?: Record<string, unknown> | null;
   };
   assessorAuthUid: string;
   status: string;
+  blindMode?: boolean;
   dueAt: string | null;
   assignedAt: string;
   notesToAssessor: string | null;
@@ -100,9 +102,9 @@ export default function PortalAdminPage() {
   const load = useCallback(async () => {
     try {
       const [assignRes, artRes, assessRes] = await Promise.all([
-        fetch("/api/portal/admin/assignments"),
+        fetch("/api/admin/assignments"),
         fetch("/api/admin/artworks"),
-        fetch("/api/portal/admin/assessors"),
+        fetch("/api/admin/assessors"),
       ]);
 
       if (assignRes.status === 401 || artRes.status === 401) {
@@ -129,7 +131,7 @@ export default function PortalAdminPage() {
 
   const loadLogs = useCallback(async () => {
     try {
-      const res = await fetch("/api/portal/admin/audit-logs?limit=50");
+      const res = await fetch("/api/admin/audit-logs?limit=50");
       if (!res.ok) return;
       const data = await res.json();
       setAuditLogs(data.logs ?? []);
@@ -156,7 +158,7 @@ export default function PortalAdminPage() {
     setApiError(null);
 
     try {
-      const res = await fetch("/api/portal/admin/assignments", {
+      const res = await fetch("/api/admin/assignments", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -194,7 +196,7 @@ export default function PortalAdminPage() {
     setActionState((prev) => ({ ...prev, [assignmentId]: "loading" }));
     try {
       const res = await fetch(
-        `/api/portal/admin/assignments/${assignmentId}/withdraw`,
+        `/api/admin/assignments/${assignmentId}/withdraw`,
         { method: "POST" }
       );
       if (res.ok) {
@@ -212,11 +214,35 @@ export default function PortalAdminPage() {
     }
   };
 
+  const handleBlindModeToggle = async (assignmentId: string, currentBlind: boolean) => {
+    const nextBlind = !currentBlind;
+    setActionState((prev) => ({ ...prev, [`blind-${assignmentId}`]: "loading" }));
+    try {
+      const res = await fetch(
+        `/api/admin/assignments/${assignmentId}/blind-mode`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ blindMode: nextBlind }),
+        }
+      );
+      if (res.ok) {
+        setAssignments((prev) =>
+          prev.map((a) =>
+            a.id === assignmentId ? { ...a, blindMode: nextBlind } : a
+          )
+        );
+      }
+    } finally {
+      setActionState((prev) => ({ ...prev, [`blind-${assignmentId}`]: "idle" }));
+    }
+  };
+
   const handleNeedsRevision = async (assignmentId: string) => {
     setActionState((prev) => ({ ...prev, [assignmentId]: "loading" }));
     try {
       const res = await fetch(
-        `/api/portal/admin/assignments/${assignmentId}/needs-revision`,
+        `/api/admin/assignments/${assignmentId}/needs-revision`,
         { method: "POST" }
       );
       if (res.ok) {
@@ -481,7 +507,7 @@ export default function PortalAdminPage() {
             <Panel key={a.id}>
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
                     <h3 className="text-sm font-medium text-noir-text">
                       {a.artwork.title}
                     </h3>
@@ -494,6 +520,9 @@ export default function PortalAdminPage() {
                         Variance
                       </Badge>
                     )}
+                    <Badge variant="muted">
+                      Blind: {a.blindMode !== false ? "ON" : "OFF"}
+                    </Badge>
                   </div>
                   <p className="text-[10px] text-noir-muted">
                     Assignee: {a.assessorAuthUid.slice(0, 12)}… · Assigned{" "}
@@ -513,9 +542,19 @@ export default function PortalAdminPage() {
                     </div>
                   )}
                 </div>
-                <div className="flex gap-2 flex-shrink-0">
+                <div className="flex gap-2 flex-shrink-0 flex-wrap">
                   {a.status !== "WITHDRAWN" && (
                     <>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleBlindModeToggle(a.id, a.blindMode !== false)}
+                        disabled={actionState[`blind-${a.id}`] === "loading"}
+                      >
+                        {actionState[`blind-${a.id}`] === "loading"
+                          ? "…"
+                          : `Blind ${a.blindMode !== false ? "OFF" : "ON"}`}
+                      </Button>
                       <Button
                         variant="ghost"
                         size="sm"

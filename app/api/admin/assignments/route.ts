@@ -13,7 +13,7 @@ const createSchema = z.object({
 });
 
 /**
- * GET /api/portal/admin/assignments
+ * GET /api/admin/assignments
  * List all assignments (admin only).
  */
 export async function GET() {
@@ -31,6 +31,7 @@ export async function GET() {
             slug: true,
             imageUrl: true,
             varianceFlag: true,
+            varianceMeta: true,
           },
         },
         scores: {
@@ -56,6 +57,7 @@ export async function GET() {
       artwork: a.artwork,
       assessorAuthUid: a.assessorAuthUid,
       status: a.status,
+      blindMode: a.blindMode ?? true,
       dueAt: a.dueAt?.toISOString() ?? null,
       assignedAt: a.assignedAt.toISOString(),
       createdByAdminAuthUid: a.createdByAdminAuthUid,
@@ -78,7 +80,7 @@ export async function GET() {
     if (err instanceof AuthorizationError) {
       return NextResponse.json({ error: err.message }, { status: 401 });
     }
-    console.error("[GET /api/portal/admin/assignments]", err);
+    console.error("[GET /api/admin/assignments]", err);
     return NextResponse.json(
       { error: "Failed to fetch assignments" },
       { status: 500 }
@@ -87,7 +89,7 @@ export async function GET() {
 }
 
 /**
- * POST /api/portal/admin/assignments
+ * POST /api/admin/assignments
  * Create assignment (admin only).
  */
 export async function POST(req: NextRequest) {
@@ -138,7 +140,7 @@ export async function POST(req: NextRequest) {
         );
       }
     }
-    console.error("[POST /api/portal/admin/assignments]", err);
+    console.error("[POST /api/admin/assignments]", err);
     return NextResponse.json(
       { error: "Failed to create assignment" },
       { status: 500 }

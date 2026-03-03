@@ -4,7 +4,7 @@ import { requireRole, AuthorizationError } from "@/lib/auth/roles";
 import { getAssignmentsForAssessor } from "@/lib/services/assessment-assignment";
 
 /**
- * GET /api/portal/assessor/assignments
+ * GET /api/assessor/assignments
  * Returns assignments for the authenticated assessor (ASSIGNED, IN_REVIEW, NEEDS_REVISION).
  */
 export async function GET() {
@@ -42,7 +42,7 @@ export async function GET() {
     if (err instanceof AuthorizationError) {
       return NextResponse.json({ error: err.message }, { status: 401 });
     }
-    console.error("[GET /api/portal/assessor/assignments]", err);
+    console.error("[GET /api/assessor/assignments]", err);
     return NextResponse.json(
       { error: "Failed to fetch assignments" },
       { status: 500 }

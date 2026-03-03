@@ -138,6 +138,7 @@ model Artwork {
 
   // ── Variance flag (when >=2 scores disagree beyond threshold) ──
   varianceFlag Boolean @default(false) @map("variance_flag")
+  varianceMeta Json?   @map("variance_meta") @db.JsonB
 
   artistId String @map("artist_id") @db.Uuid
   artist   Artist @relation(fields: [artistId], references: [id])
@@ -406,7 +407,7 @@ model CtaEvent {
 model AssessmentAssignment {
   id                  String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   artworkId           String           @map("artwork_id") @db.Uuid
-  artwork             Artwork          @relation(fields: [artworkId], references: [id])
+  artwork             Artwork          @relation(fields: [artworkId], references: [id], onDelete: Restrict)
   assessorAuthUid     String           @map("assessor_auth_uid")
   status              AssignmentStatus @default(ASSIGNED)
   dueAt               DateTime?        @map("due_at")
@@ -414,6 +415,7 @@ model AssessmentAssignment {
   createdByAdminAuthUid String?         @map("created_by_admin_auth_uid")
   withdrawnAt         DateTime?        @map("withdrawn_at")
   notesToAssessor     String?           @map("notes_to_assessor")
+  blindMode           Boolean          @default(true) @map("blind_mode")
 
   scores AssessmentScore[]
 
@@ -426,9 +428,9 @@ model AssessmentAssignment {
 model AssessmentScore {
   id              String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   assignmentId    String               @map("assignment_id") @db.Uuid
-  assignment      AssessmentAssignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  assignment      AssessmentAssignment @relation(fields: [assignmentId], references: [id], onDelete: Restrict)
   artworkId       String               @map("artwork_id") @db.Uuid
-  artwork         Artwork              @relation(fields: [artworkId], references: [id])
+  artwork         Artwork              @relation(fields: [artworkId], references: [id], onDelete: Restrict)
   assessorAuthUid String               @map("assessor_auth_uid")
   scoreB          Decimal              @map("score_b") @db.Decimal(3, 1)
   scoreP          Decimal              @map("score_p") @db.Decimal(3, 1)

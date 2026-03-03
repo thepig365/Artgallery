@@ -1,5 +1,6 @@
 /**
  * Assessment score service — save draft, submit score, check variance.
+ * Enforces state machine: no edits on WITHDRAWN; edit window for SUBMITTED.
  */
 
 import { Decimal } from "@prisma/client/runtime/library";
@@ -7,6 +8,7 @@ import { prisma } from "@/lib/db/client";
 import { computeMendIndex } from "@/lib/mend-index";
 import { writeAuditLog } from "./audit-log";
 import { checkAndFlagVariance } from "./variance";
+import { canAssessorEdit, isLocked } from "./assignment-state-machine";
 
 const EDIT_WINDOW_MINUTES = 10;
 
@@ -24,6 +26,13 @@ export async function saveDraftScore(params: {
     include: { scores: true },
   });
   if (!assignment) return null;
+
+  if (isLocked(assignment.status as "WITHDRAWN")) {
+    return { error: "Assignment withdrawn; edits not allowed" };
+  }
+  if (!canAssessorEdit(assignment.status as Parameters<typeof canAssessorEdit>[0])) {
+    return { error: "Assignment status does not allow draft edits" };
+  }
 
   const totalScore = computeMendIndex({
     B: params.B,
@@ -78,6 +87,10 @@ export async function submitScore(params: {
     include: { scores: true, artwork: true },
   });
   if (!assignment) return null;
+
+  if (isLocked(assignment.status as "WITHDRAWN")) {
+    return { error: "Assignment withdrawn; edits not allowed" };
+  }
 
   const existing = assignment.scores[0];
   if (existing?.status === "SUBMITTED") {

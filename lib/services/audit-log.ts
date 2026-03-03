@@ -12,6 +12,8 @@ export type AuditAction =
   | "SCORE_DRAFT"
   | "VARIANCE_FLAG"
   | "NEEDS_REVISION"
+  | "BLIND_MODE_ON"
+  | "BLIND_MODE_OFF"
   | "PUBLISH_ARCHIVE";
 
 export type AuditEntityType = "assignment" | "score" | "artwork";

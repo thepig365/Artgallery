@@ -89,7 +89,7 @@ export default function AssessorReviewPage({
     async function load() {
       try {
         const res = await fetch(
-          `/api/portal/assessor/assignments/${assignmentId}`
+          `/api/assessor/assignments/${assignmentId}`
         );
         if (res.status === 403) {
           setLoadError("Assignment not found or access denied.");
@@ -164,8 +164,8 @@ export default function AssessorReviewPage({
     setSaveState("saving");
     try {
       const url = isFinal
-        ? `/api/portal/assessor/assignments/${assignmentId}/submit`
-        : `/api/portal/assessor/assignments/${assignmentId}/draft`;
+        ? `/api/assessor/assignments/${assignmentId}/submit`
+        : `/api/assessor/assignments/${assignmentId}/draft`;
       const res = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

@@ -4,7 +4,7 @@ import { requireRole, AuthorizationError } from "@/lib/auth/roles";
 import { setNeedsRevision } from "@/lib/services/assessment-assignment";
 
 /**
- * POST /api/portal/admin/assignments/[id]/needs-revision
+ * POST /api/admin/assignments/[id]/needs-revision
  * Set assignment status to NEEDS_REVISION (admin only).
  */
 export async function POST(
@@ -27,7 +27,7 @@ export async function POST(
     if (err instanceof AuthorizationError) {
       return NextResponse.json({ error: err.message }, { status: 401 });
     }
-    console.error("[POST /api/portal/admin/assignments/[id]/needs-revision]", err);
+    console.error("[POST /api/admin/assignments/[id]/needs-revision]", err);
     return NextResponse.json(
       { error: "Failed to set needs revision" },
       { status: 500 }

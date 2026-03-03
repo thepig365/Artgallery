@@ -134,9 +134,38 @@ export async function getAssignmentForAssessor(
           dimensions: true,
           materials: true,
           narrative: true,
+          artistId: true,
+          artist: { select: { name: true } },
         },
       },
       scores: true,
     },
   });
+}
+
+export async function setBlindMode(params: {
+  assignmentId: string;
+  blindMode: boolean;
+  adminAuthUid: string;
+}) {
+  const assignment = await prisma.assessmentAssignment.findUnique({
+    where: { id: params.assignmentId },
+  });
+  if (!assignment) return null;
+
+  await prisma.assessmentAssignment.update({
+    where: { id: params.assignmentId },
+    data: { blindMode: params.blindMode },
+  });
+
+  await writeAuditLog({
+    actorAuthUid: params.adminAuthUid,
+    actorRole: "admin",
+    action: params.blindMode ? "BLIND_MODE_ON" : "BLIND_MODE_OFF",
+    entityType: "assignment",
+    entityId: params.assignmentId,
+    meta: { artworkId: assignment.artworkId, blindMode: params.blindMode },
+  });
+
+  return { ok: true };
 }

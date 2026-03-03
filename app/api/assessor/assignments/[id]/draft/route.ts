@@ -2,16 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { resolveSessionUser } from "@/lib/auth/session";
 import { requireRole, AuthorizationError } from "@/lib/auth/roles";
-import { submitScore } from "@/lib/services/assessment-score";
+import { saveDraftScore } from "@/lib/services/assessment-score";
+import { writeAuditLog } from "@/lib/services/audit-log";
 import { mendScoresSchema } from "@/lib/validation/schemas";
 
-const submitBodySchema = mendScoresSchema.extend({
+const draftBodySchema = mendScoresSchema.extend({
   notes: z.string().max(5000).optional().nullable(),
 });
 
 /**
- * POST /api/portal/assessor/assignments/[id]/submit
- * Submit score for the assignment (final submit, locks after 10min edit window).
+ * POST /api/assessor/assignments/[id]/draft
+ * Save draft score for the assignment.
  */
 export async function POST(
   req: NextRequest,
@@ -23,7 +24,7 @@ export async function POST(
 
     const { id: assignmentId } = await params;
     const body = await req.json();
-    const validation = submitBodySchema.safeParse(body);
+    const validation = draftBodySchema.safeParse(body);
     if (!validation.success) {
       return NextResponse.json(
         { error: "Validation failed", issues: validation.error.issues },
@@ -33,7 +34,7 @@ export async function POST(
 
     const { B, P, M, S, notes } = validation.data;
 
-    const result = await submitScore({
+    const result = await saveDraftScore({
       assignmentId,
       assessorAuthUid: user!.authUid!,
       B,
@@ -51,17 +52,30 @@ export async function POST(
     }
 
     if (typeof result === "object" && "error" in result) {
-      return NextResponse.json({ error: result.error }, { status: 400 });
+      return NextResponse.json(
+        { error: (result as { error: string }).error },
+        { status: 400 }
+      );
     }
+
+    const score = result as { id: string };
+    await writeAuditLog({
+      actorAuthUid: user!.authUid!,
+      actorRole: user!.role === "ADMIN" ? "admin" : "assessor",
+      action: "SCORE_DRAFT",
+      entityType: "score",
+      entityId: score.id,
+      meta: { assignmentId },
+    });
 
     return NextResponse.json({ ok: true });
   } catch (err) {
     if (err instanceof AuthorizationError) {
       return NextResponse.json({ error: err.message }, { status: 401 });
     }
-    console.error("[POST /api/portal/assessor/assignments/[id]/submit]", err);
+    console.error("[POST /api/assessor/assignments/[id]/draft]", err);
     return NextResponse.json(
-      { error: "Failed to submit score" },
+      { error: "Failed to save draft" },
       { status: 500 }
     );
   }

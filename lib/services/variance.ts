@@ -47,10 +47,21 @@ export async function checkAndFlagVariance(artworkId: string): Promise<void> {
   if (!artwork) return;
 
   const current = artwork.varianceFlag ?? false;
-  if (shouldFlag && !current) {
+
+  if (shouldFlag) {
+    const scoreIds = scores.map((s) => s.id);
+    const varianceMeta = {
+      maxAxisDelta,
+      maxTotalDelta,
+      scoreIds,
+      scoreCount: scores.length,
+      thresholdAxis: AXIS_THRESHOLD,
+      thresholdTotal: TOTAL_THRESHOLD,
+    };
+
     await prisma.artwork.update({
       where: { id: artworkId },
-      data: { varianceFlag: true },
+      data: { varianceFlag: true, varianceMeta: varianceMeta as object },
     });
     await writeAuditLog({
       actorAuthUid: "system",
@@ -58,12 +69,12 @@ export async function checkAndFlagVariance(artworkId: string): Promise<void> {
       action: "VARIANCE_FLAG",
       entityType: "artwork",
       entityId: artworkId,
-      meta: { maxAxisDelta, maxTotalDelta },
+      meta: varianceMeta,
     });
   } else if (!shouldFlag && current) {
     await prisma.artwork.update({
       where: { id: artworkId },
-      data: { varianceFlag: false },
+      data: { varianceFlag: false, varianceMeta: null },
     });
   }
 }

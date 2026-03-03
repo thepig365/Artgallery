@@ -4,7 +4,7 @@ import { resolveSessionUser } from "@/lib/auth/session";
 import { requireRole, AuthorizationError } from "@/lib/auth/roles";
 
 /**
- * GET /api/portal/admin/audit-logs
+ * GET /api/admin/audit-logs
  * List recent audit logs (admin only).
  */
 export async function GET(req: NextRequest) {
@@ -39,7 +39,7 @@ export async function GET(req: NextRequest) {
     if (err instanceof AuthorizationError) {
       return NextResponse.json({ error: err.message }, { status: 401 });
     }
-    console.error("[GET /api/portal/admin/audit-logs]", err);
+    console.error("[GET /api/admin/audit-logs]", err);
     return NextResponse.json(
       { error: "Failed to fetch audit logs" },
       { status: 500 }

@@ -4,8 +4,8 @@ import { requireRole, AuthorizationError } from "@/lib/auth/roles";
 import { getAssignmentForAssessor } from "@/lib/services/assessment-assignment";
 
 /**
- * GET /api/portal/assessor/assignments/[id]
- * Returns assignment with blind artwork metadata (no artist identity).
+ * GET /api/assessor/assignments/[id]
+ * Returns assignment with blind artwork metadata (no artist when blindMode).
  */
 export async function GET(
   _req: NextRequest,
@@ -27,7 +27,8 @@ export async function GET(
     }
 
     const score = assignment.scores[0];
-    const blindArtwork = {
+    const blindMode = assignment.blindMode ?? true;
+    const blindArtwork: Record<string, unknown> = {
       id: assignment.artwork.id,
       title: assignment.artwork.title,
       slug: assignment.artwork.slug,
@@ -38,11 +39,15 @@ export async function GET(
       materials: assignment.artwork.materials,
       narrative: assignment.artwork.narrative,
     };
+    if (!blindMode && assignment.artwork.artist) {
+      blindArtwork.artistName = assignment.artwork.artist.name;
+    }
 
     return NextResponse.json({
       assignment: {
         id: assignment.id,
         status: assignment.status,
+        blindMode,
         dueAt: assignment.dueAt?.toISOString() ?? null,
         assignedAt: assignment.assignedAt.toISOString(),
         notesToAssessor: assignment.notesToAssessor,
@@ -66,7 +71,7 @@ export async function GET(
     if (err instanceof AuthorizationError) {
       return NextResponse.json({ error: err.message }, { status: 401 });
     }
-    console.error("[GET /api/portal/assessor/assignments/[id]]", err);
+    console.error("[GET /api/assessor/assignments/[id]]", err);
     return NextResponse.json(
       { error: "Failed to fetch assignment" },
       { status: 500 }

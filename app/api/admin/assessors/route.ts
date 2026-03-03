@@ -4,7 +4,7 @@ import { resolveSessionUser } from "@/lib/auth/session";
 import { requireRole, AuthorizationError } from "@/lib/auth/roles";
 
 /**
- * GET /api/portal/admin/assessors
+ * GET /api/admin/assessors
  * List assessors (users with auth_uid and ASSESSOR role) for assignment dropdown.
  */
 export async function GET() {
@@ -41,7 +41,7 @@ export async function GET() {
     if (err instanceof AuthorizationError) {
       return NextResponse.json({ error: err.message }, { status: 401 });
     }
-    console.error("[GET /api/portal/admin/assessors]", err);
+    console.error("[GET /api/admin/assessors]", err);
     return NextResponse.json(
       { error: "Failed to fetch assessors" },
       { status: 500 }
