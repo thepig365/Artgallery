@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
+import { CONTACT_EMAIL } from "@/lib/site-config";
 
 export default function AssessorInvitePage() {
   return (
@@ -188,7 +189,7 @@ export default function AssessorInvitePage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
             <a
-              href="mailto:admin@artprotocol.dev?subject=Art%20Specialist%20Invitation%20—%20Acceptance"
+              href={`mailto:${CONTACT_EMAIL}?subject=Art%20Specialist%20Invitation%20—%20Acceptance`}
               className="inline-flex items-center justify-center bg-gallery-accent text-white text-sm font-medium rounded-lg px-6 py-3 hover:bg-gallery-accent-hover transition-colors duration-200"
             >
               Accept Invitation

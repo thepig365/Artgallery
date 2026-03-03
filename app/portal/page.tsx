@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { resolveSessionUser } from "@/lib/auth/session";
+import { CONTACT_EMAIL } from "@/lib/site-config";
 
 export default async function PortalPage() {
   const user = await resolveSessionUser();
@@ -33,10 +34,10 @@ export default async function PortalPage() {
       <p className="text-sm text-gallery-muted leading-relaxed mb-10 max-w-lg">
         To request access or inquire about assessor onboarding, email{" "}
         <a
-          href="mailto:admin@artprotocol.dev"
+          href={`mailto:${CONTACT_EMAIL}`}
           className="text-gallery-accent hover:underline"
         >
-          admin@artprotocol.dev
+          {CONTACT_EMAIL}
         </a>
         .
       </p>

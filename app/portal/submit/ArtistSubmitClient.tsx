@@ -25,7 +25,7 @@ import { StepConsent } from "@/components/portal/StepConsent";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
 import Link from "next/link";
-import { LogIn } from "lucide-react";
+import { LogIn, FileImage, Clock, ExternalLink } from "lucide-react";
 
 const STEP_ORDER: WizardStep[] = [
   "identity",
@@ -295,6 +295,54 @@ export default function ArtistSubmitClient() {
           </h1>
           <Badge variant="muted">Draft</Badge>
         </div>
+
+        {/* Submission Requirements */}
+        <div className="border border-noir-border bg-noir-bg p-5 mb-6">
+          <h2 className="text-sm font-semibold text-noir-text uppercase tracking-widest mb-3 flex items-center gap-2">
+            <FileImage className="w-4 h-4" strokeWidth={1.5} />
+            Submission Requirements
+          </h2>
+          <div className="text-xs text-noir-muted space-y-2">
+            <p>
+              <strong className="text-noir-text">Formats:</strong> JPG, PNG, WebP
+              (TIFF also accepted for archival quality).
+            </p>
+            <p>
+              <strong className="text-noir-text">Max file size:</strong> 50MB per
+              file. Recommended: 2000px+ on the long edge, good lighting for
+              assessment.
+            </p>
+            <p>
+              <strong className="text-noir-text">Larger files?</strong> Compress
+              images before upload, or provide a share link (Google Drive,
+              Dropbox) in your narrative. For alternative transfer, contact us
+              via the enquiry system.
+            </p>
+            <p className="flex items-center gap-2">
+              <Clock className="w-3.5 h-3.5 flex-shrink-0" strokeWidth={1.5} />
+              <strong className="text-noir-text">Review timeline:</strong>{" "}
+              Typically 3–7 business days for initial review.
+            </p>
+            <p className="pt-2 border-t border-noir-border/50 flex flex-wrap items-center gap-x-2 gap-y-1">
+              <Link
+                href="/takedown"
+                className="text-noir-accent hover:underline inline-flex items-center gap-1"
+              >
+                <ExternalLink className="w-3 h-3" strokeWidth={1.5} />
+                Takedown / Removal
+              </Link>
+              <span className="text-noir-muted/70">·</span>
+              <Link
+                href="/rights"
+                className="text-noir-accent hover:underline inline-flex items-center gap-1"
+              >
+                <ExternalLink className="w-3 h-3" strokeWidth={1.5} />
+                Rights & Licensing
+              </Link>
+            </p>
+          </div>
+        </div>
+
         <WizardProgress
           currentStep={currentStep}
           completedSteps={completedSteps}
