@@ -27,5 +27,6 @@ export async function updateSession(request: NextRequest) {
 
   await supabase.auth.getUser();
 
+  supabaseResponse.headers.set("x-pathname", request.nextUrl.pathname);
   return supabaseResponse;
 }
