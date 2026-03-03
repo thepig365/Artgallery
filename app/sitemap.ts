@@ -5,7 +5,7 @@ import { Prisma } from "@prisma/client";
 import { MODERN_MASTERS_DATA } from "@/lib/data/modern-masters";
 import { STUDY_PACKS_TOP50 } from "@/lib/data/study-packs-top50";
 import { toGalleryPublicUrl } from "@/lib/supabase/gallery-public";
-const SITE_URL = "https://gallery.bayviewhub.me";
+import { SITE_URL } from "@/lib/site-url";
 const MASTERPIECE_LIMIT = 1000;
 
 /**
