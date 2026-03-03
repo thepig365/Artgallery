@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import Image from "next/image";
 import { resolveSessionUser } from "@/lib/auth/session";
 import { requireRole, AuthorizationError } from "@/lib/auth/roles";
-import { prisma } from "@/lib/db/client";
+import { getAssignmentsForAssessor } from "@/lib/services/assessment-assignment";
 
 export default async function AssessorPortalPage() {
   let user;
@@ -16,31 +17,7 @@ export default async function AssessorPortalPage() {
     redirect("/login?redirect=/portal/assessor");
   }
 
-  const sessions = await prisma.auditSession.findMany({
-    where: { status: { in: ["IN_PROGRESS", "DRAFT"] } },
-    include: {
-      artwork: { select: { title: true, slug: true } },
-      scores: {
-        where: { assessorUserId: user!.id },
-        select: { id: true },
-      },
-    },
-    orderBy: { createdAt: "desc" },
-    take: 20,
-  });
-
-  const completedSessions = await prisma.auditSession.findMany({
-    where: { status: "COMPLETED" },
-    include: {
-      artwork: { select: { title: true, slug: true } },
-      scores: {
-        where: { assessorUserId: user!.id },
-        select: { id: true, finalV: true },
-      },
-    },
-    orderBy: { updatedAt: "desc" },
-    take: 10,
-  });
+  const assignments = await getAssignmentsForAssessor(user!.authUid!);
 
   return (
     <div className="container mx-auto px-4 py-12 sm:py-16">
@@ -48,13 +25,13 @@ export default async function AssessorPortalPage() {
         Assessor Portal
       </p>
       <h1 className="text-2xl sm:text-3xl font-bold text-gallery-text tracking-tight mb-8">
-        Your Sessions
+        My Assignments
       </h1>
 
-      {sessions.length === 0 && completedSessions.length === 0 ? (
+      {assignments.length === 0 ? (
         <div className="border border-gallery-border rounded-lg p-8 text-center">
           <p className="text-sm text-gallery-muted mb-4">
-            No assessment sessions are currently assigned.
+            No assignments are currently assigned to you.
           </p>
           <Link
             href="/archive"
@@ -64,68 +41,57 @@ export default async function AssessorPortalPage() {
           </Link>
         </div>
       ) : (
-        <div className="space-y-8">
-          {sessions.length > 0 && (
-            <section>
-              <h2 className="text-xs font-medium uppercase tracking-widest text-gallery-muted mb-3">
-                Active Sessions
-              </h2>
-              <div className="space-y-2">
-                {sessions.map((s) => (
-                  <Link
-                    key={s.id}
-                    href={`/portal/assessor/session/${s.id}`}
-                    className="flex items-center justify-between border border-gallery-border rounded-lg px-4 py-3 hover:bg-gallery-surface-alt transition-colors duration-200"
-                  >
-                    <div>
-                      <p className="text-sm font-medium text-gallery-text">
-                        {s.artwork.title}
-                      </p>
-                      <p className="text-xs text-gallery-muted mt-0.5">
-                        {s.scores.length > 0 ? "Score submitted" : "Awaiting your score"}
-                      </p>
+        <div className="space-y-3">
+          <h2 className="text-xs font-medium uppercase tracking-widest text-gallery-muted mb-3">
+            Active ({assignments.length})
+          </h2>
+          {assignments.map((a) => {
+            const score = a.scores[0];
+            return (
+              <Link
+                key={a.id}
+                href={`/portal/assessor/review/${a.id}`}
+                className="flex items-center gap-4 border border-gallery-border rounded-lg px-4 py-4 hover:bg-gallery-surface-alt transition-colors duration-200"
+              >
+                <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-gallery-surface-alt">
+                  {a.artwork.imageUrl ? (
+                    <Image
+                      src={a.artwork.imageUrl}
+                      alt=""
+                      width={64}
+                      height={64}
+                      className="object-cover w-full h-full"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-gallery-muted text-xs">
+                      —
                     </div>
-                    <span className="text-xs text-gallery-accent font-medium uppercase tracking-wide">
-                      {s.status.replace("_", " ")}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </section>
-          )}
-
-          {completedSessions.length > 0 && (
-            <section>
-              <h2 className="text-xs font-medium uppercase tracking-widest text-gallery-muted mb-3">
-                Completed
-              </h2>
-              <div className="space-y-2">
-                {completedSessions.map((s) => {
-                  const myScore = s.scores[0];
-                  return (
-                    <div
-                      key={s.id}
-                      className="flex items-center justify-between border border-gallery-border/50 rounded-lg px-4 py-3 opacity-70"
-                    >
-                      <div>
-                        <p className="text-sm text-gallery-text">
-                          {s.artwork.title}
-                        </p>
-                        {myScore && (
-                          <p className="text-xs text-gallery-muted mt-0.5">
-                            Your V: {myScore.finalV.toFixed(2)}
-                          </p>
-                        )}
-                      </div>
-                      <span className="text-xs text-gallery-muted font-medium uppercase tracking-wide">
-                        Finalized
-                      </span>
-                    </div>
-                  );
-                })}
-              </div>
-            </section>
-          )}
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gallery-text truncate">
+                    {a.artwork.title}
+                  </p>
+                  <p className="text-xs text-gallery-muted mt-0.5">
+                    Assigned {new Date(a.assignedAt).toLocaleDateString()}
+                    {a.dueAt && (
+                      <> · Due {new Date(a.dueAt).toLocaleDateString()}</>
+                    )}
+                  </p>
+                  <p className="text-xs text-gallery-muted mt-0.5">
+                    {score?.status === "SUBMITTED"
+                      ? "Score submitted"
+                      : score?.status === "DRAFT"
+                        ? "Draft saved"
+                        : "Awaiting your score"}
+                  </p>
+                </div>
+                <span className="text-xs text-gallery-accent font-medium uppercase tracking-wide flex-shrink-0">
+                  {a.status.replace("_", " ")}
+                </span>
+              </Link>
+            );
+          })}
         </div>
       )}
     </div>

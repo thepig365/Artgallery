@@ -9,6 +9,7 @@ const ALLOWED_REDIRECTS = [
   "/portal",
   "/portal/submit",
   "/portal/assessor",
+  "/portal/admin",
   "/admin",
   "/admin/submissions",
   "/admin/claims",
