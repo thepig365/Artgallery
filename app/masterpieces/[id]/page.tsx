@@ -69,7 +69,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const licenseLabel = LICENSE_LABELS[masterpiece.license]?.label || masterpiece.license;
   const artistSuffix = masterpiece.artist ? ` by ${masterpiece.artist}` : "";
   const title = `${masterpiece.title}${artistSuffix} | Open Masterpieces Library`;
-  const description = `${masterpiece.title}${artistSuffix} — sourced from ${sourceName} under ${licenseLabel}. View full details, provenance, and licensing information.`;
+  const description = `${masterpiece.title}${artistSuffix} — sourced from ${sourceName} under ${licenseLabel}. View full details, ownership history, and licensing information.`;
   const ogImage = masterpiece.thumbnailUrl || masterpiece.imageUrl;
 
   return {
@@ -324,8 +324,8 @@ export default async function MasterpieceDetailPage({ params }: PageProps) {
         <p className="text-[11px] text-gallery-muted/60 leading-relaxed max-w-4xl">
           This image is sourced from the open-access program of {sourceName} and
           is used under the {licenseInfo?.label || masterpiece.license} license.
-          The platform does not claim ownership of this work. For full provenance
-          and rights information, please visit the{" "}
+          The platform does not claim ownership of this work. For full ownership
+          history and rights information, please visit the{" "}
           <a
             href={masterpiece.sourceUrl}
             target="_blank"

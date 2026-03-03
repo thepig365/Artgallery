@@ -256,7 +256,7 @@ export default function AdminPage() {
           </div>
           <p className="text-xs text-noir-muted">
             Manage artwork public visibility. All actions are logged to
-            provenance trail.
+            audit trail.
           </p>
         </div>
         <div className="flex items-center gap-3">
@@ -488,7 +488,7 @@ export default function AdminPage() {
         </p>
         <p className="text-[9px] text-noir-muted/50 leading-relaxed">
           Connected to database. All visibility toggles are recorded in the
-          provenance log with actor ID, timestamp, and reason.
+          audit log with actor ID, timestamp, and reason.
         </p>
       </div>
     </div>

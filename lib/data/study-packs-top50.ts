@@ -19,7 +19,7 @@ export const STUDY_PACKS_TOP50: StudyPack[] = [
     ],
     protocolTips: {
       B: "Munch often applied paint thinly and rapidly, sometimes on unprimed cardboard. Look for visible ground through paint layers — a deliberate technique, not damage.",
-      P: "Many Munch works remained in the artist's estate until bequeathed to Oslo. Provenance should trace through Munchmuseet or documented dealer sales.",
+      P: "Many Munch works remained in the artist's estate until bequeathed to Oslo. Ownership history should trace through Munchmuseet or documented dealer sales.",
       M: "Oil on canvas and cardboard are most common. He also produced a significant body of prints (lithographs, woodcuts) that have their own authentication considerations.",
       S: "Early works (pre-1900) are darker and more narrative; mature work becomes increasingly simplified and color-driven. His late paintings (1920s–40s) are often underappreciated.",
     },
@@ -36,7 +36,7 @@ export const STUDY_PACKS_TOP50: StudyPack[] = [
     ],
     protocolTips: {
       B: "Klee's technique varies enormously — from delicate watercolor washes to oil transfer drawings to thick impasto. Consistent technique within a single work is the key indicator.",
-      P: "The Paul Klee Foundation catalogue raisonné is the definitive reference. Works not catalogued require careful provenance documentation.",
+      P: "The Paul Klee Foundation catalogue raisonné is the definitive reference. Works not catalogued require careful ownership documentation.",
       M: "Extraordinarily diverse: oil, watercolor, ink, paste, plaster, fabric, and combinations thereof. He frequently worked on unusual supports including burlap, muslin, and newspaper.",
       S: "Klee's oeuvre is vast (over 10,000 works) and stylistically varied. Period-specific analysis — Bauhaus geometric vs. late symbolic — is essential for evaluation.",
     },
@@ -52,7 +52,7 @@ export const STUDY_PACKS_TOP50: StudyPack[] = [
     ],
     protocolTips: {
       B: "Tiepolo's oil sketches (bozzetti) show rapid, confident brushwork quite different from his finished frescoes. Both should exhibit luminous, airy handling.",
-      P: "Many Tiepolo works are in situ (churches, palaces). Portable works should have clear provenance from documented collections, especially given attribution confusion with his son Giandomenico.",
+      P: "Many Tiepolo works are in situ (churches, palaces). Portable works should have clear ownership history from documented collections, especially given attribution confusion with his son Giandomenico.",
       M: "Fresco, oil on canvas, and pen-and-wash drawings are the primary media. His drawings are highly sought and frequently misattributed.",
       S: "Distinguish father (Giovanni Battista) from son (Giandomenico) — the father's work is airier and more luminous; the son's tends toward genre scenes with denser compositions.",
     },

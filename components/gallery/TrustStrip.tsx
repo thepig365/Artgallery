@@ -14,7 +14,7 @@ const TRUST_ITEMS = [
   {
     icon: Shield,
     title: "Full Transparency",
-    text: "Provenance-logged with legal disclaimers",
+    text: "Audit-logged with legal disclaimers",
   },
 ] as const;
 

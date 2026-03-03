@@ -91,7 +91,7 @@ async function main() {
       dimensions: "60 × 40 in",
       materials: "Handwoven cotton, natural indigo, iron mordant",
       isVisible: false,
-      hiddenReason: "Pending provenance verification",
+      hiddenReason: "Pending verification",
       hiddenAt: new Date(),
       artistId: artist3.id,
     },
@@ -148,7 +148,7 @@ async function main() {
       scoreM: 6.8,
       scoreS: 7.6,
       finalV: 7.32,
-      notes: "Strong material presence. Provenance documentation is thorough.",
+      notes: "Strong material presence. Ownership documentation is thorough.",
     },
   });
 
@@ -189,8 +189,8 @@ async function main() {
       eventType: "ARTWORK_HIDDEN",
       artworkId: artwork3.id,
       actorId: admin.id,
-      detail: "Artwork hidden: Pending provenance verification",
-      metadata: { isVisible: false, reason: "Pending provenance verification" },
+      detail: "Artwork hidden: Pending verification",
+      metadata: { isVisible: false, reason: "Pending verification" },
     },
   });
 

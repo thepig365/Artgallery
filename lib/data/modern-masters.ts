@@ -37,7 +37,7 @@ export const MODERN_MASTERS_DATA: ModernMaster[] = [
     ],
     mendTips: {
       B: "Look for evidence of physical reworking: pentimenti, scraping, overpainting. Picasso frequently revised on-canvas, and authentic works show material density.",
-      P: "Provenance chains for Picasso are heavily documented. Any gap between 1930–1960 warrants scrutiny given wartime looting risks.",
+      P: "Ownership chains for Picasso are heavily documented. Any gap between 1930–1960 warrants scrutiny given wartime looting risks.",
       M: "Expect wide medium diversity — oil, gouache, crayon, collage on single surfaces. Material inconsistency within a work is normal; absence of it can be suspicious.",
       S: "Stylistic range is extreme. A 1907 work should not resemble a 1925 work. Date-style mismatches are a strong signal.",
     },
@@ -134,7 +134,7 @@ export const MODERN_MASTERS_DATA: ModernMaster[] = [
     ],
     mendTips: {
       B: "Silkscreen works should show characteristic mesh patterns, ink density variations, and registration shifts. Perfectly uniform prints are suspect.",
-      P: "The Andy Warhol Foundation Authentication Board disbanded in 2011. Provenance must now be established through dealer records, exhibition history, and the catalogue raisonné.",
+      P: "The Andy Warhol Foundation Authentication Board disbanded in 2011. Ownership history must now be established through dealer records, exhibition history, and the catalogue raisonné.",
       M: "Acrylic and silkscreen ink on canvas (paintings), various print media (editions). Factory production means multiple versions of an image may exist — edition vs. unique matters enormously.",
       S: "Warhol's range includes hand-drawn 1950s commercial illustrations, 1960s Pop silkscreens, 1970s portraits, and 1980s collaborations. Each period has distinct market valuation.",
     },

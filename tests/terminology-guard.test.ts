@@ -8,7 +8,7 @@ import {
 describe("checkTerminology", () => {
   it("returns clean for safe curatorial language", () => {
     const result = checkTerminology(
-      "This work demonstrates strong material sincerity and provenance integrity."
+      "This work demonstrates strong material sincerity and process integrity."
     );
     expect(result.clean).toBe(true);
     expect(result.matches).toHaveLength(0);

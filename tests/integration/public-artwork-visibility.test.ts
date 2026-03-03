@@ -48,7 +48,7 @@ function createTestDataset(): ArtworkWithVisibility[] {
       medium: "Mixed media and found materials on reclaimed wood",
       year: 2023,
       isVisible: false,
-      hiddenReason: "Pending provenance verification",
+      hiddenReason: "Pending verification",
       hiddenAt: "2024-11-01T00:00:00Z",
       hiddenBy: "admin-001",
       artist: {
@@ -253,7 +253,7 @@ describe("Integration: public hidden-artwork filtering", () => {
       const result = toggleVisibilitySchema.safeParse({
         artworkId: "a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11",
         isVisible: false,
-        reason: "Pending provenance verification",
+        reason: "Pending verification",
         actorId: "b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a22",
       });
 

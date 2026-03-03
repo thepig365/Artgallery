@@ -164,7 +164,7 @@ export default function ProtocolPage() {
               When significant scoring variance is detected between assessors,
               the session is flagged for variance review. Assessors are prompted
               to provide additional justification. The variance threshold and
-              resolution process are documented in the assessment provenance log.
+              resolution process are documented in the assessment audit log.
             </p>
           </div>
           <Divider />
