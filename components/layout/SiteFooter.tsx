@@ -11,22 +11,17 @@ export function SiteFooter() {
   if (zone === "gallery") {
     return (
       <footer className="border-t border-border bg-surface mt-auto">
+        {/* Main Gallery Footer */}
         <Container className="py-10">
-          <div className="grid grid-cols-1 sm:grid-cols-4 gap-8 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8">
             <div>
               <h3 className="text-sm font-semibold text-fg mb-3 font-serif">
-                Bayview Hub Art Gallery
+                Art Gallery
               </h3>
-              <p className="text-xs text-muted leading-relaxed mb-4">
+              <p className="text-xs text-muted leading-relaxed">
                 Curatorial protocol system for material sincerity assessment.
                 Forensic-grade evaluation framework.
               </p>
-              <a
-                href="https://bayviewhub.me"
-                className="inline-flex items-center gap-1 text-xs text-accent hover:underline"
-              >
-                ← Back to Bayview Hub
-              </a>
             </div>
             <div>
               <h4 className="text-xs font-semibold text-fg mb-3 uppercase tracking-wide">
@@ -96,17 +91,10 @@ export function SiteFooter() {
                     Rights & Takedown
                   </Link>
                 </li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="text-xs font-semibold text-fg mb-3 uppercase tracking-wide">
-                Staff
-              </h4>
-              <ul className="space-y-2">
                 <li>
                   <Link
                     href="/login?redirect=/portal"
-                    className="text-xs text-muted hover:text-fg transition-colors"
+                    className="text-xs text-muted/60 hover:text-muted transition-colors"
                   >
                     Staff Sign-In
                   </Link>
@@ -114,16 +102,72 @@ export function SiteFooter() {
               </ul>
             </div>
           </div>
-          <div className="border-t border-border pt-6 space-y-4">
+          <div className="border-t border-border pt-6">
             <p className="text-[11px] text-muted leading-relaxed max-w-4xl">
               {DISCLAIMERS.global}
             </p>
-            <p className="text-[10px] text-muted/60 leading-relaxed">
-              © {new Date().getFullYear()} Bayview Hub. We acknowledge the Bunurong and Boon Wurrung peoples
-              as the Traditional Custodians of the land on which we operate.
-            </p>
           </div>
         </Container>
+
+        {/* Family Strip — connects to main site */}
+        <div className="border-t border-border bg-surface-alt">
+          <Container className="py-6">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+              {/* Left: Back to main */}
+              <a
+                href="https://bayviewhub.me"
+                className="text-sm font-medium text-accent hover:underline whitespace-nowrap"
+              >
+                ← Back to Bayview Hub
+              </a>
+
+              {/* Middle: Address + Hours */}
+              <div className="text-xs text-muted text-center leading-relaxed">
+                <p>365 Purves Road, Main Ridge, Victoria 3928</p>
+                <p className="mt-1">Wed–Sun | 11 AM – Late · Closed Christmas Day</p>
+              </div>
+
+              {/* Right: Main site links */}
+              <div className="flex items-center gap-4">
+                <a
+                  href="https://bayviewhub.me/visit"
+                  className="text-xs text-muted hover:text-fg transition-colors"
+                >
+                  Visit
+                </a>
+                <a
+                  href="https://bayviewhub.me/events"
+                  className="text-xs text-muted hover:text-fg transition-colors"
+                >
+                  What&apos;s On
+                </a>
+                <a
+                  href="https://bayviewhub.me/partners"
+                  className="text-xs text-muted hover:text-fg transition-colors"
+                >
+                  Partners
+                </a>
+              </div>
+            </div>
+          </Container>
+        </div>
+
+        {/* Bottom Legal + Acknowledgment */}
+        <div className="border-t border-border bg-surface">
+          <Container className="py-4">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] text-muted/70">
+              <p>
+                © {new Date().getFullYear()} Bayview Hub ·{" "}
+                <Link href="/privacy" className="hover:text-muted">Privacy</Link>
+                {" · "}
+                <Link href="/terms" className="hover:text-muted">Terms</Link>
+              </p>
+              <p className="text-center sm:text-right">
+                We acknowledge the Bunurong and Boon Wurrung peoples as Traditional Custodians of this land.
+              </p>
+            </div>
+          </Container>
+        </div>
       </footer>
     );
   }
