@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getPublicArtworks } from "@/lib/services/artwork-visibility";
+import { prisma } from "@/lib/db/client";
 import { resolveArtworksToGalleryPublicUrls } from "@/lib/supabase/gallery-public";
 import { Prisma } from "@prisma/client";
 
@@ -17,9 +17,8 @@ function getPresentEnvKeys(): string[] {
 /**
  * GET /api/artworks/public
  *
- * Public endpoint — returns only visible artworks with artist data.
- * Backed by getPublicArtworks() which applies { isVisible: true } filter.
- * Double-protected by RLS policy `artworks_public_read` in Supabase.
+ * Public endpoint — returns only visible artworks with explicit field selection.
+ * Uses explicit select to avoid P2022 errors from missing columns.
  */
 export async function GET() {
   // Pre-flight: check if DATABASE_URL is set
@@ -38,7 +37,35 @@ export async function GET() {
   }
 
   try {
-    const artworks = await getPublicArtworks({ take: 100 });
+    // Use explicit select to avoid P2022 errors from schema/db column mismatches
+    const artworks = await prisma.artwork.findMany({
+      where: { isVisible: true },
+      orderBy: { createdAt: "desc" },
+      take: 200,
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        imageUrl: true,
+        artistId: true,
+        year: true,
+        medium: true,
+        dimensions: true,
+        narrative: true,
+        scoreB: true,
+        scoreP: true,
+        scoreM: true,
+        scoreS: true,
+        finalV: true,
+        artist: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+    });
+
     const resolved = resolveArtworksToGalleryPublicUrls(artworks);
     return NextResponse.json(resolved, {
       headers: { "Cache-Control": "no-store" },
@@ -46,12 +73,15 @@ export async function GET() {
   } catch (err) {
     console.error("[GET /api/artworks/public] Error:", err);
 
-    // Extract Prisma error code if available
+    // Extract Prisma error info safely
     let prismaCode: string | undefined;
     let message = "Unknown error";
+    let meta: Record<string, unknown> | undefined;
+
     if (err instanceof Prisma.PrismaClientKnownRequestError) {
       prismaCode = err.code;
       message = `Prisma error ${err.code}`;
+      meta = err.meta as Record<string, unknown> | undefined;
     } else if (err instanceof Prisma.PrismaClientInitializationError) {
       prismaCode = "INIT_ERROR";
       message = "Database connection initialization failed";
@@ -64,6 +94,7 @@ export async function GET() {
         error: "DB connection/query failed",
         prismaCode,
         message,
+        meta,
         presentEnvKeys: getPresentEnvKeys(),
       },
       {

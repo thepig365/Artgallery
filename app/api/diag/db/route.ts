@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    // Get row counts
+    // Get row counts using explicit select to avoid P2022
     const artworksCount = await prisma.artwork.count();
     const visibleArtworksCount = await prisma.artwork.count({
       where: { isVisible: true },
@@ -65,9 +65,12 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     let prismaCode: string | undefined;
     let message = "Unknown error";
+    let meta: Record<string, unknown> | undefined;
+
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       prismaCode = error.code;
       message = `Prisma error ${error.code}`;
+      meta = error.meta as Record<string, unknown> | undefined;
     } else if (error instanceof Prisma.PrismaClientInitializationError) {
       prismaCode = "INIT_ERROR";
       message = "Database connection initialization failed";
@@ -80,6 +83,7 @@ export async function GET(req: NextRequest) {
         error: "Database query failed",
         prismaCode,
         message,
+        meta,
         presentEnvKeys: getPresentEnvKeys(),
       },
       { status: 500, headers: { "Cache-Control": "no-store" } }
