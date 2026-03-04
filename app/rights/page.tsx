@@ -3,22 +3,22 @@ import Link from "next/link";
 import { Scale, FileText, Shield, ExternalLink } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Rights & Licensing | Bayview Hub Gallery",
+  title: "Rights & Takedown | Bayview Hub Gallery",
   description:
-    "Information about artwork rights, licensing, and content policies at Bayview Hub Gallery.",
+    "Information about artwork rights, licensing, takedown requests, and content policies at Bayview Hub Gallery.",
   alternates: { canonical: "/rights" },
   openGraph: {
-    title: "Rights & Licensing | Bayview Hub Gallery",
+    title: "Rights & Takedown | Bayview Hub Gallery",
     description:
-      "Information about artwork rights, licensing, and content policies at Bayview Hub Gallery.",
+      "Information about artwork rights, licensing, takedown requests, and content policies at Bayview Hub Gallery.",
     type: "website",
     url: "/rights",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Rights & Licensing | Bayview Hub Gallery",
+    title: "Rights & Takedown | Bayview Hub Gallery",
     description:
-      "Information about artwork rights, licensing, and content policies at Bayview Hub Gallery.",
+      "Information about artwork rights, licensing, takedown requests, and content policies at Bayview Hub Gallery.",
   },
 };
 
@@ -33,10 +33,10 @@ export default function RightsPage() {
           </span>
         </div>
         <h1 className="text-3xl font-bold text-gallery-text tracking-tight mb-4">
-          Rights & Licensing
+          Rights & Takedown
         </h1>
         <p className="text-gallery-muted leading-relaxed">
-          Information about artwork rights, content ownership, and licensing policies at Bayview Hub Gallery.
+          Information about artwork rights, content ownership, takedown requests, and licensing policies at Bayview Hub Gallery.
         </p>
       </div>
 
