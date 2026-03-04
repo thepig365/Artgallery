@@ -19,30 +19,16 @@ export function SiteHeader() {
           <div className="flex items-center justify-between h-16 md:h-20">
             <a
               href="https://bayviewhub.me"
-              className="flex items-center gap-3 hover:opacity-90 transition-opacity outline-none focus:outline-none"
+              className="flex items-center hover:opacity-90 transition-opacity outline-none focus:outline-none"
             >
               <Image
                 src="/images/bayview-estate-logo.jpg"
-                alt="Bayview Estate"
+                alt="Bayview Hub Art Gallery"
                 width={200}
                 height={60}
                 className="h-16 w-auto md:h-20"
                 priority
               />
-              <div className="flex flex-col">
-                <span
-                  className="text-xl md:text-2xl font-serif font-bold leading-tight"
-                  style={{ color: titleColor }}
-                >
-                  Bayview Hub
-                </span>
-                <span
-                  className="text-[11px] tracking-widest uppercase"
-                  style={{ color: subtitleColor }}
-                >
-                  Art Gallery
-                </span>
-              </div>
             </a>
             <SiteNav />
           </div>
