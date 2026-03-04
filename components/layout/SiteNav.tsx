@@ -11,10 +11,10 @@ const NOIR_NAV_ITEMS = [
 ] as const;
 
 const GALLERY_NAV_ITEMS = [
-  { label: "Gallery", href: "/archive" },
-  { label: "Submit Artwork", href: "/submit" },
-  { label: "Assessment Protocol", href: "/protocol" },
-  { label: "Rights & Licensing", href: "/rights" },
+  { label: "Archive", href: "/archive" },
+  { label: "Protocol", href: "/protocol" },
+  { label: "Submit for Curation", href: "/submit" },
+  { label: "Rights & Takedown", href: "/rights" },
   { label: "Open Masterpieces", href: "/masterpieces" },
 ] as const;
 
