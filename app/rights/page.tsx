@@ -125,10 +125,10 @@ export default function RightsPage() {
         {/* Contact */}
         <section className="border-t border-gallery-border pt-6">
           <p className="text-sm text-gallery-muted">
-            For questions about rights, licensing, or any legal matters, please contact us through our{" "}
-            <Link href="/archive" className="text-gallery-accent hover:underline">
-              enquiry system
-            </Link>{" "}
+            For questions about rights, licensing, or any legal matters, please contact us at{" "}
+            <a href="mailto:gallery@bayviewhub.me" className="text-gallery-accent hover:underline">
+              gallery@bayviewhub.me
+            </a>{" "}
             or visit the gallery in person at Mornington Peninsula.
           </p>
         </section>
