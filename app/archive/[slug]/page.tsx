@@ -6,14 +6,49 @@ import { MendScoreDisplay } from "@/components/gallery/MendScoreDisplay";
 import { ArtworkOwnerActions } from "@/components/gallery/ArtworkOwnerActions";
 import { EnquiryModalTrigger } from "@/components/enquiry/EnquiryModalTrigger";
 import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
-import { getPublicArtworkBySlug } from "@/lib/services/artwork-visibility";
+import { prisma } from "@/lib/db/client";
 import { toGalleryPublicUrl } from "@/lib/supabase/gallery-public";
 import { getSiteUrl } from "@/lib/site-url";
 
-export const revalidate = 60;
+// Force dynamic to always fetch fresh data
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 interface ArtworkDetailPageProps {
   params: Promise<{ slug: string }>;
+}
+
+// Explicit select to avoid P2022 errors from schema/DB column mismatches
+async function getArtworkBySlug(slug: string) {
+  return prisma.artwork.findFirst({
+    where: { slug, isVisible: true },
+    select: {
+      id: true,
+      slug: true,
+      title: true,
+      imageUrl: true,
+      year: true,
+      medium: true,
+      dimensions: true,
+      materials: true,
+      narrative: true,
+      sourceUrl: true,
+      scoreB: true,
+      scoreP: true,
+      scoreM: true,
+      scoreS: true,
+      finalV: true,
+      isVisible: true,
+      artist: {
+        select: {
+          id: true,
+          name: true,
+          slug: true,
+          bio: true,
+        },
+      },
+    },
+  });
 }
 
 function parseDimensionsToStructured(
@@ -87,7 +122,7 @@ export async function generateMetadata({
   params,
 }: ArtworkDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const artwork = await getPublicArtworkBySlug(slug);
+  const artwork = await getArtworkBySlug(slug);
 
   if (!artwork) {
     return {
@@ -129,7 +164,7 @@ export default async function ArtworkDetailPage({
 }: ArtworkDetailPageProps) {
   const { slug } = await params;
 
-  const artwork = await getPublicArtworkBySlug(slug);
+  const artwork = await getArtworkBySlug(slug);
 
   if (!artwork) {
     notFound();

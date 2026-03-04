@@ -1,5 +1,5 @@
 import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
-import { getPublicArtworks } from "@/lib/services/artwork-visibility";
+import { prisma } from "@/lib/db/client";
 import { resolveArtworksToGalleryPublicUrls } from "@/lib/supabase/gallery-public";
 import { ArchiveClient } from "./archive-client";
 import type { Metadata } from "next";
@@ -31,9 +31,56 @@ export const metadata: Metadata = {
 };
 
 export default async function ArchivePage() {
-  let publicArtworks: Awaited<ReturnType<typeof getPublicArtworks>> = [];
+  let publicArtworks: {
+    id: string;
+    slug: string;
+    title: string;
+    imageUrl: string | null;
+    artistId: string | null;
+    year: number | null;
+    medium: string | null;
+    dimensions: string | null;
+    narrative: string | null;
+    scoreB: number | null;
+    scoreP: number | null;
+    scoreM: number | null;
+    scoreS: number | null;
+    finalV: number | null;
+    isVisible: boolean;
+    artist: { id: string; name: string; slug: string } | null;
+  }[] = [];
+
   try {
-    const artworks = await getPublicArtworks({ take: 500 });
+    // Use explicit select to match /api/artworks/public and avoid P2022 errors
+    const artworks = await prisma.artwork.findMany({
+      where: { isVisible: true },
+      orderBy: { createdAt: "desc" },
+      take: 500,
+      select: {
+        id: true,
+        slug: true,
+        title: true,
+        imageUrl: true,
+        artistId: true,
+        year: true,
+        medium: true,
+        dimensions: true,
+        narrative: true,
+        scoreB: true,
+        scoreP: true,
+        scoreM: true,
+        scoreS: true,
+        finalV: true,
+        isVisible: true,
+        artist: {
+          select: {
+            id: true,
+            name: true,
+            slug: true,
+          },
+        },
+      },
+    });
     publicArtworks = resolveArtworksToGalleryPublicUrls(artworks);
   } catch (err) {
     console.error("[Archive] Failed to load artworks:", err);
