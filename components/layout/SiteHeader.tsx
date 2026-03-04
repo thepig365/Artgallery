@@ -17,8 +17,8 @@ export function SiteHeader() {
       <header className="border-b border-border bg-surface/95 backdrop-blur-sm sticky top-0 z-50">
         <Container>
           <div className="flex items-center justify-between h-16 md:h-20">
-            <Link
-              href="/archive"
+            <a
+              href="https://bayviewhub.me"
               className="flex items-center gap-3 hover:opacity-90 transition-opacity"
             >
               <Image
@@ -43,7 +43,7 @@ export function SiteHeader() {
                   Art Gallery
                 </span>
               </div>
-            </Link>
+            </a>
             <SiteNav />
           </div>
         </Container>

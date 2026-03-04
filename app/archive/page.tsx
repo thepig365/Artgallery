@@ -4,6 +4,8 @@ import { resolveArtworksToGalleryPublicUrls } from "@/lib/supabase/gallery-publi
 import { ArchiveClient } from "./archive-client";
 import type { Metadata } from "next";
 
+// Force Node.js runtime for Prisma compatibility
+export const runtime = "nodejs";
 // Force no caching - always fetch fresh data
 export const dynamic = "force-dynamic";
 export const revalidate = 0;

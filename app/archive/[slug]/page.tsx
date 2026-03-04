@@ -10,6 +10,8 @@ import { prisma } from "@/lib/db/client";
 import { toGalleryPublicUrl } from "@/lib/supabase/gallery-public";
 import { getSiteUrl } from "@/lib/site-url";
 
+// Force Node.js runtime for Prisma compatibility
+export const runtime = "nodejs";
 // Force dynamic to always fetch fresh data
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
