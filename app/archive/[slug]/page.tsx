@@ -6,7 +6,7 @@ import { MendScoreDisplay } from "@/components/gallery/MendScoreDisplay";
 import { ArtworkOwnerActions } from "@/components/gallery/ArtworkOwnerActions";
 import { EnquiryModalTrigger } from "@/components/enquiry/EnquiryModalTrigger";
 import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
-import { prisma } from "@/lib/db/client";
+import { getPublicArtworkBySlug } from "@/lib/services/public-artworks";
 import { toGalleryPublicUrl } from "@/lib/supabase/gallery-public";
 import { getSiteUrl } from "@/lib/site-url";
 
@@ -20,37 +20,14 @@ interface ArtworkDetailPageProps {
   params: Promise<{ slug: string }>;
 }
 
-// Explicit select to avoid P2022 errors from schema/DB column mismatches
 async function getArtworkBySlug(slug: string) {
-  return prisma.artwork.findFirst({
-    where: { slug, isVisible: true },
-    select: {
-      id: true,
-      slug: true,
-      title: true,
-      imageUrl: true,
-      year: true,
-      medium: true,
-      dimensions: true,
-      materials: true,
-      narrative: true,
-      sourceUrl: true,
-      scoreB: true,
-      scoreP: true,
-      scoreM: true,
-      scoreS: true,
-      finalV: true,
-      isVisible: true,
-      artist: {
-        select: {
-          id: true,
-          name: true,
-          slug: true,
-          bio: true,
-        },
-      },
-    },
-  });
+  try {
+    const artwork = await getPublicArtworkBySlug(slug);
+    return { artwork, hasError: false as const };
+  } catch (error) {
+    console.error(`[archive/${slug}] Artwork query failed`, error);
+    return { artwork: null, hasError: true as const };
+  }
 }
 
 function parseDimensionsToStructured(
@@ -124,7 +101,16 @@ export async function generateMetadata({
   params,
 }: ArtworkDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const artwork = await getArtworkBySlug(slug);
+  const { artwork, hasError } = await getArtworkBySlug(slug);
+
+  if (hasError) {
+    return {
+      title: "Artwork temporarily unavailable | Bayview Hub Gallery",
+      description: "This artwork record is temporarily unavailable. Please try again shortly.",
+      robots: { index: false, follow: false },
+      alternates: { canonical: `/archive/${slug}` },
+    };
+  }
 
   if (!artwork) {
     return {
@@ -166,7 +152,25 @@ export default async function ArtworkDetailPage({
 }: ArtworkDetailPageProps) {
   const { slug } = await params;
 
-  const artwork = await getArtworkBySlug(slug);
+  const { artwork, hasError } = await getArtworkBySlug(slug);
+
+  if (hasError) {
+    return (
+      <div className="container mx-auto px-4 py-24 text-center">
+        <div className="max-w-xl mx-auto border border-amber-300 bg-amber-50 rounded-lg p-6">
+          <h1 className="text-lg font-semibold text-gallery-text mb-2">
+            Artwork temporarily unavailable
+          </h1>
+          <p className="text-sm text-gallery-muted mb-4">
+            We could not load this artwork right now. Please refresh shortly.
+          </p>
+          <Link href="/archive" className="text-sm text-gallery-accent hover:underline">
+            Back to Archive
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   if (!artwork) {
     notFound();
@@ -290,6 +294,30 @@ export default async function ArtworkDetailPage({
 
         {/* Details — right column */}
         <div className="lg:col-span-5 space-y-6">
+          <div className="hidden lg:block sticky top-24 z-10">
+            <div className="border border-gallery-border rounded-lg bg-gallery-surface p-4">
+              <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-3">
+                Enquiry
+              </p>
+              <div className="flex flex-col gap-2">
+                <EnquiryModalTrigger
+                  ctaType="enquire"
+                  label="Enquire"
+                  artworkId={artwork.id}
+                  artworkSlug={artwork.slug}
+                  artworkTitle={artwork.title}
+                />
+                <EnquiryModalTrigger
+                  ctaType="viewing"
+                  label="Book a viewing"
+                  artworkId={artwork.id}
+                  artworkSlug={artwork.slug}
+                  artworkTitle={artwork.title}
+                />
+              </div>
+            </div>
+          </div>
+
           {/* Title + Artist */}
           <div>
             <div className="flex items-center gap-2 mb-1">
@@ -431,7 +459,7 @@ export default async function ArtworkDetailPage({
             isVisible={artwork.isVisible}
           />
 
-          <div className="border-t border-gallery-border pt-4">
+          <div className="border-t border-gallery-border pt-4 lg:hidden">
             <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-2">
               Viewing & Enquiries
             </p>
@@ -450,7 +478,7 @@ export default async function ArtworkDetailPage({
               />
               <EnquiryModalTrigger
                 ctaType="viewing"
-                label="Book a Viewing"
+                label="Book a viewing"
                 artworkId={artwork.id}
                 artworkSlug={artwork.slug}
                 artworkTitle={artwork.title}
@@ -482,6 +510,25 @@ export default async function ArtworkDetailPage({
         <p className="text-[11px] text-gallery-muted/60 leading-relaxed max-w-4xl">
           {DISCLAIMERS.report}
         </p>
+      </div>
+
+      <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 border-t border-gallery-border bg-surface/95 backdrop-blur-sm p-3">
+        <div className="flex items-center gap-2">
+          <EnquiryModalTrigger
+            ctaType="enquire"
+            label="Enquire"
+            artworkId={artwork.id}
+            artworkSlug={artwork.slug}
+            artworkTitle={artwork.title}
+          />
+          <EnquiryModalTrigger
+            ctaType="viewing"
+            label="Book a viewing"
+            artworkId={artwork.id}
+            artworkSlug={artwork.slug}
+            artworkTitle={artwork.title}
+          />
+        </div>
       </div>
     </div>
   );

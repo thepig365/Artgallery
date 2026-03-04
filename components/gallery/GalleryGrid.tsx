@@ -1,9 +1,9 @@
 import { GalleryCard } from "./GalleryCard";
-import type { ArtworkWithVisibility } from "@/lib/services/public-artwork-query";
+import type { PublicArtwork } from "@/lib/services/public-artworks";
 import Link from "next/link";
 
 interface GalleryGridProps {
-  artworks: ArtworkWithVisibility[];
+  artworks: PublicArtwork[];
 }
 
 export function GalleryGrid({ artworks }: GalleryGridProps) {

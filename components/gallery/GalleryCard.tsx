@@ -1,16 +1,17 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { ImageOff } from "lucide-react";
 import { EnquiryModalTrigger } from "@/components/enquiry/EnquiryModalTrigger";
-import type { ArtworkWithVisibility } from "@/lib/services/public-artwork-query";
+import type { PublicArtwork } from "@/lib/services/public-artworks";
 
 interface GalleryCardProps {
-  artwork: ArtworkWithVisibility;
+  artwork: PublicArtwork;
 }
 
-function buildArtworkAlt(artwork: ArtworkWithVisibility): string {
+function buildArtworkAlt(artwork: PublicArtwork): string {
   const creator = artwork.artist?.name ?? "Unknown artist";
   const mediumYear = [artwork.medium, artwork.year].filter(Boolean).join(", ");
   return mediumYear
@@ -18,36 +19,9 @@ function buildArtworkAlt(artwork: ArtworkWithVisibility): string {
     : `${creator} - ${artwork.title}`;
 }
 
-/**
- * Image loading logic:
- * - showPlaceholder when: no imageUrl, OR image failed to load (imgError)
- * - imageUrl is resolved server-side to a fresh Supabase signed URL before reaching this component
- * - On refresh: state resets; if imageUrl exists, img loads; if it fails, onError → placeholder
- */
 export function GalleryCard({ artwork }: GalleryCardProps) {
-  const [imgLoaded, setImgLoaded] = useState(false);
   const [imgError, setImgError] = useState(false);
-  const [retryCount, setRetryCount] = useState(0);
-
-  const imgRef = useRef<HTMLImageElement>(null);
-
-  // Handle images that loaded before React hydration attached onLoad
-  useEffect(() => {
-    if (imgRef.current?.complete && imgRef.current.naturalWidth > 0) {
-      setImgLoaded(true);
-    }
-  }, []);
-
   const showPlaceholder = !artwork.imageUrl || imgError;
-
-  const handleError = useCallback(() => {
-    if (retryCount < 1) {
-      setRetryCount((c) => c + 1);
-      setImgError(false);
-    } else {
-      setImgError(true);
-    }
-  }, [retryCount]);
 
   return (
     <div className="break-inside-avoid mb-5 sm:mb-6">
@@ -64,29 +38,16 @@ export function GalleryCard({ artwork }: GalleryCardProps) {
                 />
               </div>
             ) : (
-              <>
-                {!imgLoaded && (
-                  <div className="absolute inset-0 bg-surface-alt animate-pulse" />
-                )}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  ref={imgRef}
-                  key={retryCount}
+              <Image
                   src={artwork.imageUrl!}
                   alt={buildArtworkAlt(artwork)}
                   width={1200}
                   height={900}
-                  className={`w-full h-auto block group-hover:scale-[1.03] transition-transform duration-500 ease-out ${
-                    imgLoaded ? "opacity-100" : "opacity-0"
-                  }`}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className="w-full h-auto block group-hover:scale-[1.03] transition-transform duration-500 ease-out"
                   loading="lazy"
-                  onLoad={() => {
-                    setImgLoaded(true);
-                    setImgError(false);
-                  }}
-                  onError={handleError}
+                  onError={() => setImgError(true)}
                 />
-              </>
             )}
 
             {/* Score badge — subtle overlay */}

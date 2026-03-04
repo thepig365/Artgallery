@@ -3,13 +3,25 @@ import Link from "next/link";
 import { MODERN_MASTERS_DATA } from "@/lib/data/modern-masters";
 import { STUDY_PACKS_TOP50 } from "@/lib/data/study-packs-top50";
 import { getSiteUrl } from "@/lib/site-url";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { StudyLibraryClient } from "@/components/study/StudyLibraryClient";
 
 const SITE_NAME = "Art Valuation Protocol";
 
 const allStudyItems = [
-  ...MODERN_MASTERS_DATA.map((m) => ({ slug: m.slug, name: m.name, blurb: m.blurb, institution: m.institution })),
-  ...STUDY_PACKS_TOP50.map((p) => ({ slug: p.slug, name: p.name, blurb: p.shortBlurb, institution: null })),
+  ...MODERN_MASTERS_DATA.map((m) => ({
+    slug: m.slug,
+    name: m.name,
+    blurb: m.blurb,
+    institution: m.institution,
+    kind: "master" as const,
+  })),
+  ...STUDY_PACKS_TOP50.map((p) => ({
+    slug: p.slug,
+    name: p.name,
+    blurb: p.shortBlurb,
+    institution: null,
+    kind: "pack" as const,
+  })),
 ];
 
 export const metadata: Metadata = {
@@ -64,9 +76,8 @@ export default function StudyIndexPage() {
         Modern Masters Study Guides
       </h1>
       <p className="text-sm text-gallery-muted leading-relaxed max-w-2xl mb-8">
-        Text-only study guides for modern and contemporary masters. No images are
-        hosted — instead, learn how to evaluate and interpret their work through
-        the Mend Index framework, then visit official collections.
+        Search-first museum study library for modern and contemporary masters.
+        Use filters to explore institutions, artists, and curated study packs.
       </p>
 
       <div className="flex flex-wrap gap-3 mb-10">
@@ -90,90 +101,28 @@ export default function StudyIndexPage() {
         </Link>
       </div>
 
-      {/* Modern Masters — full study guides */}
-      <h2 className="text-xl font-bold text-gallery-text tracking-tight mb-4">
-        Modern Masters
-      </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
-        {MODERN_MASTERS_DATA.map((master) => (
+      <div className="mb-5">
+        <h2 className="text-xl font-bold text-gallery-text tracking-tight mb-1">
+          Curated Study Packs
+        </h2>
+        <p className="text-xs text-gallery-muted">
+          Start with highlighted packs, then search across the full library.
+        </p>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+        {STUDY_PACKS_TOP50.slice(0, 3).map((pack) => (
           <Link
-            key={master.slug}
-            href={`/study/${master.slug}`}
-            className="group bg-gallery-surface border border-gallery-border rounded-lg p-5 hover:border-gallery-accent/40 hover:shadow-md transition-all duration-200"
+            key={pack.slug}
+            href={`/study/${pack.slug}`}
+            className="bg-gallery-surface border border-gallery-border rounded-lg p-4 hover:border-gallery-accent/40 transition-colors"
           >
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex-1 min-w-0">
-                <h3 className="text-base font-semibold text-gallery-text group-hover:text-gallery-accent transition-colors mb-1">
-                  {master.name}
-                </h3>
-                <p className="text-xs text-gallery-muted mb-2">
-                  {master.institution}
-                </p>
-                <p className="text-sm text-gallery-muted/80 leading-relaxed line-clamp-2">
-                  {master.blurb}
-                </p>
-              </div>
-              <ArrowRight className="w-4 h-4 text-gallery-muted/40 group-hover:text-gallery-accent shrink-0 mt-1 transition-colors" strokeWidth={1.5} />
-            </div>
+            <p className="text-sm font-semibold text-gallery-text mb-1">{pack.name}</p>
+            <p className="text-xs text-gallery-muted line-clamp-2">{pack.shortBlurb}</p>
           </Link>
         ))}
       </div>
 
-      {/* Top 50 Artists — Study Packs (no hosted images) */}
-      <div id="top50-study-packs">
-        <h2 className="text-xl font-bold text-gallery-text tracking-tight mb-1">
-          Top 50 Artists — Study Packs
-        </h2>
-        <p className="text-xs text-gallery-muted mb-4">
-          No hosted images. Text-only evaluation guides with official collection links.
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {STUDY_PACKS_TOP50.map((pack) => (
-            <div
-              key={pack.slug}
-              className="bg-gallery-surface border border-gallery-border rounded-lg p-5 flex flex-col gap-3"
-            >
-              <div>
-                <h3 className="text-base font-semibold text-gallery-text mb-1">
-                  {pack.name}
-                </h3>
-                <p className="text-sm text-gallery-muted/80 leading-relaxed line-clamp-2">
-                  {pack.shortBlurb}
-                </p>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                <Link
-                  href={`/study/${pack.slug}`}
-                  className="text-xs font-medium text-gallery-accent hover:underline"
-                >
-                  Study Guide
-                </Link>
-                <span className="text-gallery-border">·</span>
-                <Link
-                  href="/protocol"
-                  className="text-xs font-medium text-gallery-accent hover:underline"
-                >
-                  Apply the Protocol
-                </Link>
-              </div>
-              <div className="flex flex-wrap gap-2 mt-auto">
-                {pack.officialLinks.map((link) => (
-                  <a
-                    key={link.url}
-                    href={link.url}
-                    target="_blank"
-                    rel="nofollow noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-[11px] text-gallery-muted/70 hover:text-gallery-muted transition-colors"
-                  >
-                    {link.label}
-                    <ExternalLink className="w-2.5 h-2.5" strokeWidth={1.5} />
-                  </a>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <StudyLibraryClient items={allStudyItems} />
     </div>
   );
 }

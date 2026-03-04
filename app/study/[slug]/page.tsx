@@ -46,10 +46,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 const mendLabels: Record<string, string> = {
-  B: "Brushwork & Physical Evidence",
+  B: "Body",
   P: "Process",
-  M: "Materials & Medium",
-  S: "Style & Period Consistency",
+  M: "Material",
+  S: "Surface",
 };
 
 export default async function StudyDetailPage({ params }: PageProps) {

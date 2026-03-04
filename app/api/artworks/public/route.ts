@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/db/client";
-import { resolveArtworksToGalleryPublicUrls } from "@/lib/supabase/gallery-public";
 import { Prisma } from "@prisma/client";
+import { getPublicArtworks } from "@/lib/services/public-artworks";
 
 // Force Node.js runtime for Prisma compatibility
 export const runtime = "nodejs";
@@ -37,38 +36,8 @@ export async function GET() {
   }
 
   try {
-    // Use explicit select to avoid P2022 errors from schema/db column mismatches
-    const artworks = await prisma.artwork.findMany({
-      where: { isVisible: true },
-      orderBy: { createdAt: "desc" },
-      take: 200,
-      select: {
-        id: true,
-        slug: true,
-        title: true,
-        imageUrl: true,
-        artistId: true,
-        year: true,
-        medium: true,
-        dimensions: true,
-        narrative: true,
-        scoreB: true,
-        scoreP: true,
-        scoreM: true,
-        scoreS: true,
-        finalV: true,
-        artist: {
-          select: {
-            id: true,
-            name: true,
-            slug: true,
-          },
-        },
-      },
-    });
-
-    const resolved = resolveArtworksToGalleryPublicUrls(artworks);
-    return NextResponse.json(resolved, {
+    const artworks = await getPublicArtworks(500);
+    return NextResponse.json(artworks, {
       headers: { "Cache-Control": "no-store" },
     });
   } catch (err) {

@@ -45,17 +45,37 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { id } = await params;
   const metadataBase = new URL(getSiteUrl());
 
-  const masterpiece = await prisma.masterpiece.findUnique({
-    where: { id },
-    select: {
-      title: true,
-      artist: true,
-      source: true,
-      license: true,
-      imageUrl: true,
-      thumbnailUrl: true,
-    },
-  });
+  let masterpiece: {
+    title: string;
+    artist: string | null;
+    source: string;
+    license: string;
+    imageUrl: string | null;
+    thumbnailUrl: string | null;
+  } | null = null;
+
+  try {
+    masterpiece = await prisma.masterpiece.findUnique({
+      where: { id },
+      select: {
+        title: true,
+        artist: true,
+        source: true,
+        license: true,
+        imageUrl: true,
+        thumbnailUrl: true,
+      },
+    });
+  } catch (error) {
+    console.error(`[masterpieces/${id}] Metadata query failed`, error);
+    return {
+      metadataBase,
+      title: "Masterpiece temporarily unavailable | Open Masterpieces Library",
+      description: "This record is temporarily unavailable. Please try again shortly.",
+      robots: { index: false, follow: false },
+      alternates: { canonical: `/masterpieces/${id}` },
+    };
+  }
 
   if (!masterpiece || !["CC0", "PDM", "PublicDomain"].includes(masterpiece.license)) {
     return {
@@ -95,9 +115,32 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function MasterpieceDetailPage({ params }: PageProps) {
   const { id } = await params;
 
-  const masterpiece = await prisma.masterpiece.findUnique({
-    where: { id },
-  });
+  let masterpiece: Awaited<ReturnType<typeof prisma.masterpiece.findUnique>>;
+  try {
+    masterpiece = await prisma.masterpiece.findUnique({
+      where: { id },
+    });
+  } catch (error) {
+    console.error(`[masterpieces/${id}] Detail query failed`, error);
+    return (
+      <div className="container mx-auto px-4 py-12">
+        <div className="max-w-2xl border border-amber-300 bg-amber-50 rounded-lg p-6">
+          <h1 className="text-lg font-semibold text-gallery-text mb-2">
+            Masterpiece temporarily unavailable
+          </h1>
+          <p className="text-sm text-gallery-muted mb-4">
+            We could not load this record right now. Please try again in a moment.
+          </p>
+          <Link
+            href="/masterpieces"
+            className="text-sm text-gallery-accent hover:underline"
+          >
+            Back to Masterpieces
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   if (!masterpiece) {
     notFound();

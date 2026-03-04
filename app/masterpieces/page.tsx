@@ -74,16 +74,21 @@ const ARTIST_TAG_LABELS: Record<string, string> = {
 };
 
 async function getArtistTagCounts(): Promise<Map<string, number>> {
-  const rows = await prisma.$queryRaw<Array<{ tag: string; cnt: bigint }>>(
-    Prisma.sql`SELECT t AS tag, COUNT(*) AS cnt
-               FROM masterpieces, unnest(tags) AS t
-               WHERE t LIKE 'artist:%'
-               GROUP BY t
-               ORDER BY cnt DESC`
-  );
-  const map = new Map<string, number>();
-  for (const r of rows) map.set(r.tag, Number(r.cnt));
-  return map;
+  try {
+    const rows = await prisma.$queryRaw<Array<{ tag: string; cnt: bigint }>>(
+      Prisma.sql`SELECT t AS tag, COUNT(*) AS cnt
+                 FROM masterpieces, unnest(tags) AS t
+                 WHERE t LIKE 'artist:%'
+                 GROUP BY t
+                 ORDER BY cnt DESC`
+    );
+    const map = new Map<string, number>();
+    for (const r of rows) map.set(r.tag, Number(r.cnt));
+    return map;
+  } catch (error) {
+    console.error("[masterpieces] Failed to load artist tag counts", error);
+    return new Map<string, number>();
+  }
 }
 
 const MODERN_MASTERS = [
@@ -157,20 +162,39 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
   const sp = await searchParams;
   const rawPage = typeof sp.page === "string" ? parseInt(sp.page, 10) : 1;
   const page = Number.isFinite(rawPage) && rawPage >= 1 ? rawPage : 1;
+  const query = typeof sp.q === "string" ? sp.q.trim() : "";
+  const sourceFilter = typeof sp.source === "string" ? sp.source : "";
 
   const tagFilter = typeof sp.tag === "string" ? sp.tag : null;
   const activeArtistLabel = tagFilter ? ARTIST_TAG_LABELS[tagFilter] : null;
 
   const baseWhere = {
     license: { in: ["CC0", "PDM", "PublicDomain"] as string[] },
+    ...(query ? { title: { contains: query, mode: "insensitive" as const } } : {}),
+    ...(sourceFilter ? { source: sourceFilter } : {}),
     ...(tagFilter ? { tags: { has: tagFilter } } : {}),
   };
 
-  const totalCount = await prisma.masterpiece.count({ where: baseWhere });
-
   const showFeatured = !tagFilter;
-  const featuredData = showFeatured
-    ? await Promise.all(
+  let hasDataError = false;
+  let totalCount = 0;
+  let featuredData: Array<{
+    key: (typeof FEATURED_ARTISTS)[number]["key"];
+    name: (typeof FEATURED_ARTISTS)[number]["name"];
+    works: Awaited<ReturnType<typeof prisma.masterpiece.findMany>>;
+  }> = [];
+  let artistTagCounts = new Map<string, number>();
+  let masterpieces: Awaited<ReturnType<typeof prisma.masterpiece.findMany>> = [];
+  let totalPages = 1;
+  let currentPage = 1;
+
+  try {
+    totalCount = await prisma.masterpiece.count({ where: baseWhere });
+    totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
+    currentPage = Math.min(page, totalPages);
+
+    if (showFeatured) {
+      featuredData = await Promise.all(
         FEATURED_ARTISTS.map(async (artist) => {
           const works = await prisma.masterpiece.findMany({
             where: {
@@ -182,10 +206,20 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
           });
           return { ...artist, works };
         })
-      )
-    : [];
+      );
+      artistTagCounts = await getArtistTagCounts();
+    }
 
-  const artistTagCounts = showFeatured ? await getArtistTagCounts() : new Map();
+    masterpieces = await prisma.masterpiece.findMany({
+      where: baseWhere,
+      orderBy: { createdAt: "desc" },
+      skip: (currentPage - 1) * PAGE_SIZE,
+      take: PAGE_SIZE,
+    });
+  } catch (error) {
+    hasDataError = true;
+    console.error("[masterpieces] Failed to load page data", error);
+  }
 
   const top50Chips = showFeatured
     ? Object.entries(ARTIST_TAG_LABELS)
@@ -198,32 +232,24 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
         .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label))
     : [];
 
-  const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE));
-  const currentPage = Math.min(page, totalPages);
-
-  const masterpieces = await prisma.masterpiece.findMany({
-    where: baseWhere,
-    orderBy: { createdAt: "desc" },
-    skip: (currentPage - 1) * PAGE_SIZE,
-    take: PAGE_SIZE,
-  });
-
   const bySource: Record<string, number> = {};
   masterpieces.forEach((m) => {
     bySource[m.source] = (bySource[m.source] || 0) + 1;
   });
 
-  const paginationBase = tagFilter
-    ? `/masterpieces?tag=${encodeURIComponent(tagFilter)}`
-    : "/masterpieces";
+  const params = new URLSearchParams();
+  if (tagFilter) params.set("tag", tagFilter);
+  if (query) params.set("q", query);
+  if (sourceFilter) params.set("source", sourceFilter);
+  const baseQuery = params.toString();
+  const paginationBase = baseQuery ? `/masterpieces?${baseQuery}` : "/masterpieces";
 
   function paginationHref(p: number): string {
-    if (tagFilter) {
-      return p === 1
-        ? `/masterpieces?tag=${encodeURIComponent(tagFilter)}`
-        : `/masterpieces?tag=${encodeURIComponent(tagFilter)}&page=${p}`;
-    }
-    return p === 1 ? "/masterpieces" : `/masterpieces?page=${p}`;
+    const q = new URLSearchParams(baseQuery);
+    if (p > 1) q.set("page", String(p));
+    else q.delete("page");
+    const s = q.toString();
+    return s ? `/masterpieces?${s}` : "/masterpieces";
   }
 
   const collectionJsonLd = {
@@ -254,6 +280,13 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(collectionJsonLd) }}
       />
       <div className="mb-10">
+        {hasDataError && (
+          <div className="mb-5 border border-amber-300 bg-amber-50 rounded-lg px-4 py-3">
+            <p className="text-xs text-amber-900 leading-relaxed">
+              Masterpieces data is temporarily unavailable. Please refresh shortly.
+            </p>
+          </div>
+        )}
         <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
           {activeArtistLabel ? "Featured Artist" : "Open-Access Collection"}
         </p>
@@ -295,6 +328,42 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
           </span>
         </div>
       </div>
+
+      <form className="mb-8 border border-gallery-border rounded-lg bg-gallery-surface p-4 sm:p-5">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+          <input
+            name="q"
+            defaultValue={query}
+            placeholder="Search masterpiece title"
+            className="md:col-span-2 w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
+          />
+          <select
+            name="source"
+            defaultValue={sourceFilter}
+            className="w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
+          >
+            <option value="">All institutions</option>
+            <option value="aic">Art Institute of Chicago</option>
+            <option value="met">The Metropolitan Museum of Art</option>
+            <option value="rijks">Rijksmuseum</option>
+          </select>
+          <div className="flex gap-2">
+            {tagFilter && <input type="hidden" name="tag" value={tagFilter} />}
+            <button
+              type="submit"
+              className="w-full rounded-md bg-gallery-accent text-white px-3 py-2 text-sm font-medium hover:bg-gallery-accent-hover transition-colors"
+            >
+              Search
+            </button>
+            <Link
+              href="/masterpieces"
+              className="inline-flex items-center justify-center rounded-md border border-gallery-border px-3 py-2 text-sm text-gallery-muted hover:text-gallery-text"
+            >
+              Reset
+            </Link>
+          </div>
+        </div>
+      </form>
 
       {!tagFilter && (
         <div className="mb-10 bg-gallery-surface border border-gallery-border rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -633,6 +702,32 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
           </Link>
         ))}
       </div>
+
+      {!hasDataError && masterpieces.length === 0 && (
+        <div className="mt-8 border border-gallery-border rounded-lg bg-gallery-surface p-6">
+          <h3 className="text-lg font-semibold text-gallery-text mb-2">
+            Library is being curated
+          </h3>
+          <p className="text-sm text-gallery-muted mb-4">
+            We are expanding the museum library. In the meantime, explore study packs
+            and subscribe for updates.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/study"
+              className="inline-flex items-center px-4 py-2 bg-gallery-accent text-white text-sm rounded-md"
+            >
+              Browse Study Packs
+            </Link>
+            <a
+              href="mailto:gallery@bayviewhub.me?subject=Masterpieces%20Library%20Updates"
+              className="inline-flex items-center px-4 py-2 border border-gallery-border text-sm text-gallery-text rounded-md"
+            >
+              Subscribe for updates
+            </a>
+          </div>
+        </div>
+      )}
 
       {/* Pagination */}
       {totalPages > 1 && (
