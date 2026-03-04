@@ -1,5 +1,6 @@
 "use client";
 
+// Logo-only header for gallery sub-site
 import Image from "next/image";
 import Link from "next/link";
 import { SiteNav } from "./SiteNav";
