@@ -4,8 +4,9 @@ import { resolveArtworksToGalleryPublicUrls } from "@/lib/supabase/gallery-publi
 import { ArchiveClient } from "./archive-client";
 import type { Metadata } from "next";
 
-export const revalidate = 60;
+// Force no caching - always fetch fresh data
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: "Collection | Bayview Hub Art Gallery",

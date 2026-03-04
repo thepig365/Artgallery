@@ -1,6 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createTakedownRequestSchema } from "@/lib/validation/schemas";
 import { createTakedownRequest, TakedownError } from "@/lib/services/takedown";
+import { Prisma } from "@prisma/client";
+
+// Force Node.js runtime for Prisma compatibility
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+// Check which DB env vars are present (without exposing values)
+function getPresentEnvKeys(): string[] {
+  const keys = ["DATABASE_URL", "DIRECT_URL", "POSTGRES_URL", "POSTGRES_PRISMA_URL"];
+  return keys.filter((k) => !!process.env[k]);
+}
 
 /**
  * POST /api/takedown
@@ -12,6 +23,18 @@ import { createTakedownRequest, TakedownError } from "@/lib/services/takedown";
  * If DATABASE_URL is not configured, this will fail with a 503.
  */
 export async function POST(request: NextRequest) {
+  // Pre-flight: check if DATABASE_URL is set
+  if (!process.env.DATABASE_URL) {
+    console.error("[POST /api/takedown] DATABASE_URL missing at runtime");
+    return NextResponse.json(
+      {
+        error: "DATABASE_URL missing at runtime",
+        presentEnvKeys: getPresentEnvKeys(),
+      },
+      { status: 503, headers: { "Cache-Control": "no-store" } }
+    );
+  }
+
   let body: unknown;
   try {
     body = await request.json();
@@ -55,9 +78,28 @@ export async function POST(request: NextRequest) {
     }
 
     console.error("[POST /api/takedown] Unexpected error:", err);
+
+    // Extract Prisma error code if available
+    let prismaCode: string | undefined;
+    let message = "Unknown error";
+    if (err instanceof Prisma.PrismaClientKnownRequestError) {
+      prismaCode = err.code;
+      message = `Prisma error ${err.code}`;
+    } else if (err instanceof Prisma.PrismaClientInitializationError) {
+      prismaCode = "INIT_ERROR";
+      message = "Database connection initialization failed";
+    } else if (err instanceof Error) {
+      message = err.message.slice(0, 100);
+    }
+
     return NextResponse.json(
-      { error: "Service unavailable — database may not be configured" },
-      { status: 503 }
+      {
+        error: "DB connection/query failed",
+        prismaCode,
+        message,
+        presentEnvKeys: getPresentEnvKeys(),
+      },
+      { status: 503, headers: { "Cache-Control": "no-store" } }
     );
   }
 }
