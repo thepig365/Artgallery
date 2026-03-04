@@ -1,7 +1,6 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type {
   WizardStep,
@@ -9,7 +8,6 @@ import type {
   IdentityFormData,
   IdentityFields,
 } from "@/lib/types";
-import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 import {
   validateIdentity,
   validateNarrative,
@@ -24,8 +22,6 @@ import { StepNarrative } from "@/components/portal/StepNarrative";
 import { StepConsent } from "@/components/portal/StepConsent";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
-import Link from "next/link";
-import { LogIn } from "lucide-react";
 
 const STEP_ORDER: WizardStep[] = [
   "identity",
@@ -42,13 +38,7 @@ const stepMotion = {
   transition: { duration: 0.2 },
 };
 
-const AUTH_CHECK_TIMEOUT_MS = 5000;
-
 export default function ArtistSubmitClient() {
-  const router = useRouter();
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const [authState, setAuthState] = useState<"checking" | "authenticated" | "unauthenticated">("checking");
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState<WizardStep>("identity");
   const [completedSteps, setCompletedSteps] = useState<Set<WizardStep>>(
@@ -73,31 +63,6 @@ export default function ArtistSubmitClient() {
   const [narrative, setNarrative] = useState("");
   const [consentGiven, setConsentGiven] = useState(false);
   const [submitterPrintName, setSubmitterPrintName] = useState("");
-
-  useEffect(() => {
-    const supabase = createSupabaseBrowserClient();
-    const promise = supabase.auth.getUser();
-
-    timeoutRef.current = setTimeout(() => {
-      setAuthState((prev) => (prev === "checking" ? "unauthenticated" : prev));
-    }, AUTH_CHECK_TIMEOUT_MS);
-
-    promise
-      .then(({ data: { user } }) => {
-        if (timeoutRef.current) clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
-        setAuthState(user ? "authenticated" : "unauthenticated");
-      })
-      .catch(() => {
-        if (timeoutRef.current) clearTimeout(timeoutRef.current);
-        timeoutRef.current = null;
-        setAuthState("unauthenticated");
-      });
-
-    return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    };
-  }, [router]);
 
   const currentIndex = STEP_ORDER.indexOf(currentStep);
 
@@ -244,29 +209,6 @@ export default function ArtistSubmitClient() {
     setErrors({});
     setSubmitError(null);
   }, []);
-
-  /* Show Sign In for both checking and unauthenticated — avoids loading shell */
-  if (authState === "unauthenticated" || authState === "checking") {
-    return (
-      <div className="max-w-md mx-auto py-12 text-center border border-gallery-border rounded-lg bg-gallery-surface-alt/50 px-6">
-        <LogIn className="w-12 h-12 text-gallery-muted mx-auto mb-4" strokeWidth={1} />
-        <h2 className="text-lg font-semibold text-gallery-text mb-2">
-          Sign In Required
-        </h2>
-        <p className="text-sm text-gallery-muted mb-6">
-          {authState === "checking"
-            ? "Verifying session…"
-            : "Please sign in to submit your artwork for assessment."}
-        </p>
-        <Link
-          href="/login?redirect=/submit"
-          className="inline-flex items-center px-6 py-3 bg-gallery-accent text-white text-sm font-medium rounded-lg hover:bg-gallery-accent-hover transition-colors duration-200"
-        >
-          Sign In to Continue
-        </Link>
-      </div>
-    );
-  }
 
   if (isSubmitted) {
     return (
