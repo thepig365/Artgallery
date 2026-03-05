@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Cormorant_Garamond } from "next/font/google";
-import { headers } from "next/headers";
 import "./globals.css";
 import { ZoneProvider } from "@/components/layout/ZoneProvider";
-import { PublicHeader } from "@/components/public/PublicHeader";
-import { PublicFooter } from "@/components/public/PublicFooter";
-import { isPublicRoute } from "@/lib/nav/public-routes";
 import { SITE_URL } from "@/lib/site-url";
 
 const inter = Inter({
@@ -32,19 +28,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = headers().get("x-pathname") ?? "";
-  const isPublic = isPublicRoute(pathname);
-
   return (
     <html lang="en" className={`${inter.variable} ${cormorant.variable}`}>
       <body className="font-sans antialiased">
-        <ZoneProvider>
-          <div className="flex flex-col min-h-screen">
-            {isPublic ? <PublicHeader /> : null}
-            <main className="flex-1">{children}</main>
-            {isPublic ? <PublicFooter /> : null}
-          </div>
-        </ZoneProvider>
+        <ZoneProvider>{children}</ZoneProvider>
       </body>
     </html>
   );
