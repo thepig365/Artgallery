@@ -1,19 +1,71 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import Image from "next/image";
-import { resolveSessionUser } from "@/lib/auth/session";
+import { resolveAuthUser, resolveSessionUser } from "@/lib/auth/session";
 import { requireRole, AuthorizationError } from "@/lib/auth/roles";
 import { getAssignmentsForAssessor } from "@/lib/services/assessment-assignment";
+import { CONTACT_EMAIL } from "@/lib/site-config";
+import { authDebug } from "@/lib/auth/debug";
 
 export default async function AssessorPortalPage() {
-  let user;
+  const authUser = await resolveAuthUser();
+  let user = null;
   try {
     user = await resolveSessionUser();
     requireRole(user, "ADMIN", "ASSESSOR");
   } catch (err) {
-    if (err instanceof AuthorizationError) {
+    if (!authUser) {
+      authDebug("portal_assessor_page", {
+        decision: "redirect",
+        reason: "no_auth_session",
+        target: "/login?redirect=/portal/assessor",
+      });
       redirect("/login?redirect=/portal/assessor");
     }
+
+    if (err instanceof AuthorizationError) {
+      authDebug("portal_assessor_page", {
+        decision: "allow",
+        reason: "authenticated_but_no_assessor_role",
+        authUid: authUser.authUid,
+      });
+      return (
+        <div className="container mx-auto px-4 py-16 sm:py-24">
+          <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
+            Assessor Portal
+          </p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gallery-text tracking-tight mb-4">
+            No Portal Access
+          </h1>
+          <p className="text-sm text-gallery-muted leading-relaxed mb-4 max-w-lg">
+            Your account is authenticated but not assigned to the Assessor portal.
+          </p>
+          <p className="text-sm text-gallery-muted leading-relaxed mb-10 max-w-lg">
+            For access requests, contact{" "}
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              className="text-gallery-accent hover:underline"
+            >
+              {CONTACT_EMAIL}
+            </a>
+            .
+          </p>
+          <div className="space-y-4">
+            <Link
+              href="/archive"
+              className="block border border-gallery-border text-gallery-text text-sm font-medium rounded-lg px-6 py-4 hover:bg-gallery-surface-alt transition-colors duration-200 text-center"
+            >
+              Browse the Archive
+            </Link>
+          </div>
+        </div>
+      );
+    }
+    authDebug("portal_assessor_page", {
+      decision: "redirect",
+      reason: "unexpected_authorization_error",
+      target: "/login?redirect=/portal/assessor",
+    });
     redirect("/login?redirect=/portal/assessor");
   }
 

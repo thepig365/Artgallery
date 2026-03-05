@@ -1,23 +1,46 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { resolveSessionUser } from "@/lib/auth/session";
+import { resolveAuthUser, resolveSessionUser } from "@/lib/auth/session";
 import { CONTACT_EMAIL } from "@/lib/site-config";
+import { authDebug } from "@/lib/auth/debug";
 
 export default async function PortalPage() {
+  const authUser = await resolveAuthUser();
   const user = await resolveSessionUser();
 
-  if (!user) {
+  if (!authUser) {
+    authDebug("portal_page", {
+      decision: "redirect",
+      reason: "no_auth_session",
+      target: "/login?redirect=/portal",
+    });
     redirect("/login?redirect=/portal");
   }
 
   if (user) {
     if (user.role === "ADMIN") {
+      authDebug("portal_page", {
+        decision: "redirect",
+        reason: "role_admin",
+        target: "/admin",
+      });
       redirect("/admin");
     }
     if (user.role === "ASSESSOR") {
+      authDebug("portal_page", {
+        decision: "redirect",
+        reason: "role_assessor",
+        target: "/portal/assessor",
+      });
       redirect("/portal/assessor");
     }
   }
+
+  authDebug("portal_page", {
+    decision: "allow",
+    reason: "authenticated_but_no_portal_role",
+    authUid: authUser.authUid,
+  });
 
   return (
     <div className="container mx-auto px-4 py-16 sm:py-24">

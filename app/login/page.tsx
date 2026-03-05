@@ -1,44 +1,9 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { Shield, AlertTriangle, Settings, BarChart3 } from "lucide-react";
-import { createSupabaseBrowserClient } from "@/lib/supabase/client";
-
-const ALLOWED_REDIRECTS = [
-  "/portal",
-  "/portal/submit",
-  "/portal/assessor",
-  "/portal/admin",
-  "/admin",
-  "/admin/submissions",
-  "/admin/claims",
-  "/admin/enquiries",
-  "/archive",
-  "/takedown",
-  "/protocol",
-  "/submit",
-  "/claim",
-];
-
-const DEFAULT_REDIRECT = "/portal";
-
-function safeRedirect(raw: string | null): string {
-  if (!raw) return DEFAULT_REDIRECT;
-  if (!raw.startsWith("/")) return DEFAULT_REDIRECT;
-  if (raw.startsWith("//")) return DEFAULT_REDIRECT;
-  try {
-    const url = new URL(raw, "http://localhost");
-    if (url.origin !== "http://localhost") return DEFAULT_REDIRECT;
-  } catch {
-    return DEFAULT_REDIRECT;
-  }
-  const pathname = raw.split("?")[0].split("#")[0];
-  if (ALLOWED_REDIRECTS.some((p) => pathname === p || pathname.startsWith(p + "/"))) {
-    return raw;
-  }
-  return DEFAULT_REDIRECT;
-}
+import { safeRedirect } from "@/lib/auth/redirect";
 
 type PortalChoice = "admin" | "assessor" | null;
 
@@ -60,7 +25,6 @@ const PORTALS = [
 ];
 
 function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -82,40 +46,32 @@ function LoginForm() {
     ? PORTALS.find((p) => p.id === selectedPortal)!.redirect
     : safeRedirect(redirectParam);
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // Check auth in background - don't block UI
-  useEffect(() => {
-    const supabase = createSupabaseBrowserClient();
-    supabase.auth.getUser().then(({ data: { user } }) => {
-      if (user && hasExplicitRedirect) {
-        router.replace(safeRedirect(redirectParam));
-      } else if (user) {
-        setIsLoggedIn(true);
-      }
-    }).catch(() => {/* ignore */});
-  }, [router, redirectParam, hasExplicitRedirect]);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
     try {
-      const supabase = createSupabaseBrowserClient();
-      const { error: authError } = await supabase.auth.signInWithPassword({
-        email,
-        password,
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          password,
+          redirect: targetRedirect,
+        }),
       });
 
-      if (authError) {
-        setError(authError.message);
+      if (!res.ok) {
+        const data = await res.json().catch(() => null);
+        setError(data?.error ?? "Sign in failed");
         setLoading(false);
         return;
       }
 
-      router.push(targetRedirect);
-      router.refresh();
+      const data = await res.json().catch(() => null);
+      const next = safeRedirect(data?.redirectTo ?? targetRedirect);
+      window.location.assign(next);
     } catch {
       setError("An unexpected error occurred");
       setLoading(false);
@@ -127,11 +83,7 @@ function LoginForm() {
 
   if (showPortalChooser) {
     const handlePortalClick = (portal: typeof PORTALS[number]) => {
-      if (isLoggedIn) {
-        router.push(portal.redirect);
-      } else {
-        setSelectedPortal(portal.id);
-      }
+      setSelectedPortal(portal.id);
     };
 
     return (
@@ -174,9 +126,7 @@ function LoginForm() {
         </div>
 
         <p className="text-[10px] text-gallery-muted/50 mt-8 leading-relaxed text-center">
-          {isLoggedIn
-            ? "You are signed in. Select a portal to continue."
-            : "Access is restricted to authorized staff. Role-based permissions are enforced server-side."}
+          Access is restricted to authorized staff. Role-based permissions are enforced server-side.
         </p>
       </div>
     );
