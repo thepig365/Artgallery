@@ -65,11 +65,7 @@ export async function GET() {
     const payload = assignments.map((a) => ({
       id: a.id,
       artworkId: a.artworkId,
-      artwork: {
-        ...a.artwork,
-        // Schema-safe placeholder: do not query variance_meta from DB.
-        varianceMeta: null,
-      },
+      artwork: a.artwork,
       assessorAuthUid: a.assessorAuthUid,
       status: a.status,
       blindMode: a.blindMode ?? true,

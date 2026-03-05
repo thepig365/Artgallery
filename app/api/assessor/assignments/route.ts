@@ -19,7 +19,8 @@ export async function GET() {
 
     const payload = items.map((a) => ({
       id: a.id,
-      kind: a.kind,
+      source: a.source,
+      sourceId: a.sourceId,
       artwork: {
         id: a.artwork.id,
         title: a.artwork.title,

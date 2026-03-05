@@ -158,7 +158,7 @@ export default async function AssessorPortalPage() {
           {items.map((item) => {
             return (
               <Link
-                key={`${item.kind}-${item.id}`}
+                key={`${item.source}-${item.id}`}
                 href={item.reviewHref}
                 className="flex items-center gap-4 border border-gallery-border rounded-lg px-4 py-4 hover:bg-gallery-surface-alt transition-colors duration-200"
               >
@@ -193,6 +193,12 @@ export default async function AssessorPortalPage() {
                       : item.scoreStatus === "DRAFT"
                         ? "Draft saved"
                         : "Awaiting your score"}
+                  </p>
+                  <p className="text-[10px] text-gallery-muted/80 mt-1 uppercase tracking-wide">
+                    Source:{" "}
+                    <span className="inline-flex items-center rounded border border-gallery-border px-1.5 py-0.5 text-[10px] text-gallery-text">
+                      {item.source === "assignment" ? "Assignment" : "Audit Session Fallback"}
+                    </span>
                   </p>
                 </div>
                 <span className="text-xs text-gallery-accent font-medium uppercase tracking-wide flex-shrink-0">

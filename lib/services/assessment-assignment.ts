@@ -16,7 +16,8 @@ export type AssignmentStatus =
 
 export interface AssessorPortalItem {
   id: string;
-  kind: "assignment" | "audit_session";
+  source: "assignment" | "audit_session_fallback";
+  sourceId: string;
   status: string;
   assignedAt: Date;
   dueAt: Date | null;
@@ -161,6 +162,8 @@ export async function getAssessorPortalItems(params: {
   assessorUserId: string;
 }): Promise<{ items: AssessorPortalItem[]; warning?: string }> {
   const visibleStatuses = new Set(["ASSIGNED", "IN_REVIEW", "NEEDS_REVISION"]);
+  const debugEnabled = process.env.ASSIGNMENT_DEBUG === "true";
+  let prismaErrorCodeIfAny: string | null = null;
 
   try {
     const assignments = await prisma.assessmentAssignment.findMany({
@@ -196,7 +199,8 @@ export async function getAssessorPortalItems(params: {
       .filter((a) => visibleStatuses.has(a.status))
       .map<AssessorPortalItem>((a) => ({
         id: a.id,
-        kind: "assignment",
+        source: "assignment",
+        sourceId: a.id,
         status: a.status,
         assignedAt: a.assignedAt,
         dueAt: a.dueAt,
@@ -205,12 +209,22 @@ export async function getAssessorPortalItems(params: {
         scoreStatus: a.scores[0]?.status ?? null,
       }));
 
-    if (items.length > 0) return { items };
+    if (items.length > 0) {
+      if (debugEnabled) {
+        console.info("[ASSIGNMENT_DEBUG] portal_items", {
+          itemsCount: items.length,
+          fallbackCount: 0,
+          prismaErrorCodeIfAny,
+        });
+      }
+      return { items };
+    }
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
       (error.code === "P2021" || error.code === "P2022")
     ) {
+      prismaErrorCodeIfAny = error.code;
       console.warn("[assessor portal] assignment schema mismatch fallback", {
         code: error.code,
       });
@@ -249,7 +263,8 @@ export async function getAssessorPortalItems(params: {
     .filter((s) => parseAssignedAssessors(s.notes).includes(params.assessorUserId))
     .map<AssessorPortalItem>((s) => ({
       id: s.id,
-      kind: "audit_session",
+      source: "audit_session_fallback",
+      sourceId: s.id,
       status: s.status,
       assignedAt: s.createdAt,
       dueAt: null,
@@ -258,13 +273,21 @@ export async function getAssessorPortalItems(params: {
       scoreStatus: s.scores.length > 0 ? "SUBMITTED" : null,
     }));
 
-  return {
+  const result = {
     items: fallbackItems,
     warning:
       fallbackItems.length > 0
         ? "Portal is running in audit-session compatibility mode."
         : undefined,
   };
+  if (debugEnabled) {
+    console.info("[ASSIGNMENT_DEBUG] portal_items", {
+      itemsCount: result.items.length,
+      fallbackCount: result.items.filter((i) => i.source === "audit_session_fallback").length,
+      prismaErrorCodeIfAny,
+    });
+  }
+  return result;
 }
 
 export async function getAssignmentForAssessor(
