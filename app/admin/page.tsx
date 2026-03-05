@@ -14,6 +14,8 @@ import { Divider } from "@/components/ui/Divider";
 import type { AdminArtwork } from "@/lib/services/admin-artworks";
 
 export default function AdminPage() {
+  const ASSIGN_CONFIRM_TEXT = "ASSIGN TEST TASK";
+  const REVERT_CONFIRM_TEXT = "REVERT TEST TASK";
   const router = useRouter();
   const [artworks, setArtworks] = useState<AdminArtwork[]>([]);
   const [loadState, setLoadState] = useState<"loading" | "live" | "error">("loading");
@@ -27,6 +29,22 @@ export default function AdminPage() {
   >({});
   const [filter, setFilter] = useState<"all" | "visible" | "hidden">("all");
   const [apiError, setApiError] = useState<string | null>(null);
+  const [testAssessorEmail, setTestAssessorEmail] = useState("");
+  const [testArtworkSlug, setTestArtworkSlug] = useState("");
+  const [assignConfirmText, setAssignConfirmText] = useState("");
+  const [revertConfirmText, setRevertConfirmText] = useState("");
+  const [testKeyInput, setTestKeyInput] = useState("");
+  const [testActionState, setTestActionState] = useState<"idle" | "assigning" | "reverting">(
+    "idle"
+  );
+  const [testResult, setTestResult] = useState<{
+    testKey: string;
+    reviewHref: string;
+    assignmentId?: string | null;
+    auditSessionId?: string;
+    warning?: string;
+  } | null>(null);
+  const [testMessage, setTestMessage] = useState<string | null>(null);
 
   function normalizeImageUrl(value: string): string {
     const v = value.trim();
@@ -93,6 +111,75 @@ export default function AdminPage() {
   const handleLogout = async () => {
     await fetch("/api/auth/logout", { method: "POST" });
     router.replace("/login");
+  };
+
+  const handleAssignTestTask = async () => {
+    setTestMessage(null);
+    setTestResult(null);
+    setTestActionState("assigning");
+    try {
+      const res = await fetch("/api/admin/test/assign-assessor", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          assessorEmail: testAssessorEmail.trim() || undefined,
+          artworkSlug: testArtworkSlug.trim() || undefined,
+          confirmText: assignConfirmText.trim(),
+        }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        setTestMessage(data?.error ?? `Assign failed (${res.status})`);
+        return;
+      }
+      setTestResult({
+        testKey: data.testKey,
+        reviewHref: data.reviewHref,
+        assignmentId: data.assignmentId ?? null,
+        auditSessionId: data.auditSessionId,
+        warning: data.warning,
+      });
+      setTestKeyInput(data.testKey);
+      setAssignConfirmText("");
+      setTestMessage("Test task created.");
+    } catch {
+      setTestMessage("Network error while assigning test task.");
+    } finally {
+      setTestActionState("idle");
+    }
+  };
+
+  const handleRevertTestTask = async () => {
+    setTestMessage(null);
+    setTestActionState("reverting");
+    try {
+      const res = await fetch("/api/admin/test/revert-assignment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          testKey: testKeyInput.trim(),
+          confirmText: revertConfirmText.trim(),
+        }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) {
+        setTestMessage(data?.error ?? `Revert failed (${res.status})`);
+        return;
+      }
+      const counts = data?.deleted ?? {};
+      setTestMessage(
+        `Reverted test task. Sessions: ${counts.auditSessions ?? 0}, Assignments: ${
+          counts.assignments ?? 0
+        }, Scores: ${(counts.auditScores ?? 0) + (counts.assessmentScores ?? 0)}.`
+      );
+      setRevertConfirmText("");
+      setAssignConfirmText("");
+      setTestResult(null);
+    } catch {
+      setTestMessage("Network error while reverting test task.");
+    } finally {
+      setTestActionState("idle");
+    }
   };
 
   const filtered = useMemo(() => {
@@ -289,6 +376,133 @@ export default function AdminPage() {
           </button>
         </div>
       </div>
+
+      <Panel className="mb-6">
+        <div className="space-y-4">
+          <div>
+            <h2 className="text-sm font-medium text-noir-text">Testing — Assessor Task</h2>
+            <p className="text-[11px] text-noir-muted mt-1 leading-relaxed">
+              Creates a tagged TEST audit session/assignment. Use Revert to remove.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <Label htmlFor="test-assessor-email">Assessor email (optional)</Label>
+              <Input
+                id="test-assessor-email"
+                value={testAssessorEmail}
+                onChange={(e) => setTestAssessorEmail(e.target.value)}
+                placeholder="Leave empty to use current admin email"
+                className="mt-1 text-xs"
+              />
+            </div>
+            <div>
+              <Label htmlFor="test-artwork-slug">Artwork slug (optional)</Label>
+              <Input
+                id="test-artwork-slug"
+                value={testArtworkSlug}
+                onChange={(e) => setTestArtworkSlug(e.target.value)}
+                placeholder="Leave empty to auto-pick visible artwork"
+                className="mt-1 text-xs"
+              />
+            </div>
+          </div>
+
+          <div>
+            <Label htmlFor="assign-confirm-text">
+              Type confirmation: <span className="text-noir-text">{ASSIGN_CONFIRM_TEXT}</span>
+            </Label>
+            <Input
+              id="assign-confirm-text"
+              value={assignConfirmText}
+              onChange={(e) => setAssignConfirmText(e.target.value)}
+              placeholder={ASSIGN_CONFIRM_TEXT}
+              className="mt-1 text-xs"
+            />
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="default"
+              size="sm"
+              onClick={handleAssignTestTask}
+              disabled={
+                testActionState !== "idle" || assignConfirmText.trim() !== ASSIGN_CONFIRM_TEXT
+              }
+            >
+              {testActionState === "assigning" ? "Assigning..." : "Assign Test Task"}
+            </Button>
+          </div>
+
+          <Divider />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <Label htmlFor="revert-test-key">Test key to revert</Label>
+              <Input
+                id="revert-test-key"
+                value={testKeyInput}
+                onChange={(e) => setTestKeyInput(e.target.value)}
+                placeholder="test-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+                className="mt-1 text-xs"
+              />
+            </div>
+            <div>
+              <Label htmlFor="revert-confirm-text">
+                Type confirmation: <span className="text-noir-text">{REVERT_CONFIRM_TEXT}</span>
+              </Label>
+              <Input
+                id="revert-confirm-text"
+                value={revertConfirmText}
+                onChange={(e) => setRevertConfirmText(e.target.value)}
+                placeholder={REVERT_CONFIRM_TEXT}
+                className="mt-1 text-xs"
+              />
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant="accent"
+              size="sm"
+              onClick={handleRevertTestTask}
+              disabled={
+                testActionState !== "idle" ||
+                !testKeyInput.trim() ||
+                revertConfirmText.trim() !== REVERT_CONFIRM_TEXT
+              }
+            >
+              {testActionState === "reverting" ? "Reverting..." : "Revert Test Task"}
+            </Button>
+          </div>
+
+          {(testResult || testMessage) && (
+            <div className="border border-noir-border bg-noir-bg p-3">
+              {testResult && (
+                <div className="space-y-1 mb-2">
+                  <p className="text-[10px] text-noir-muted">testKey: {testResult.testKey}</p>
+                  <p className="text-[10px] text-noir-muted">reviewHref: {testResult.reviewHref}</p>
+                  {testResult.assignmentId && (
+                    <p className="text-[10px] text-noir-muted">
+                      assignmentId: {testResult.assignmentId}
+                    </p>
+                  )}
+                  {testResult.auditSessionId && (
+                    <p className="text-[10px] text-noir-muted">
+                      auditSessionId: {testResult.auditSessionId}
+                    </p>
+                  )}
+                  {testResult.warning && (
+                    <p className="text-[10px] text-noir-accent">{testResult.warning}</p>
+                  )}
+                </div>
+              )}
+              {testMessage && <p className="text-[10px] text-noir-text">{testMessage}</p>}
+            </div>
+          )}
+        </div>
+      </Panel>
 
       {/* Filter tabs */}
       <div className="flex items-center gap-0 mb-6 border border-noir-border">
