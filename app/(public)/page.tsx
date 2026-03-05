@@ -2,9 +2,32 @@ import { HeroSection } from "@/components/gallery/HeroSection";
 import { FeaturedSection } from "@/components/gallery/FeaturedSection";
 import { getPublicArtworks, type PublicArtwork } from "@/lib/services/public-artworks";
 import Link from "next/link";
+import type { Metadata } from "next";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
+
+export const metadata: Metadata = {
+  title: "Contemporary Archive & Mend Index",
+  description:
+    "Explore Bayview Hub Art Gallery's public archive, curatorial protocol, and study resources.",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Bayview Hub Art Gallery",
+    description:
+      "Explore curated contemporary works, the Mend Index protocol, and open study resources.",
+    type: "website",
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Bayview Hub Art Gallery",
+    description:
+      "Explore curated contemporary works, the Mend Index protocol, and open study resources.",
+  },
+};
 
 export default async function HomePage() {
   let featuredArtworks: PublicArtwork[] = [];
