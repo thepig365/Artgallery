@@ -94,10 +94,9 @@ export async function setNeedsRevision(params: {
 }
 
 export async function getAssignmentsForAssessor(assessorAuthUid: string) {
-  return prisma.assessmentAssignment.findMany({
+  const assignments = await prisma.assessmentAssignment.findMany({
     where: {
       assessorAuthUid,
-      status: { in: ["ASSIGNED", "IN_REVIEW", "NEEDS_REVISION"] },
     },
     include: {
       artwork: {
@@ -114,6 +113,9 @@ export async function getAssignmentsForAssessor(assessorAuthUid: string) {
     },
     orderBy: { assignedAt: "desc" },
   });
+
+  const visibleStatuses = new Set(["ASSIGNED", "IN_REVIEW", "NEEDS_REVISION"]);
+  return assignments.filter((a) => visibleStatuses.has(a.status));
 }
 
 export async function getAssignmentForAssessor(

@@ -69,7 +69,54 @@ export default async function AssessorPortalPage() {
     redirect("/login?redirect=/portal/assessor");
   }
 
-  const assignments = await getAssignmentsForAssessor(user!.authUid!);
+  let assignments: Awaited<ReturnType<typeof getAssignmentsForAssessor>> = [];
+  let hasLoadError = false;
+  try {
+    assignments = await getAssignmentsForAssessor(user!.authUid!);
+  } catch (error) {
+    hasLoadError = true;
+    console.error("[portal/assessor] Failed to load assignments", error);
+  }
+
+  if (hasLoadError) {
+    return (
+      <div className="container mx-auto px-4 py-16 sm:py-24">
+        <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
+          Assessor Portal
+        </p>
+        <h1 className="text-3xl sm:text-4xl font-bold text-gallery-text tracking-tight mb-4">
+          Portal Temporarily Unavailable
+        </h1>
+        <p className="text-sm text-gallery-muted leading-relaxed mb-4 max-w-lg">
+          We could not load your assignments right now. Please retry in a moment.
+        </p>
+        <p className="text-sm text-gallery-muted leading-relaxed mb-10 max-w-lg">
+          If this persists, contact{" "}
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            className="text-gallery-accent hover:underline"
+          >
+            {CONTACT_EMAIL}
+          </a>
+          .
+        </p>
+        <div className="space-y-4">
+          <Link
+            href="/portal/assessor"
+            className="block border border-gallery-border text-gallery-text text-sm font-medium rounded-lg px-6 py-4 hover:bg-gallery-surface-alt transition-colors duration-200 text-center"
+          >
+            Retry
+          </Link>
+          <Link
+            href="/archive"
+            className="block border border-gallery-border text-gallery-text text-sm font-medium rounded-lg px-6 py-4 hover:bg-gallery-surface-alt transition-colors duration-200 text-center"
+          >
+            Browse the Archive
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-12 sm:py-16">
