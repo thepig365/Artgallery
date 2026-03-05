@@ -1,6 +1,8 @@
 import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
 import { getPublicArtworks, type PublicArtwork } from "@/lib/services/public-artworks";
 import { GALLERY_EMAIL } from "@/lib/brand";
+import { getSiteUrl } from "@/lib/site-url";
+import { toGalleryPublicUrl } from "@/lib/supabase/gallery-public";
 import { ArchiveClient } from "./archive-client";
 import type { Metadata } from "next";
 
@@ -10,25 +12,28 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
+const TITLE = "Collection | Bayview Hub Art Gallery";
+const DESCRIPTION =
+  "Browse publicly visible artworks assessed through the Mend Index protocol. Curated works at Bayview Hub Gallery, Main Ridge VIC.";
+
 export const metadata: Metadata = {
-  title: "Collection | Bayview Hub Art Gallery",
-  description:
-    "Browse publicly visible artworks assessed through the Mend Index protocol.",
+  title: TITLE,
+  description: DESCRIPTION,
+  metadataBase: new URL(getSiteUrl()),
   alternates: {
     canonical: "/archive",
   },
   openGraph: {
-    title: "Collection | Bayview Hub Art Gallery",
-    description:
-      "Browse publicly visible artworks assessed through the Mend Index protocol.",
+    title: TITLE,
+    description: DESCRIPTION,
     type: "website",
     url: "/archive",
+    siteName: "Bayview Hub Art Gallery",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Collection | Bayview Hub Art Gallery",
-    description:
-      "Browse publicly visible artworks assessed through the Mend Index protocol.",
+    title: TITLE,
+    description: DESCRIPTION,
   },
 };
 
@@ -41,8 +46,48 @@ export default async function ArchivePage() {
     console.error("[Archive] Failed to load artworks:", err);
   }
 
+  const siteUrl = getSiteUrl();
+  const itemListLd = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    name: "Bayview Hub Gallery Collection",
+    description: "Curated artworks assessed through the Mend Index protocol.",
+    numberOfItems: publicArtworks.length,
+    itemListElement: publicArtworks.slice(0, 50).map((a, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      item: {
+        "@type": "VisualArtwork",
+        name: a.title,
+        url: `${siteUrl}/archive/${a.slug}`,
+        ...(toGalleryPublicUrl(a.imageUrl) ? { image: toGalleryPublicUrl(a.imageUrl) } : {}),
+        creator: a.artist?.name ? { "@type": "Person", name: a.artist.name } : undefined,
+      },
+    })),
+  };
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Gallery", item: siteUrl },
+      { "@type": "ListItem", position: 2, name: "Archive", item: `${siteUrl}/archive` },
+    ],
+  };
+
   return (
     <div className="pb-14 sm:pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(itemListLd).replace(/</g, "\\u003c"),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <section className="bg-family-navy text-white">
         <div className="container mx-auto flex min-h-[100px] flex-col justify-center gap-4 px-4 py-5 md:min-h-[120px] md:flex-row md:items-center md:justify-between md:py-6">
           <div>

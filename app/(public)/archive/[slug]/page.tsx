@@ -119,23 +119,25 @@ export async function generateMetadata({
     };
   }
 
+  const siteUrl = getSiteUrl();
   const image = toGalleryPublicUrl(artwork.imageUrl) ?? undefined;
   const title = `${artwork.title} | Bayview Hub Gallery`;
   const description =
     artwork.narrative?.slice(0, 160) ||
     `View ${artwork.title} in the Bayview Hub gallery archive.`;
+  const canonicalUrl = `${siteUrl}/archive/${artwork.slug}`;
 
   return {
     title,
     description,
     alternates: {
-      canonical: `/archive/${artwork.slug}`,
+      canonical: canonicalUrl,
     },
     openGraph: {
       title,
       description,
       type: "article",
-      url: `/archive/${artwork.slug}`,
+      url: canonicalUrl,
       images: image ? [{ url: image }] : undefined,
     },
     twitter: {
@@ -199,7 +201,7 @@ export default async function ArtworkDetailPage({
         .map((s) => s.trim())
         .filter(Boolean)
     : [];
-  const displayArtist = artwork.artist?.name?.trim() || "Chelsey";
+  const displayArtist = artwork.artist?.name?.trim() || "Chelsey Liu";
 
   const sameAs =
     artwork.sourceUrl && artwork.sourceUrl.includes("chelseyartwork.com")
@@ -230,13 +232,14 @@ export default async function ArtworkDetailPage({
     availability: "Available on enquiry",
   };
   const curatorNote = toCuratorNote(artwork.narrative);
+  const siteUrl = getSiteUrl();
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "VisualArtwork",
     name: artwork.title,
     ...(resolvedImageUrl ? { image: resolvedImageUrl } : {}),
     description:
-      artwork.narrative ||
+      (curatorNote ?? artwork.narrative) ||
       `${artwork.title}${artwork.artist ? ` by ${artwork.artist.name}` : ""}`,
     creator: { "@type": "Person", name: displayArtist },
     ...(artwork.year ? { dateCreated: String(artwork.year) } : {}),
@@ -244,7 +247,23 @@ export default async function ArtworkDetailPage({
     ...(materials.length > 0 ? { material: materials } : {}),
     ...dimensionsStructured,
     ...(sameAs ? { sameAs } : {}),
-    url: `${getSiteUrl()}/archive/${artwork.slug}`,
+    url: `${siteUrl}/archive/${artwork.slug}`,
+    isAccessibleForFree: true,
+    contentLocation: {
+      "@type": "Place",
+      name: "Bayview Hub",
+      address: { "@type": "PostalAddress", addressLocality: "Main Ridge", addressRegion: "VIC" },
+    },
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Gallery", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "Archive", item: `${siteUrl}/archive` },
+      { "@type": "ListItem", position: 3, name: artwork.title, item: `${siteUrl}/archive/${artwork.slug}` },
+    ],
   };
 
   return (
@@ -253,6 +272,12 @@ export default async function ArtworkDetailPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbLd).replace(/</g, "\\u003c"),
         }}
       />
       {/* Breadcrumb */}
