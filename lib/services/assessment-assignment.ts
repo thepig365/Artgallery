@@ -151,6 +151,29 @@ function parseAssignedAssessors(
   }
 }
 
+function isRecoverableFallbackError(error: unknown): {
+  recoverable: boolean;
+  code: string | null;
+} {
+  if (
+    error instanceof Prisma.PrismaClientKnownRequestError &&
+    (error.code === "P2021" || error.code === "P2022" || error.code === "P2023")
+  ) {
+    return { recoverable: true, code: error.code };
+  }
+  if (error instanceof Error) {
+    const message = error.message || "";
+    if (
+      message.includes("Inconsistent query result") ||
+      message.includes("Error creating UUID") ||
+      message.includes("invalid character")
+    ) {
+      return { recoverable: true, code: "FALLBACK_RUNTIME_INCONSISTENT" };
+    }
+  }
+  return { recoverable: false, code: null };
+}
+
 /**
  * Stable assessor portal list:
  * 1) Try assignment-based flow (assessment_assignments)
@@ -255,19 +278,11 @@ export async function getAssessorPortalItems(params: {
       where: { status: { in: ["DRAFT", "IN_PROGRESS"] } },
       select: {
         id: true,
+        artworkId: true,
         status: true,
         createdAt: true,
+        updatedAt: true,
         notes: true,
-        artwork: {
-          select: {
-            id: true,
-            title: true,
-            slug: true,
-            imageUrl: true,
-            medium: true,
-            year: true,
-          },
-        },
         scores: {
           where: { assessorUserId: safeAssessorUserId },
           select: { id: true },
@@ -277,8 +292,29 @@ export async function getAssessorPortalItems(params: {
       orderBy: { createdAt: "desc" },
     });
 
-    const fallbackItems = sessions
-      .filter((s) => parseAssignedAssessors(s.notes).includes(params.assessorUserId))
+    const assignedSessions = sessions.filter(
+      (s) =>
+        !!s.artworkId &&
+        parseAssignedAssessors(s.notes).includes(params.assessorUserId)
+    );
+    const artworkIds = Array.from(new Set(assignedSessions.map((s) => s.artworkId)));
+    const artworks = artworkIds.length
+      ? await prisma.artwork.findMany({
+          where: { id: { in: artworkIds } },
+          select: {
+            id: true,
+            title: true,
+            slug: true,
+            imageUrl: true,
+            medium: true,
+            year: true,
+          },
+        })
+      : [];
+    const artworkById = new Map(artworks.map((a) => [a.id, a]));
+
+    const fallbackItems = assignedSessions
+      .filter((s) => artworkById.has(s.artworkId))
       .map<AssessorPortalItem>((s) => ({
         id: s.id,
         source: "audit_session_fallback",
@@ -287,7 +323,7 @@ export async function getAssessorPortalItems(params: {
         assignedAt: s.createdAt,
         dueAt: null,
         reviewHref: `/portal/assessor/session/${s.id}`,
-        artwork: s.artwork,
+        artwork: artworkById.get(s.artworkId)!,
         scoreStatus: s.scores.length > 0 ? "SUBMITTED" : null,
       }));
 
@@ -307,6 +343,24 @@ export async function getAssessorPortalItems(params: {
     }
     return result;
   } catch (fallbackError) {
+    const recoverable = isRecoverableFallbackError(fallbackError);
+    if (recoverable.recoverable) {
+      if (!prismaErrorCodeIfAny && recoverable.code) {
+        prismaErrorCodeIfAny = recoverable.code;
+      }
+      console.warn("[assessor portal] fallback recoverable failure", {
+        code: recoverable.code,
+      });
+      if (debugEnabled) {
+        console.info("[ASSIGNMENT_DEBUG] portal_items", {
+          itemsCount: 0,
+          fallbackCount: 0,
+          prismaErrorCodeIfAny,
+        });
+      }
+      return { items: [] };
+    }
+
     if (debugEnabled) {
       console.info("[ASSIGNMENT_DEBUG] portal_items", {
         itemsCount: 0,
