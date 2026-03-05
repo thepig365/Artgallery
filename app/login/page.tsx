@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useState } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Shield, AlertTriangle, Settings, BarChart3 } from "lucide-react";
 import { safeRedirect } from "@/lib/auth/redirect";
@@ -201,6 +202,14 @@ function LoginForm() {
             autoComplete="current-password"
             className="w-full bg-white border border-gallery-border text-gallery-text text-sm rounded-lg px-3 py-2.5 placeholder:text-gallery-muted/50 focus:outline-none focus:ring-2 focus:ring-gallery-accent/30 focus:border-gallery-accent transition-colors"
           />
+          <div className="mt-2 text-right">
+            <Link
+              href="/forgot-password"
+              className="text-xs text-gallery-accent hover:underline"
+            >
+              Forgot password?
+            </Link>
+          </div>
         </div>
 
         <button

