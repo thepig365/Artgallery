@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/db/client";
+import { Prisma } from "@prisma/client";
 import { resolveSessionUser } from "@/lib/auth/session";
 import { requireRole, AuthorizationError } from "@/lib/auth/roles";
 import { createAssignment } from "@/lib/services/assessment-assignment";
@@ -30,8 +31,18 @@ export async function GET() {
             title: true,
             slug: true,
             imageUrl: true,
-            varianceFlag: true,
-            varianceMeta: true,
+            year: true,
+            medium: true,
+            dimensions: true,
+            artistId: true,
+            isVisible: true,
+            createdAt: true,
+            updatedAt: true,
+            scoreB: true,
+            scoreP: true,
+            scoreM: true,
+            scoreS: true,
+            finalV: true,
           },
         },
         scores: {
@@ -54,7 +65,11 @@ export async function GET() {
     const payload = assignments.map((a) => ({
       id: a.id,
       artworkId: a.artworkId,
-      artwork: a.artwork,
+      artwork: {
+        ...a.artwork,
+        // Schema-safe placeholder: do not query variance_meta from DB.
+        varianceMeta: null,
+      },
       assessorAuthUid: a.assessorAuthUid,
       status: a.status,
       blindMode: a.blindMode ?? true,
@@ -80,6 +95,25 @@ export async function GET() {
     if (err instanceof AuthorizationError) {
       return NextResponse.json({ error: err.message }, { status: 401 });
     }
+
+    if (
+      err instanceof Prisma.PrismaClientKnownRequestError &&
+      (err.code === "P2021" || err.code === "P2022")
+    ) {
+      console.error("[GET /api/admin/assignments] schema mismatch fallback", {
+        code: err.code,
+        message: err.message,
+      });
+      return NextResponse.json(
+        {
+          assignments: [],
+          warning: "Schema mismatch fallback applied",
+          warningCode: err.code,
+        },
+        { status: 200 }
+      );
+    }
+
     console.error("[GET /api/admin/assignments]", err);
     return NextResponse.json(
       { error: "Failed to fetch assignments" },
