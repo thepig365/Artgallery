@@ -54,6 +54,13 @@ export async function toggleArtworkVisibility(
     prisma.artwork.update({
       where: { id: artworkId },
       data: artworkUpdate,
+      select: {
+        id: true,
+        isVisible: true,
+        hiddenReason: true,
+        hiddenAt: true,
+        hiddenBy: true,
+      },
     }),
     prisma.provenanceLog.create({
       data: {

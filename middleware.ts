@@ -9,6 +9,15 @@ import { authDebug } from "@/lib/auth/debug";
 export async function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
+  // Canonical staff-entry redirects with standard Location headers.
+  // This avoids RSC-only redirect payloads for non-JS clients.
+  if (pathname === "/assessor") {
+    return NextResponse.redirect(new URL("/portal/assessor", request.url), 307);
+  }
+  if (pathname === "/portal/admin") {
+    return NextResponse.redirect(new URL("/admin", request.url), 307);
+  }
+
   if (pathname === "/login") {
     const redirectParam = request.nextUrl.searchParams.get("redirect");
     if (redirectParam?.startsWith("/login")) {

@@ -11,11 +11,11 @@ import { Textarea } from "@/components/ui/Textarea";
 import { Label } from "@/components/ui/Label";
 import { Badge } from "@/components/ui/Badge";
 import { Divider } from "@/components/ui/Divider";
-import type { ArtworkWithVisibility } from "@/lib/services/public-artwork-query";
+import type { AdminArtwork } from "@/lib/services/admin-artworks";
 
 export default function AdminPage() {
   const router = useRouter();
-  const [artworks, setArtworks] = useState<ArtworkWithVisibility[]>([]);
+  const [artworks, setArtworks] = useState<AdminArtwork[]>([]);
   const [loadState, setLoadState] = useState<"loading" | "live" | "error">("loading");
   const [hideReason, setHideReason] = useState<Record<string, string>>({});
   const [actionState, setActionState] = useState<
@@ -34,7 +34,7 @@ export default function AdminPage() {
     return v.replace(/^\/+/, "");
   }
 
-  const handleSetImage = async (artwork: ArtworkWithVisibility) => {
+  const handleSetImage = async (artwork: AdminArtwork) => {
     const raw = imageUrlInput[artwork.id]?.trim();
     if (!raw) return;
     const imageUrl = normalizeImageUrl(raw);
@@ -115,7 +115,7 @@ export default function AdminPage() {
     [artworks]
   );
 
-  const handleToggleVisibility = async (artwork: ArtworkWithVisibility) => {
+  const handleToggleVisibility = async (artwork: AdminArtwork) => {
     const nextVisible = !artwork.isVisible;
 
     if (!nextVisible) {
@@ -153,7 +153,7 @@ export default function AdminPage() {
                 hiddenReason: nextVisible
                   ? null
                   : hideReason[artwork.id]?.trim() || null,
-                hiddenAt: nextVisible ? null : new Date().toISOString(),
+                hiddenAt: nextVisible ? null : new Date(),
                 hiddenBy: nextVisible ? null : "API",
               }
             : a

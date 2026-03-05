@@ -2,6 +2,11 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db/client";
 import { resolveSessionUser } from "@/lib/auth/session";
 import { requireRole, AuthorizationError } from "@/lib/auth/roles";
+import { adminArtworkSelect } from "@/lib/services/admin-artworks";
+
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 /**
  * GET /api/admin/artworks
@@ -16,24 +21,26 @@ export async function GET() {
     requireRole(user, "ADMIN");
 
     const artworks = await prisma.artwork.findMany({
-      include: { artist: true },
+      select: adminArtworkSelect,
       orderBy: { createdAt: "desc" },
       take: 200,
     });
 
-    return NextResponse.json(artworks);
+    return NextResponse.json(artworks, {
+      headers: { "Cache-Control": "no-store" },
+    });
   } catch (err) {
     if (err instanceof AuthorizationError) {
       return NextResponse.json(
         { error: err.message },
-        { status: 401 }
+        { status: 401, headers: { "Cache-Control": "no-store" } }
       );
     }
 
     console.error("[GET /api/admin/artworks] Error:", err);
     return NextResponse.json(
       { error: "Service unavailable — database or auth may not be configured" },
-      { status: 503 }
+      { status: 503, headers: { "Cache-Control": "no-store" } }
     );
   }
 }

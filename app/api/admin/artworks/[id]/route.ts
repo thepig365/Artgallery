@@ -35,6 +35,10 @@ export async function PATCH(
     const artwork = await prisma.artwork.update({
       where: { id },
       data: { imageUrl },
+      select: {
+        id: true,
+        imageUrl: true,
+      },
     });
 
     return NextResponse.json({
