@@ -3,6 +3,10 @@ import { prisma } from "@/lib/db/client";
 import { resolveSessionUser } from "@/lib/auth/session";
 import { requireRole, AuthorizationError } from "@/lib/auth/roles";
 
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export async function GET(request: NextRequest) {
   try {
     const user = await resolveSessionUser();
@@ -48,19 +52,39 @@ export async function GET(request: NextRequest) {
 
     const enquiries = await prisma.enquiry.findMany({
       where,
-      include: {
+      select: {
+        id: true,
+        createdAt: true,
+        name: true,
+        email: true,
+        phone: true,
+        message: true,
+        ctaType: true,
+        status: true,
+        artworkId: true,
+        artworkSlug: true,
+        sourceUrl: true,
         artwork: { select: { id: true, title: true, slug: true } },
       },
       orderBy: { createdAt: "desc" },
       take: 300,
     });
 
-    return NextResponse.json(enquiries);
+    return NextResponse.json(enquiries, {
+      headers: { "Cache-Control": "no-store" },
+    });
   } catch (err) {
     if (err instanceof AuthorizationError) {
-      return NextResponse.json({ error: err.message }, { status: 401 });
+      const status = err.message === "Authentication required" ? 401 : 403;
+      return NextResponse.json(
+        { error: err.message },
+        { status, headers: { "Cache-Control": "no-store" } }
+      );
     }
     console.error("[GET /api/admin/enquiries]", err);
-    return NextResponse.json({ error: "Service unavailable" }, { status: 503 });
+    return NextResponse.json(
+      { error: "Service unavailable" },
+      { status: 503, headers: { "Cache-Control": "no-store" } }
+    );
   }
 }

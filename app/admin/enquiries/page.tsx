@@ -22,11 +22,15 @@ interface EnquiryItem {
   artwork?: { id: string; title: string; slug: string } | null;
 }
 
+type LoadState = "loading" | "live" | "empty" | "error";
+type ErrorKind = "auth" | "server" | "network";
+
 export default function AdminEnquiriesPage() {
   const router = useRouter();
   const [items, setItems] = useState<EnquiryItem[]>([]);
-  const [loadState, setLoadState] = useState<"loading" | "live" | "error">("loading");
+  const [loadState, setLoadState] = useState<LoadState>("loading");
   const [actionState, setActionState] = useState<Record<string, "idle" | "loading">>({});
+  const [errorInfo, setErrorInfo] = useState<{ kind: ErrorKind; message: string } | null>(null);
 
   const [ctaType, setCtaType] = useState("all");
   const [status, setStatus] = useState("all");
@@ -36,6 +40,7 @@ export default function AdminEnquiriesPage() {
 
   const loadEnquiries = useCallback(async () => {
     setLoadState("loading");
+    setErrorInfo(null);
     try {
       const params = new URLSearchParams();
       if (ctaType !== "all") params.set("ctaType", ctaType);
@@ -49,11 +54,30 @@ export default function AdminEnquiriesPage() {
         router.replace("/login?redirect=/admin/enquiries");
         return;
       }
-      if (!res.ok) throw new Error(`Failed (${res.status})`);
+      if (res.status === 403) {
+        const body = await res.json().catch(() => null);
+        setErrorInfo({
+          kind: "auth",
+          message: body?.error ?? "You do not have permission to view enquiries.",
+        });
+        setLoadState("error");
+        return;
+      }
+      if (!res.ok) {
+        const body = await res.json().catch(() => null);
+        setErrorInfo({
+          kind: "server",
+          message: body?.error ?? `Server error (${res.status})`,
+        });
+        setLoadState("error");
+        return;
+      }
       const data = (await res.json()) as EnquiryItem[];
       setItems(data);
-      setLoadState("live");
-    } catch {
+      setLoadState(data.length === 0 ? "empty" : "live");
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "Network request failed";
+      setErrorInfo({ kind: "network", message });
       setLoadState("error");
     }
   }, [artwork, ctaType, from, router, status, to]);
@@ -95,17 +119,35 @@ export default function AdminEnquiriesPage() {
   }
 
   if (loadState === "error") {
+    const reasonLabel =
+      errorInfo?.kind === "auth"
+        ? "Authentication / Permission Error"
+        : errorInfo?.kind === "server"
+          ? "Server Error"
+          : "Network Error";
     return (
       <div className="min-h-screen bg-[#050505] text-[#E5E5E5] flex items-center justify-center">
         <div className="text-center space-y-3">
           <AlertTriangle className="w-8 h-8 text-[#B20000] mx-auto" />
           <p className="text-sm text-[#9A9A9A]">Unable to load enquiries</p>
+          <p className="text-xs text-[#C7C7C7]">{reasonLabel}</p>
+          {errorInfo?.message && (
+            <p className="max-w-md text-xs text-[#8F8F8F]">{errorInfo.message}</p>
+          )}
           <button
             onClick={loadEnquiries}
             className="px-4 py-2 text-sm border border-[#222] bg-[#111111] hover:bg-[#1a1a1a] transition-colors duration-150"
           >
             Retry
           </button>
+          {errorInfo?.kind === "auth" && (
+            <button
+              onClick={() => router.replace("/login?redirect=/admin/enquiries")}
+              className="ml-2 px-4 py-2 text-sm border border-[#333] bg-[#0d0d0d] hover:bg-[#171717] transition-colors duration-150"
+            >
+              Go to Login
+            </button>
+          )}
         </div>
       </div>
     );
@@ -194,9 +236,9 @@ export default function AdminEnquiriesPage() {
           </button>
         </div>
 
-        {items.length === 0 ? (
+        {loadState === "empty" ? (
           <div className="border border-[#222] bg-[#111111] p-10 text-center text-sm text-[#9A9A9A]">
-            No enquiries found
+            No enquiries yet
           </div>
         ) : (
           <div className="space-y-3">
