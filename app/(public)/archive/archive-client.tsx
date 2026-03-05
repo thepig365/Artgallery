@@ -13,7 +13,7 @@ interface ArchiveClientProps {
 function EmptyState() {
   return (
     <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
-      <div className="w-16 h-16 rounded-full bg-gallery-accent/10 flex items-center justify-center mb-6">
+      <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-gallery-accent/10">
         <ImageIcon className="w-8 h-8 text-gallery-accent" strokeWidth={1.5} />
       </div>
       <h2 className="text-xl font-semibold text-gallery-text mb-2">
@@ -25,7 +25,7 @@ function EmptyState() {
       </p>
       <Link
         href="/submit"
-        className="inline-flex items-center gap-2 px-5 py-2.5 bg-gallery-accent text-white text-sm font-medium rounded-lg hover:bg-gallery-accent/90 transition-colors"
+        className="inline-flex items-center gap-2 rounded-md bg-family-navy px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-family-navy-deep"
       >
         Submit Your Work
         <ArrowRight className="w-4 h-4" />
@@ -118,18 +118,18 @@ export function ArchiveClient({ artworks }: ArchiveClientProps) {
 
   return (
     <>
-      <section className="border border-gallery-border rounded-lg bg-gallery-surface p-4 sm:p-5">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+      <section className="rounded-lg border border-gallery-border bg-gallery-surface p-4 shadow-card sm:p-5">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search works by title"
-            className="md:col-span-2 w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
+            className="md:col-span-2 w-full rounded-full border border-gallery-border bg-white px-4 py-2.5 text-sm text-gallery-text outline-none transition-colors focus:border-family-accent"
           />
           <select
             value={selectedMedium}
             onChange={(e) => setSelectedMedium(e.target.value)}
-            className="w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
+            className="w-full rounded-full border border-gallery-border bg-white px-4 py-2.5 text-sm text-gallery-text outline-none transition-colors focus:border-family-accent"
           >
             <option value="">All media</option>
             {mediums.map((medium) => (
@@ -141,7 +141,7 @@ export function ArchiveClient({ artworks }: ArchiveClientProps) {
           <select
             value={sortOrder}
             onChange={(e) => setSortOrder(e.target.value as "newest" | "az")}
-            className="w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
+            className="w-full rounded-full border border-gallery-border bg-white px-4 py-2.5 text-sm text-gallery-text outline-none transition-colors focus:border-family-accent"
           >
             <option value="newest">Newest</option>
             <option value="az">Title A-Z</option>
@@ -151,7 +151,7 @@ export function ArchiveClient({ artworks }: ArchiveClientProps) {
             onChange={(e) =>
               setYearBucket(e.target.value as "all" | "2020s" | "2010s" | "older")
             }
-            className="w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
+            className="w-full rounded-full border border-gallery-border bg-white px-4 py-2.5 text-sm text-gallery-text outline-none transition-colors focus:border-family-accent"
           >
             <option value="all">All years</option>
             <option value="2020s">2020s</option>
@@ -163,18 +163,18 @@ export function ArchiveClient({ artworks }: ArchiveClientProps) {
             onChange={(e) =>
               setSizeBucket(e.target.value as "all" | "small" | "medium" | "large")
             }
-            className="w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
+            className="w-full rounded-full border border-gallery-border bg-white px-4 py-2.5 text-sm text-gallery-text outline-none transition-colors focus:border-family-accent"
           >
             <option value="all">All sizes</option>
             <option value="small">Small</option>
             <option value="medium">Medium</option>
             <option value="large">Large</option>
           </select>
-          <div className="w-full rounded-md border border-gallery-border bg-gallery-surface-alt px-3 py-2 text-sm text-gallery-muted">
+          <div className="w-full rounded-full border border-gallery-border bg-gallery-surface-alt px-4 py-2.5 text-sm text-gallery-muted">
             Availability: Available on enquiry
           </div>
         </div>
-        <p className="mt-3 text-xs text-gallery-muted">
+        <p className="mt-3 text-xs uppercase tracking-[0.08em] text-gallery-muted">
           {filtered.length} of {artworks.length} works
         </p>
       </section>

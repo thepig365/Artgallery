@@ -24,10 +24,9 @@ export function GalleryCard({ artwork }: GalleryCardProps) {
   const showPlaceholder = !artwork.imageUrl || imgError;
 
   return (
-    <div className="break-inside-avoid mb-5 sm:mb-6">
-      <article className="bg-surface rounded-lg overflow-hidden border border-border hover:border-accent transition-all duration-200">
+    <div className="mb-6 break-inside-avoid sm:mb-7">
+      <article className="overflow-hidden rounded-lg border border-border bg-surface transition-all duration-200 hover:-translate-y-0.5 hover:border-accent hover:shadow-card">
         <Link href={`/archive/${artwork.slug}`} className="group block">
-          {/* Image — natural aspect ratio */}
           <div className="relative overflow-hidden bg-surface-alt">
             {showPlaceholder ? (
               <div className="flex items-center justify-center w-full aspect-[4/3] bg-surface-alt/80">
@@ -50,9 +49,8 @@ export function GalleryCard({ artwork }: GalleryCardProps) {
                 />
             )}
 
-            {/* Score badge — subtle overlay */}
             {artwork.finalV != null && (
-              <div className="absolute top-2.5 right-2.5 bg-surface backdrop-blur-sm px-2 py-0.5 rounded border border-border">
+              <div className="absolute right-2.5 top-2.5 rounded-sm border border-border bg-surface px-2 py-0.5 backdrop-blur-sm">
                 <span className="text-[11px] font-semibold text-accent tabular-nums tracking-tight">
                   V {artwork.finalV.toFixed(2)}
                 </span>
@@ -60,27 +58,26 @@ export function GalleryCard({ artwork }: GalleryCardProps) {
             )}
           </div>
 
-          {/* Caption */}
-          <div className="px-4 py-3.5">
-            <h3 className="text-[13px] font-semibold text-fg leading-snug group-hover:text-accent transition-colors duration-200 line-clamp-2">
+          <div className="border-t border-border/70 px-4 py-3.5">
+            <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-fg transition-colors duration-200 group-hover:text-accent">
               {artwork.title}
             </h3>
             {artwork.artist && (
-              <p className="text-[11px] text-muted mt-1">
+              <p className="mt-1 text-xs text-muted">
                 {artwork.artist.name}
               </p>
             )}
             {(artwork.medium || artwork.year) && (
-              <p className="text-[10px] text-subtle mt-1.5 tracking-wide">
+              <p className="mt-1.5 text-[11px] uppercase tracking-[0.08em] text-subtle">
                 {[artwork.medium, artwork.year].filter(Boolean).join(" · ")}
               </p>
             )}
-            <p className="text-[10px] text-subtle mt-1">
+            <p className="mt-1 text-[10px] text-subtle">
               Available on enquiry • Viewings by appointment
             </p>
           </div>
         </Link>
-        <div className="px-4 pb-4">
+        <div className="px-4 pb-4 pt-0.5">
           <EnquiryModalTrigger
             ctaType="enquire"
             label="Enquire"

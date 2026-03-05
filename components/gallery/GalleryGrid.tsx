@@ -26,7 +26,7 @@ export function GalleryGrid({ artworks }: GalleryGridProps) {
   }
 
   return (
-    <div className="columns-1 sm:columns-2 lg:columns-3 gap-5 sm:gap-6">
+    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
       {artworks.map((artwork) => (
         <GalleryCard key={artwork.id} artwork={artwork} />
       ))}

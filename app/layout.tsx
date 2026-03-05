@@ -29,8 +29,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${cormorant.variable}`}>
-      <body className="font-sans antialiased">
+    <html lang="en" className={`${inter.variable} ${cormorant.variable} font-sans`}>
+      <body className="min-h-screen bg-bg font-sans text-fg antialiased">
         <ZoneProvider>{children}</ZoneProvider>
       </body>
     </html>

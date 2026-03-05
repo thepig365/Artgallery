@@ -7,69 +7,69 @@ import { Container } from "@/components/layout/Container";
 
 export function PublicFooter() {
   return (
-    <footer className="border-t border-border bg-surface mt-auto">
-      <Container className="py-10">
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8">
+    <footer className="mt-auto bg-family-navy text-white">
+      <Container className="py-12 md:py-14">
+        <div className="mb-8 grid grid-cols-1 gap-8 sm:grid-cols-3">
           <div>
-            <h3 className="text-sm font-semibold text-fg mb-3 font-serif">
+            <h3 className="mb-3 font-serif text-xl font-semibold text-white">
               Art Gallery
             </h3>
-            <p className="text-xs text-muted leading-relaxed">
+            <p className="text-sm leading-relaxed text-white/70">
               Curatorial protocol system for material sincerity assessment.
               Enquiry-first viewing-room experience.
             </p>
           </div>
           <div>
-            <h4 className="text-xs font-semibold text-fg mb-3 uppercase tracking-wide">
+            <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-white">
               Explore
             </h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/archive" className="text-xs text-muted hover:text-fg transition-colors">
+                <Link href="/archive" className="text-sm text-white/70 transition-colors hover:text-white">
                   Archive
                 </Link>
               </li>
               <li>
-                <Link href="/masterpieces" className="text-xs text-muted hover:text-fg transition-colors">
+                <Link href="/masterpieces" className="text-sm text-white/70 transition-colors hover:text-white">
                   Open Masterpieces
                 </Link>
               </li>
               <li>
-                <Link href="/study" className="text-xs text-muted hover:text-fg transition-colors">
+                <Link href="/study" className="text-sm text-white/70 transition-colors hover:text-white">
                   Study Guides
                 </Link>
               </li>
               <li>
-                <Link href="/submit" className="text-xs text-muted hover:text-fg transition-colors">
+                <Link href="/submit" className="text-sm text-white/70 transition-colors hover:text-white">
                   Submit for Curation
                 </Link>
               </li>
             </ul>
           </div>
           <div>
-            <h4 className="text-xs font-semibold text-fg mb-3 uppercase tracking-wide">
+            <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-white">
               Legal
             </h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/privacy" className="text-xs text-muted hover:text-fg transition-colors">
+                <Link href="/privacy" className="text-sm text-white/70 transition-colors hover:text-white">
                   Privacy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="text-xs text-muted hover:text-fg transition-colors">
+                <Link href="/terms" className="text-sm text-white/70 transition-colors hover:text-white">
                   Terms
                 </Link>
               </li>
               <li>
-                <Link href="/rights" className="text-xs text-muted hover:text-fg transition-colors">
+                <Link href="/rights" className="text-sm text-white/70 transition-colors hover:text-white">
                   Rights &amp; Takedown
                 </Link>
               </li>
               <li>
                 <Link
                   href="/login?redirect=/portal"
-                  className="text-xs text-muted/60 hover:text-muted transition-colors"
+                  className="text-xs text-white/45 transition-colors hover:text-white/70"
                 >
                   Staff Sign-In
                 </Link>
@@ -77,23 +77,23 @@ export function PublicFooter() {
             </ul>
           </div>
         </div>
-        <div className="border-t border-border pt-6">
-          <p className="text-[11px] text-muted leading-relaxed max-w-4xl">
+        <div className="border-t border-white/20 pt-6">
+          <p className="max-w-4xl text-[11px] leading-relaxed text-white/55">
             {DISCLAIMERS.global}
           </p>
         </div>
       </Container>
 
-      <div className="border-t border-border bg-surface-alt">
+      <div className="border-t border-white/15 bg-family-navy-deep">
         <Container className="py-6">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <a
               href={MAIN_SITE_URL}
-              className="text-sm font-medium text-accent hover:underline whitespace-nowrap"
+              className="whitespace-nowrap text-sm font-medium text-white transition-colors hover:text-family-accent"
             >
               ← Back to Bayview Hub
             </a>
-            <div className="text-xs text-muted text-center leading-relaxed">
+            <div className="text-center text-xs leading-relaxed text-white/70">
               <p>{FAMILY_STRIP.address}</p>
               <p className="mt-1">{FAMILY_STRIP.hours}</p>
             </div>
@@ -102,7 +102,7 @@ export function PublicFooter() {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="text-xs text-muted hover:text-fg transition-colors"
+                  className="text-xs uppercase tracking-[0.14em] text-white/70 transition-colors hover:text-white"
                 >
                   {link.label}
                 </a>
@@ -112,16 +112,16 @@ export function PublicFooter() {
         </Container>
       </div>
 
-      <div className="border-t border-border bg-surface">
+      <div className="border-t border-white/15 bg-family-navy">
         <Container className="py-4">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] text-muted/70">
+          <div className="flex flex-col items-center justify-between gap-3 text-[10px] text-white/55 sm:flex-row">
             <p>
               © {new Date().getFullYear()} Bayview Hub ·{" "}
-              <Link href="/privacy" className="hover:text-muted">
+              <Link href="/privacy" className="transition-colors hover:text-white">
                 Privacy
               </Link>
               {" · "}
-              <Link href="/terms" className="hover:text-muted">
+              <Link href="/terms" className="transition-colors hover:text-white">
                 Terms
               </Link>
             </p>

@@ -7,39 +7,41 @@ import { MAIN_SITE_URL } from "@/lib/brand";
 const NAV_ITEMS = [
   { label: "Archive", href: "/archive" },
   { label: "Mend Index", href: "/protocol" },
-  { label: "Submit for Curation", href: "/submit" },
+  { label: "Submit", href: "/submit" },
   { label: "Rights & Takedown", href: "/rights" },
 ] as const;
 
 export function PublicHeader() {
   const pathname = headers().get("x-pathname") ?? "";
   return (
-    <header className="border-b border-border bg-surface/95 backdrop-blur-sm sticky top-0 z-50">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-family-navy text-white shadow-family">
       <Container>
-        <div className="flex items-center justify-between h-16 md:h-20">
+        <div className="flex items-center justify-between h-24 md:h-28">
           <a
             href={MAIN_SITE_URL}
-            className="flex items-center gap-3 hover:opacity-90 transition-opacity"
+            className="flex items-center gap-3 transition-opacity hover:opacity-90"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <Image
               src="/images/bayview-estate-logo.jpg"
               alt="Bayview Hub Art Gallery"
               width={200}
               height={60}
-              className="h-16 w-auto md:h-20"
+              className="h-14 w-auto md:h-16"
               priority
             />
             <div className="hidden sm:flex flex-col">
-              <span className="text-xl md:text-2xl font-serif font-bold leading-tight text-gallery-text">
+              <span className="text-xl md:text-2xl font-serif font-semibold leading-tight text-white">
                 Bayview Hub
               </span>
-              <span className="text-[11px] tracking-widest uppercase text-gallery-muted">
+              <span className="text-[11px] tracking-[0.16em] uppercase text-white/70">
                 Art Gallery
               </span>
             </div>
           </a>
 
-          <nav aria-label="Main navigation" className="flex items-center gap-1">
+          <nav aria-label="Main navigation" className="flex items-center gap-1.5 md:gap-2">
             {NAV_ITEMS.map((item) => {
               const isActive =
                 pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -50,8 +52,8 @@ export function PublicHeader() {
                   aria-current={isActive ? "page" : undefined}
                   className={
                     isActive
-                      ? "px-3 py-2 text-sm font-medium rounded-md text-gallery-accent bg-gallery-accent/10"
-                      : "px-3 py-2 text-sm font-medium rounded-md text-gallery-muted hover:text-gallery-text hover:bg-gallery-surface-alt transition-colors duration-200"
+                      ? "rounded-md bg-white/12 px-3 py-2 text-xs font-medium tracking-wide text-white md:text-sm"
+                      : "rounded-md px-3 py-2 text-xs font-medium tracking-wide text-white/75 transition-colors duration-200 hover:bg-white/8 hover:text-white md:text-sm"
                   }
                 >
                   {item.label}
