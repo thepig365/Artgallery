@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db/client";
+import { Prisma } from "@prisma/client";
 import { resolveSessionUser } from "@/lib/auth/session";
 import { requireRole, AuthorizationError } from "@/lib/auth/roles";
 
@@ -15,12 +16,32 @@ export async function GET(
 
     const session = await prisma.auditSession.findUnique({
       where: { id: auditSessionId },
-      include: {
+      select: {
+        id: true,
+        status: true,
+        phase: true,
         artwork: {
-          include: { artist: true },
+          select: {
+            id: true,
+            title: true,
+            medium: true,
+            year: true,
+            dimensions: true,
+            materials: true,
+            narrative: true,
+            imageUrl: true,
+          },
         },
         scores: {
           where: { assessorUserId: user!.id },
+          select: {
+            scoreB: true,
+            scoreP: true,
+            scoreM: true,
+            scoreS: true,
+            finalV: true,
+            notes: true,
+          },
           take: 1,
         },
       },
@@ -80,6 +101,18 @@ export async function GET(
   } catch (err) {
     if (err instanceof AuthorizationError) {
       return NextResponse.json({ error: err.message }, { status: 401 });
+    }
+    if (
+      err instanceof Prisma.PrismaClientKnownRequestError &&
+      (err.code === "P2021" || err.code === "P2022")
+    ) {
+      console.error("[GET /api/portal/assessor/session/[id]] schema mismatch", {
+        code: err.code,
+      });
+      return NextResponse.json(
+        { error: "Session data is temporarily unavailable" },
+        { status: 503 }
+      );
     }
     console.error("[GET /api/portal/assessor/session/[id]]", err);
     return NextResponse.json(

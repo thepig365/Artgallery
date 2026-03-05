@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import Image from "next/image";
 import { resolveAuthUser, resolveSessionUser } from "@/lib/auth/session";
 import { requireRole, AuthorizationError } from "@/lib/auth/roles";
-import { getAssignmentsForAssessor } from "@/lib/services/assessment-assignment";
+import { getAssessorPortalItems } from "@/lib/services/assessment-assignment";
 import { CONTACT_EMAIL } from "@/lib/site-config";
 import { authDebug } from "@/lib/auth/debug";
 
@@ -69,13 +69,21 @@ export default async function AssessorPortalPage() {
     redirect("/login?redirect=/portal/assessor");
   }
 
-  let assignments: Awaited<ReturnType<typeof getAssignmentsForAssessor>> = [];
+  let items: Awaited<ReturnType<typeof getAssessorPortalItems>>["items"] = [];
   let hasLoadError = false;
+  const errorRef = `ASR-${Date.now().toString(36).toUpperCase()}`;
   try {
-    assignments = await getAssignmentsForAssessor(user!.authUid!);
+    const portalData = await getAssessorPortalItems({
+      assessorAuthUid: user!.authUid!,
+      assessorUserId: user!.id,
+    });
+    items = portalData.items;
   } catch (error) {
     hasLoadError = true;
-    console.error("[portal/assessor] Failed to load assignments", error);
+    console.error("[portal/assessor] Failed to load assignments", {
+      ref: errorRef,
+      error,
+    });
   }
 
   if (hasLoadError) {
@@ -89,6 +97,9 @@ export default async function AssessorPortalPage() {
         </h1>
         <p className="text-sm text-gallery-muted leading-relaxed mb-4 max-w-lg">
           We could not load your assignments right now. Please retry in a moment.
+        </p>
+        <p className="text-xs text-gallery-muted/80 leading-relaxed mb-2 max-w-lg">
+          Reference: {errorRef}
         </p>
         <p className="text-sm text-gallery-muted leading-relaxed mb-10 max-w-lg">
           If this persists, contact{" "}
@@ -127,7 +138,7 @@ export default async function AssessorPortalPage() {
         My Assignments
       </h1>
 
-      {assignments.length === 0 ? (
+      {items.length === 0 ? (
         <div className="border border-gallery-border rounded-lg p-8 text-center">
           <p className="text-sm text-gallery-muted mb-4">
             No assignments are currently assigned to you.
@@ -142,20 +153,19 @@ export default async function AssessorPortalPage() {
       ) : (
         <div className="space-y-3">
           <h2 className="text-xs font-medium uppercase tracking-widest text-gallery-muted mb-3">
-            Active ({assignments.length})
+            Active ({items.length})
           </h2>
-          {assignments.map((a) => {
-            const score = a.scores[0];
+          {items.map((item) => {
             return (
               <Link
-                key={a.id}
-                href={`/portal/assessor/review/${a.id}`}
+                key={`${item.kind}-${item.id}`}
+                href={item.reviewHref}
                 className="flex items-center gap-4 border border-gallery-border rounded-lg px-4 py-4 hover:bg-gallery-surface-alt transition-colors duration-200"
               >
                 <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-gallery-surface-alt">
-                  {a.artwork.imageUrl ? (
+                  {item.artwork.imageUrl ? (
                     <Image
-                      src={a.artwork.imageUrl}
+                      src={item.artwork.imageUrl}
                       alt=""
                       width={64}
                       height={64}
@@ -169,24 +179,24 @@ export default async function AssessorPortalPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-gallery-text truncate">
-                    {a.artwork.title}
+                    {item.artwork.title}
                   </p>
                   <p className="text-xs text-gallery-muted mt-0.5">
-                    Assigned {new Date(a.assignedAt).toLocaleDateString()}
-                    {a.dueAt && (
-                      <> · Due {new Date(a.dueAt).toLocaleDateString()}</>
+                    Assigned {new Date(item.assignedAt).toLocaleDateString()}
+                    {item.dueAt && (
+                      <> · Due {new Date(item.dueAt).toLocaleDateString()}</>
                     )}
                   </p>
                   <p className="text-xs text-gallery-muted mt-0.5">
-                    {score?.status === "SUBMITTED"
+                    {item.scoreStatus === "SUBMITTED"
                       ? "Score submitted"
-                      : score?.status === "DRAFT"
+                      : item.scoreStatus === "DRAFT"
                         ? "Draft saved"
                         : "Awaiting your score"}
                   </p>
                 </div>
                 <span className="text-xs text-gallery-accent font-medium uppercase tracking-wide flex-shrink-0">
-                  {a.status.replace("_", " ")}
+                  {item.status.replace("_", " ")}
                 </span>
               </Link>
             );

@@ -4,6 +4,7 @@
  */
 
 import { prisma } from "@/lib/db/client";
+import { Prisma } from "@prisma/client";
 import { writeAuditLog } from "./audit-log";
 
 export type AssignmentStatus =
@@ -12,6 +13,24 @@ export type AssignmentStatus =
   | "SUBMITTED"
   | "NEEDS_REVISION"
   | "WITHDRAWN";
+
+export interface AssessorPortalItem {
+  id: string;
+  kind: "assignment" | "audit_session";
+  status: string;
+  assignedAt: Date;
+  dueAt: Date | null;
+  reviewHref: string;
+  artwork: {
+    id: string;
+    title: string;
+    slug: string;
+    imageUrl: string | null;
+    medium: string | null;
+    year: number | null;
+  };
+  scoreStatus: "DRAFT" | "SUBMITTED" | null;
+}
 
 export async function createAssignment(params: {
   artworkId: string;
@@ -116,6 +135,136 @@ export async function getAssignmentsForAssessor(assessorAuthUid: string) {
 
   const visibleStatuses = new Set(["ASSIGNED", "IN_REVIEW", "NEEDS_REVISION"]);
   return assignments.filter((a) => visibleStatuses.has(a.status));
+}
+
+function parseAssignedAssessors(
+  raw: string | null
+): string[] {
+  if (!raw) return [];
+  try {
+    const json = JSON.parse(raw) as { assignedAssessors?: unknown };
+    if (!Array.isArray(json.assignedAssessors)) return [];
+    return json.assignedAssessors.filter((v): v is string => typeof v === "string");
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Stable assessor portal list:
+ * 1) Try assignment-based flow (assessment_assignments)
+ * 2) Fallback to audit-session assignment metadata for environments where
+ *    assignment tables/columns may be unavailable or unseeded.
+ */
+export async function getAssessorPortalItems(params: {
+  assessorAuthUid: string;
+  assessorUserId: string;
+}): Promise<{ items: AssessorPortalItem[]; warning?: string }> {
+  const visibleStatuses = new Set(["ASSIGNED", "IN_REVIEW", "NEEDS_REVISION"]);
+
+  try {
+    const assignments = await prisma.assessmentAssignment.findMany({
+      where: { assessorAuthUid: params.assessorAuthUid },
+      select: {
+        id: true,
+        status: true,
+        dueAt: true,
+        assignedAt: true,
+        artwork: {
+          select: {
+            id: true,
+            title: true,
+            slug: true,
+            imageUrl: true,
+            medium: true,
+            year: true,
+          },
+        },
+        scores: {
+          select: {
+            status: true,
+            submittedAt: true,
+          },
+          orderBy: { submittedAt: "desc" },
+          take: 1,
+        },
+      },
+      orderBy: { assignedAt: "desc" },
+    });
+
+    const items = assignments
+      .filter((a) => visibleStatuses.has(a.status))
+      .map<AssessorPortalItem>((a) => ({
+        id: a.id,
+        kind: "assignment",
+        status: a.status,
+        assignedAt: a.assignedAt,
+        dueAt: a.dueAt,
+        reviewHref: `/portal/assessor/review/${a.id}`,
+        artwork: a.artwork,
+        scoreStatus: a.scores[0]?.status ?? null,
+      }));
+
+    if (items.length > 0) return { items };
+  } catch (error) {
+    if (
+      error instanceof Prisma.PrismaClientKnownRequestError &&
+      (error.code === "P2021" || error.code === "P2022")
+    ) {
+      console.warn("[assessor portal] assignment schema mismatch fallback", {
+        code: error.code,
+      });
+    } else {
+      throw error;
+    }
+  }
+
+  const sessions = await prisma.auditSession.findMany({
+    where: { status: { in: ["DRAFT", "IN_PROGRESS"] } },
+    select: {
+      id: true,
+      status: true,
+      createdAt: true,
+      notes: true,
+      artwork: {
+        select: {
+          id: true,
+          title: true,
+          slug: true,
+          imageUrl: true,
+          medium: true,
+          year: true,
+        },
+      },
+      scores: {
+        where: { assessorUserId: params.assessorUserId },
+        select: { id: true },
+        take: 1,
+      },
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  const fallbackItems = sessions
+    .filter((s) => parseAssignedAssessors(s.notes).includes(params.assessorUserId))
+    .map<AssessorPortalItem>((s) => ({
+      id: s.id,
+      kind: "audit_session",
+      status: s.status,
+      assignedAt: s.createdAt,
+      dueAt: null,
+      reviewHref: `/portal/assessor/session/${s.id}`,
+      artwork: s.artwork,
+      scoreStatus: s.scores.length > 0 ? "SUBMITTED" : null,
+    }));
+
+  return {
+    items: fallbackItems,
+    warning:
+      fallbackItems.length > 0
+        ? "Portal is running in audit-session compatibility mode."
+        : undefined,
+  };
 }
 
 export async function getAssignmentForAssessor(

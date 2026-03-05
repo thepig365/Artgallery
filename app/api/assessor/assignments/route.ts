@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { resolveSessionUser } from "@/lib/auth/session";
 import { requireRole, AuthorizationError } from "@/lib/auth/roles";
-import { getAssignmentsForAssessor } from "@/lib/services/assessment-assignment";
+import { getAssessorPortalItems } from "@/lib/services/assessment-assignment";
 
 /**
  * GET /api/assessor/assignments
@@ -12,10 +12,14 @@ export async function GET() {
     const user = await resolveSessionUser();
     requireRole(user, "ADMIN", "ASSESSOR");
 
-    const assignments = await getAssignmentsForAssessor(user!.authUid!);
+    const { items, warning } = await getAssessorPortalItems({
+      assessorAuthUid: user!.authUid!,
+      assessorUserId: user!.id,
+    });
 
-    const payload = assignments.map((a) => ({
+    const payload = items.map((a) => ({
       id: a.id,
+      kind: a.kind,
       artwork: {
         id: a.artwork.id,
         title: a.artwork.title,
@@ -27,17 +31,11 @@ export async function GET() {
       status: a.status,
       dueAt: a.dueAt?.toISOString() ?? null,
       assignedAt: a.assignedAt.toISOString(),
-      notesToAssessor: a.notesToAssessor,
-      score: a.scores[0]
-        ? {
-            id: a.scores[0].id,
-            status: a.scores[0].status,
-            submittedAt: a.scores[0].submittedAt?.toISOString() ?? null,
-          }
-        : null,
+      score: a.scoreStatus ? { status: a.scoreStatus } : null,
+      reviewHref: a.reviewHref,
     }));
 
-    return NextResponse.json({ assignments: payload });
+    return NextResponse.json({ assignments: payload, warning });
   } catch (err) {
     if (err instanceof AuthorizationError) {
       return NextResponse.json({ error: err.message }, { status: 401 });
