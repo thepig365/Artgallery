@@ -260,7 +260,7 @@ export default async function ArtworkDetailPage({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Gallery", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
       { "@type": "ListItem", position: 2, name: "Archive", item: `${siteUrl}/archive` },
       { "@type": "ListItem", position: 3, name: artwork.title, item: `${siteUrl}/archive/${artwork.slug}` },
     ],

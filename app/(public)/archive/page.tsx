@@ -29,11 +29,13 @@ export const metadata: Metadata = {
     type: "website",
     url: "/archive",
     siteName: "Bayview Hub Art Gallery",
+    images: [{ url: "/images/bayview-estate-logo.jpg" }],
   },
   twitter: {
     card: "summary_large_image",
     title: TITLE,
     description: DESCRIPTION,
+    images: ["/images/bayview-estate-logo.jpg"],
   },
 };
 
@@ -52,17 +54,13 @@ export default async function ArchivePage() {
     "@type": "ItemList",
     name: "Bayview Hub Gallery Collection",
     description: "Curated artworks assessed through the Mend Index protocol.",
-    numberOfItems: publicArtworks.length,
-    itemListElement: publicArtworks.slice(0, 50).map((a, i) => ({
+    numberOfItems: Math.min(publicArtworks.length, 24),
+    itemListElement: publicArtworks.slice(0, 24).map((a, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      item: {
-        "@type": "VisualArtwork",
-        name: a.title,
-        url: `${siteUrl}/archive/${a.slug}`,
-        ...(toGalleryPublicUrl(a.imageUrl) ? { image: toGalleryPublicUrl(a.imageUrl) } : {}),
-        creator: a.artist?.name ? { "@type": "Person", name: a.artist.name } : undefined,
-      },
+      name: a.title,
+      url: `${siteUrl}/archive/${a.slug}`,
+      ...(toGalleryPublicUrl(a.imageUrl) ? { image: toGalleryPublicUrl(a.imageUrl) } : {}),
     })),
   };
   const breadcrumbLd = {
