@@ -6,7 +6,8 @@ import { ArrowLeft, ExternalLink, ImageOff } from "lucide-react";
 import { prisma } from "@/lib/db/client";
 import { getSiteUrl } from "@/lib/site-url";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 const SITE_NAME = "Art Valuation Protocol";
 

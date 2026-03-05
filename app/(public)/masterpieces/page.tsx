@@ -7,7 +7,8 @@ import { ImageOff, ExternalLink, X, BookOpen } from "lucide-react";
 import { STUDY_PACKS_TOP50 } from "@/lib/data/study-packs-top50";
 import { getSiteUrl } from "@/lib/site-url";
 
-export const revalidate = 3600;
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 const SITE_NAME = "Art Valuation Protocol";
 const PAGE_SIZE = 24;

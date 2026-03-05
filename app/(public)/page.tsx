@@ -1,14 +1,15 @@
 import { HeroSection } from "@/components/gallery/HeroSection";
 import { FeaturedSection } from "@/components/gallery/FeaturedSection";
-import { getPublicArtworks } from "@/lib/services/artwork-visibility";
-import { resolveArtworksToGalleryPublicUrls } from "@/lib/supabase/gallery-public";
+import { getPublicArtworks, type PublicArtwork } from "@/lib/services/public-artworks";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function HomePage() {
-  let featuredArtworks: Awaited<ReturnType<typeof getPublicArtworks>> = [];
+  let featuredArtworks: PublicArtwork[] = [];
   try {
-    const artworks = await getPublicArtworks({ take: 8 });
-    featuredArtworks = resolveArtworksToGalleryPublicUrls(artworks);
+    featuredArtworks = await getPublicArtworks(8);
   } catch (err) {
     console.error("[Home] Failed to load featured artworks:", err);
   }
