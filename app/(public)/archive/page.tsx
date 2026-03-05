@@ -49,6 +49,7 @@ export default async function ArchivePage() {
   }
 
   const siteUrl = getSiteUrl();
+  const fallbackImage = `${siteUrl}/images/bayview-estate-logo.jpg`;
   const itemListLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -60,7 +61,7 @@ export default async function ArchivePage() {
       position: i + 1,
       name: a.title,
       url: `${siteUrl}/archive/${a.slug}`,
-      ...(toGalleryPublicUrl(a.imageUrl) ? { image: toGalleryPublicUrl(a.imageUrl) } : {}),
+      image: toGalleryPublicUrl(a.imageUrl) ?? fallbackImage,
     })),
   };
   const breadcrumbLd = {

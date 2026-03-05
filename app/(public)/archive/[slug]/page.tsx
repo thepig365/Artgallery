@@ -201,7 +201,7 @@ export default async function ArtworkDetailPage({
         .map((s) => s.trim())
         .filter(Boolean)
     : [];
-  const displayArtist = artwork.artist?.name?.trim() || "Chelsey Liu";
+  const displayArtist = artwork.artist?.name?.trim() || "Bayview Art Gallery";
 
   const sameAs =
     artwork.sourceUrl && artwork.sourceUrl.includes("chelseyartwork.com")
