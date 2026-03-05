@@ -3,6 +3,7 @@ import Link from "next/link";
 import { headers } from "next/headers";
 import { Container } from "@/components/layout/Container";
 import { MAIN_SITE_URL } from "@/lib/brand";
+import { PublicThemeToggle } from "@/components/public/PublicThemeToggle";
 
 const NAV_ITEMS = [
   { label: "Archive", href: "/archive" },
@@ -41,7 +42,9 @@ export function PublicHeader() {
             </div>
           </a>
 
-          <nav aria-label="Main navigation" className="flex items-center gap-1.5 md:gap-2">
+          <div className="flex items-center gap-1 md:gap-1.5">
+            <PublicThemeToggle />
+            <nav aria-label="Main navigation" className="flex items-center gap-1.5 md:gap-2">
             {NAV_ITEMS.map((item) => {
               const isActive =
                 pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -60,7 +63,8 @@ export function PublicHeader() {
                 </Link>
               );
             })}
-          </nav>
+            </nav>
+          </div>
         </div>
       </Container>
     </header>
