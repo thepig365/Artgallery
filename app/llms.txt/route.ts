@@ -11,7 +11,7 @@ What this site is:
 This is the public collection + protocol (“Mend Index”) + curated submission portal for Bayview Art Gallery. This site is enquiry-first and designed to support in-person viewing and physical sales. There is no online checkout.
 
 Key pages:
-- Public Collection (Archive): https://gallery.bayviewhub.me/archive
+- Public Collection: https://gallery.bayviewhub.me/archive
 - Protocol / Mend Index: https://gallery.bayviewhub.me/protocol
 - Rights & Takedown: https://gallery.bayviewhub.me/rights
 - Takedown Request: https://gallery.bayviewhub.me/takedown

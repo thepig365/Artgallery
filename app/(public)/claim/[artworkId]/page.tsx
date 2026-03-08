@@ -52,7 +52,7 @@ export default function ClaimPage() {
       <div className="container mx-auto px-4 py-24 text-center">
         <p className="text-sm text-gallery-muted">Invalid artwork ID.</p>
         <Link href="/archive" className="mt-4 inline-block text-sm text-gallery-accent hover:underline">
-          Back to Archive
+          Back to Collection
         </Link>
       </div>
     );
@@ -131,7 +131,7 @@ export default function ClaimPage() {
               className="inline-flex items-center gap-1.5 text-sm text-gallery-accent hover:underline"
             >
               <ArrowLeft className="w-4 h-4" strokeWidth={1.5} />
-              Back to Archive
+              Back to Collection
             </Link>
           </div>
         </div>
@@ -146,7 +146,7 @@ export default function ClaimPage() {
         className="inline-flex items-center gap-1.5 text-sm text-gallery-muted hover:text-gallery-accent transition-colors duration-200 mb-6"
       >
         <ArrowLeft className="w-4 h-4" strokeWidth={1.5} />
-        Back to Archive
+        Back to Collection
       </Link>
 
       <div className="mb-8">

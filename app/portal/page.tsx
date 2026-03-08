@@ -70,7 +70,7 @@ export default async function PortalPage() {
           href="/archive"
           className="block border border-gallery-border text-gallery-text text-sm font-medium rounded-lg px-6 py-4 hover:bg-gallery-surface-alt transition-colors duration-200 text-center"
         >
-          Browse the Archive
+          Browse the Collection
         </Link>
         <Link
           href="/login"

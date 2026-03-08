@@ -11,13 +11,13 @@ export default function NotFound() {
           Page Not Found
         </h1>
         <p className="text-xs text-noir-muted leading-relaxed mb-8">
-          The requested resource does not exist in the protocol archive.
+          The requested resource does not exist in the protocol collection.
         </p>
         <Link
           href="/archive"
           className="inline-flex items-center justify-center border border-noir-border px-4 py-2 text-xs font-medium tracking-widest uppercase text-noir-text hover:bg-noir-surface hover:text-white transition-colors duration-120 focus-visible:outline focus-visible:outline-1 focus-visible:outline-noir-text"
         >
-          Back to Archive
+          Back to Collection
         </Link>
       </div>
     </div>

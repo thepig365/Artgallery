@@ -69,7 +69,7 @@ export default async function ArchivePage() {
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Gallery", item: siteUrl },
-      { "@type": "ListItem", position: 2, name: "Archive", item: `${siteUrl}/archive` },
+      { "@type": "ListItem", position: 2, name: "Collection", item: `${siteUrl}/archive` },
     ],
   };
 
@@ -99,7 +99,7 @@ export default async function ArchivePage() {
           </div>
           <div className="flex items-center gap-2.5">
             <a
-              href={`mailto:${GALLERY_EMAIL}?subject=Archive%20Enquiry`}
+              href={`mailto:${GALLERY_EMAIL}?subject=Collection%20Enquiry`}
               className="inline-flex items-center justify-center rounded-md border border-white/20 bg-white px-4 py-2 text-xs font-medium uppercase tracking-wide text-family-navy transition-colors hover:bg-white/90"
             >
               Enquire

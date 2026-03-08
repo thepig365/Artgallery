@@ -6,7 +6,7 @@ import { MAIN_SITE_URL } from "@/lib/brand";
 import { PublicThemeToggle } from "@/components/public/PublicThemeToggle";
 
 const NAV_ITEMS = [
-  { label: "Archive", href: "/archive" },
+  { label: "Collection", href: "/archive" },
   { label: "Mend Index Protocol", href: "/protocol" },
   { label: "Submit", href: "/submit" },
   { label: "Rights & Takedown", href: "/rights" },

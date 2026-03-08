@@ -358,7 +358,7 @@ export default async function MasterpieceDetailPage({ params }: PageProps) {
             href="/archive"
             className="text-xs text-gallery-muted hover:text-gallery-accent transition-colors"
           >
-            Browse the Archive &rarr;
+            Browse the Collection &rarr;
           </Link>
         </div>
       </div>

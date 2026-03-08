@@ -26,7 +26,7 @@ export function PublicFooter() {
             <ul className="space-y-2">
               <li>
                 <Link href="/archive" className="text-sm text-white/70 transition-colors hover:text-white">
-                  Archive
+                  Collection
                 </Link>
               </li>
               <li>

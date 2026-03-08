@@ -91,7 +91,7 @@ export default function StudyIndexPage() {
           href="/archive"
           className="inline-flex items-center px-5 py-2.5 border border-gallery-border text-gallery-text text-sm font-medium rounded-lg hover:bg-gallery-surface-alt transition-colors duration-200"
         >
-          Browse Archive
+          Browse Collection
         </Link>
         <Link
           href="/masterpieces"

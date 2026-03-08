@@ -411,7 +411,7 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
               href="/archive"
               className="text-xs text-gallery-muted hover:text-gallery-accent transition-colors"
             >
-              Browse Contemporary Archive &rarr;
+              Browse Contemporary Collection &rarr;
             </Link>
           </div>
         </div>
@@ -522,7 +522,7 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
                       href="/archive"
                       className="text-xs font-medium text-gallery-accent hover:underline"
                     >
-                      Browse Archive
+                      Browse Collection
                     </Link>
                     <span className="text-gallery-border">·</span>
                     <Link
@@ -630,7 +630,7 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
                     href="/archive"
                     className="text-xs font-medium text-gallery-accent hover:underline"
                   >
-                    Browse Archive
+                    Browse Collection
                   </Link>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-auto">

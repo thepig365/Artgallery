@@ -55,7 +55,7 @@ export default async function AssessorPortalPage() {
               href="/archive"
               className="block border border-gallery-border text-gallery-text text-sm font-medium rounded-lg px-6 py-4 hover:bg-gallery-surface-alt transition-colors duration-200 text-center"
             >
-              Browse the Archive
+              Browse the Collection
             </Link>
           </div>
         </div>
@@ -122,7 +122,7 @@ export default async function AssessorPortalPage() {
             href="/archive"
             className="block border border-gallery-border text-gallery-text text-sm font-medium rounded-lg px-6 py-4 hover:bg-gallery-surface-alt transition-colors duration-200 text-center"
           >
-            Browse the Archive
+            Browse the Collection
           </Link>
         </div>
       </div>
@@ -147,7 +147,7 @@ export default async function AssessorPortalPage() {
             href="/archive"
             className="text-sm text-gallery-accent hover:underline"
           >
-            Browse the Archive
+            Browse the Collection
           </Link>
         </div>
       ) : (

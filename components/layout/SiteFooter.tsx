@@ -33,7 +33,7 @@ export function SiteFooter() {
                     href="/archive"
                     className="text-xs text-muted hover:text-fg transition-colors"
                   >
-                    Browse Archive
+                    Browse Collection
                   </Link>
                 </li>
                 <li>

@@ -23,7 +23,7 @@ export function HeroSection() {
               href="/archive"
               className="inline-flex items-center px-6 py-3 bg-gallery-accent text-white text-sm font-medium rounded-lg hover:bg-gallery-accent-hover transition-colors duration-200"
             >
-              Browse Archive
+              Browse Collection
             </Link>
             <Link
               href="/submit"

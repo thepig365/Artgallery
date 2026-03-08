@@ -9,7 +9,7 @@ import {
   Clock,
   ListChecks,
   Mail,
-  Archive,
+  FolderOpen,
   BookOpen,
   PenTool,
 } from "lucide-react";
@@ -41,13 +41,13 @@ const NEXT_STEPS = [
 ];
 
 const WHILE_YOU_WAIT = [
-  "Explore works already in the Archive",
+  "Explore works already in the Collection",
   "Read how the Material Sincerity framework works",
   "Prepare photos and details for your next submission",
 ];
 
 const CTA_LINKS = [
-  { href: "/archive", label: "View Archive", icon: Archive },
+  { href: "/archive", label: "View Collection", icon: FolderOpen },
   { href: "/protocol", label: "Read the Protocol", icon: BookOpen },
   { href: "/submit", label: "Submit Another Work", icon: PenTool },
 ];

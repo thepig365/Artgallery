@@ -7,11 +7,11 @@ import { useZone } from "./useZone";
 const NOIR_NAV_ITEMS = [
   { label: "LABORATORY", href: "/laboratory/ui-preview" },
   { label: "PROTOCOL", href: "/protocol" },
-  { label: "ARCHIVE", href: "/archive" },
+  { label: "COLLECTION", href: "/archive" },
 ] as const;
 
 const GALLERY_NAV_ITEMS = [
-  { label: "Archive", href: "/archive" },
+  { label: "Collection", href: "/archive" },
   { label: "Protocol", href: "/protocol" },
   { label: "Submit for Curation", href: "/submit" },
   { label: "Rights & Takedown", href: "/rights" },

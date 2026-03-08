@@ -147,7 +147,7 @@ export async function generateMetadata({
   const title = `${artwork.title} | Bayview Hub Gallery`;
   const description =
     artwork.narrative?.slice(0, 160) ||
-    `View ${artwork.title} in the Bayview Hub gallery archive.`;
+    `View ${artwork.title} in the Bayview Hub gallery collection.`;
   const canonicalUrl = `${siteUrl}/archive/${artwork.slug}`;
 
   return {
@@ -190,7 +190,7 @@ export default async function ArtworkDetailPage({
             We could not load this artwork right now. Please refresh shortly.
           </p>
           <Link href="/archive" className="text-sm text-gallery-accent hover:underline">
-            Back to Archive
+            Back to Collection
           </Link>
         </div>
       </div>
@@ -285,7 +285,7 @@ export default async function ArtworkDetailPage({
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
-      { "@type": "ListItem", position: 2, name: "Archive", item: `${siteUrl}/archive` },
+      { "@type": "ListItem", position: 2, name: "Collection", item: `${siteUrl}/archive` },
       { "@type": "ListItem", position: 3, name: artwork.title, item: `${siteUrl}/archive/${artwork.slug}` },
     ],
   };
@@ -310,7 +310,7 @@ export default async function ArtworkDetailPage({
         className="inline-flex items-center gap-1.5 text-sm text-gallery-muted hover:text-gallery-accent transition-colors duration-200 mb-6"
       >
         <ArrowLeft className="w-4 h-4" strokeWidth={1.5} />
-        Back to Archive
+        Back to Collection
       </Link>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
