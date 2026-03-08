@@ -5,12 +5,12 @@ import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Assessment Protocol | Bayview Hub Gallery",
+  title: "Mend Index Protocol | Bayview Hub Gallery",
   description:
     "Read the Mend Index assessment framework, methodology, and legal disclaimers.",
   alternates: { canonical: "/protocol" },
   openGraph: {
-    title: "Assessment Protocol | Bayview Hub Gallery",
+    title: "Mend Index Protocol | Bayview Hub Gallery",
     description:
       "Read the Mend Index assessment framework, methodology, and legal disclaimers.",
     type: "article",
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Assessment Protocol | Bayview Hub Gallery",
+    title: "Mend Index Protocol | Bayview Hub Gallery",
     description:
       "Read the Mend Index assessment framework, methodology, and legal disclaimers.",
   },
@@ -65,7 +65,7 @@ export default function ProtocolPage() {
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <h1 className="text-xl font-medium tracking-forensic text-noir-text">
-            Assessment Protocol
+            Mend Index Protocol
           </h1>
           <Badge variant="muted">Mend Index V1</Badge>
         </div>

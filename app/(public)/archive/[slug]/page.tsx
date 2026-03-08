@@ -97,6 +97,29 @@ function toCuratorNote(narrative: string | null | undefined): string | null {
   return sliced;
 }
 
+function buildMendRationale(scores: { B: number; P: number; M: number; S: number }): string[] {
+  const lines: string[] = [];
+  if (scores.M >= 7) lines.push("Material coherence is strong and supports the declared intent.");
+  else lines.push("Material coherence is still developing and may need clearer disclosure.");
+
+  if (scores.P >= 7) lines.push("Process evidence reads clearly across visible layers and handling.");
+  else lines.push("Process evidence is partial; additional process documentation may help.");
+
+  if (scores.B >= 7) lines.push("Body score indicates stable physical integrity for display and review.");
+  else lines.push("Body score suggests structural or substrate concerns to monitor.");
+
+  if (scores.S >= 7) lines.push("Surface finish aligns with the work's stated process and medium.");
+  else lines.push("Surface coherence is mixed and may benefit from further refinement.");
+
+  const avg = (scores.B + scores.P + scores.M + scores.S) / 4;
+  lines.push(
+    avg >= 7
+      ? "Overall assessment indicates strong readiness for curated viewing."
+      : "Overall assessment remains provisional and should be read with the protocol disclaimer."
+  );
+  return lines;
+}
+
 export async function generateMetadata({
   params,
 }: ArtworkDetailPageProps): Promise<Metadata> {
@@ -232,6 +255,7 @@ export default async function ArtworkDetailPage({
     availability: "Available on enquiry",
   };
   const curatorNote = toCuratorNote(artwork.narrative);
+  const rationaleLines = scores ? buildMendRationale(scores) : [];
   const siteUrl = getSiteUrl();
   const jsonLd = {
     "@context": "https://schema.org",
@@ -324,7 +348,7 @@ export default async function ArtworkDetailPage({
               <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-3">
                 Enquiry
               </p>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-wrap items-center gap-3" role="group" aria-label="Desktop enquiry actions">
                 <EnquiryModalTrigger
                   ctaType="enquire"
                   label="Enquire"
@@ -339,6 +363,13 @@ export default async function ArtworkDetailPage({
                   artworkSlug={artwork.slug}
                   artworkTitle={artwork.title}
                 />
+                <EnquiryModalTrigger
+                  ctaType="price"
+                  label="Request price & availability"
+                  artworkId={artwork.id}
+                  artworkSlug={artwork.slug}
+                  artworkTitle={artwork.title}
+                />
               </div>
             </div>
           </div>
@@ -346,12 +377,20 @@ export default async function ArtworkDetailPage({
           {/* Title + Artist */}
           <div>
             <div className="flex items-center gap-2 mb-1">
-              <span className="text-xs font-medium text-gallery-accent uppercase tracking-wide">
-                Assessed Work
-              </span>
-              {artwork.finalV != null && (
-                <span className="inline-flex items-center px-2 py-0.5 bg-gallery-accent/10 text-gallery-accent text-xs font-semibold rounded-md tabular-nums">
-                  V {artwork.finalV.toFixed(2)}
+              {scores ? (
+                <>
+                  <span className="text-xs font-medium text-gallery-accent uppercase tracking-wide">
+                    Assessed Work
+                  </span>
+                  {artwork.finalV != null && (
+                    <span className="inline-flex items-center px-2 py-0.5 bg-gallery-accent/10 text-gallery-accent text-xs font-semibold rounded-md tabular-nums">
+                      V {artwork.finalV.toFixed(2)}
+                    </span>
+                  )}
+                </>
+              ) : (
+                <span className="text-xs font-medium text-gallery-muted uppercase tracking-wide">
+                  Assessment pending
                 </span>
               )}
             </div>
@@ -387,13 +426,13 @@ export default async function ArtworkDetailPage({
                 <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
                   Year
                 </p>
-                <p className="text-sm text-gallery-text">{artworkFacts.year || "—"}</p>
+                <p className="text-sm text-gallery-text">{artworkFacts.year || "Not disclosed"}</p>
               </div>
               <div>
                 <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
                   Medium
                 </p>
-                <p className="text-sm text-gallery-text">{artworkFacts.medium || "—"}</p>
+                <p className="text-sm text-gallery-text">{artworkFacts.medium || "Not disclosed"}</p>
               </div>
               {artworkFacts.materials && (
                 <div>
@@ -407,7 +446,7 @@ export default async function ArtworkDetailPage({
                 <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
                   Dimensions
                 </p>
-                <p className="text-sm text-gallery-text">{artworkFacts.dimensions || "—"}</p>
+                <p className="text-sm text-gallery-text">{artworkFacts.dimensions || "On request"}</p>
               </div>
               <div>
                 <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
@@ -493,7 +532,7 @@ export default async function ArtworkDetailPage({
               <br />
               We respond within 1-2 business days.
             </p>
-            <div className="flex flex-col sm:flex-row flex-wrap gap-3">
+            <div className="flex flex-wrap items-center gap-3" role="group" aria-label="Enquiry actions">
               <EnquiryModalTrigger
                 ctaType="enquire"
                 label="Enquire"
@@ -510,7 +549,7 @@ export default async function ArtworkDetailPage({
               />
               <EnquiryModalTrigger
                 ctaType="price"
-                label="Request Price & Availability"
+                label="Request price & availability"
                 artworkId={artwork.id}
                 artworkSlug={artwork.slug}
                 artworkTitle={artwork.title}
@@ -520,15 +559,58 @@ export default async function ArtworkDetailPage({
         </div>
       </div>
 
-      {/* Scores section */}
-      {scores && (
-        <div className="mt-12">
-          <h2 className="text-xl font-bold text-gallery-text tracking-tight mb-6">
-            Mend Index Assessment
-          </h2>
-          <MendScoreDisplay scores={scores} finalV={artwork.finalV ?? null} />
-        </div>
-      )}
+      {/* Mend Index summary */}
+      <div className="mt-12 border border-gallery-border rounded-lg bg-gallery-surface p-5">
+        <h2 className="text-xl font-bold text-gallery-text tracking-tight mb-3">
+          Mend Index Summary
+        </h2>
+        {scores ? (
+          <>
+            <div className="mb-4">
+              <p className="text-xs uppercase tracking-wide text-gallery-muted mb-1">Composite</p>
+              <p className="text-lg font-semibold text-gallery-text tabular-nums">
+                {artwork.finalV != null ? artwork.finalV.toFixed(2) : "Pending finalization"}
+              </p>
+              <p className="text-xs text-gallery-muted mt-1">
+                Indicative protocol result only; not a valuation certificate.
+              </p>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
+              <div className="rounded-md border border-gallery-border p-3">
+                <p className="text-[11px] uppercase tracking-wide text-gallery-muted">Body</p>
+                <p className="text-sm font-medium text-gallery-text">{scores.B.toFixed(1)}</p>
+              </div>
+              <div className="rounded-md border border-gallery-border p-3">
+                <p className="text-[11px] uppercase tracking-wide text-gallery-muted">Process</p>
+                <p className="text-sm font-medium text-gallery-text">{scores.P.toFixed(1)}</p>
+              </div>
+              <div className="rounded-md border border-gallery-border p-3">
+                <p className="text-[11px] uppercase tracking-wide text-gallery-muted">Material</p>
+                <p className="text-sm font-medium text-gallery-text">{scores.M.toFixed(1)}</p>
+              </div>
+              <div className="rounded-md border border-gallery-border p-3">
+                <p className="text-[11px] uppercase tracking-wide text-gallery-muted">Surface</p>
+                <p className="text-sm font-medium text-gallery-text">{scores.S.toFixed(1)}</p>
+              </div>
+            </div>
+            <ul className="list-disc pl-5 space-y-1.5 text-sm text-gallery-muted">
+              {rationaleLines.map((line) => (
+                <li key={line}>{line}</li>
+              ))}
+            </ul>
+            <div className="mt-6">
+              <MendScoreDisplay scores={scores} finalV={artwork.finalV ?? null} />
+            </div>
+          </>
+        ) : (
+          <div className="rounded-md border border-gallery-border bg-gallery-surface-alt p-4">
+            <p className="text-sm font-medium text-gallery-text">Assessment pending / Not assessed</p>
+            <p className="text-xs text-gallery-muted mt-1">
+              This artwork does not currently display a complete Mend Index result.
+            </p>
+          </div>
+        )}
+      </div>
 
       {/* Disclaimer */}
       <div className="mt-12 border-t border-gallery-border pt-6">
@@ -538,7 +620,7 @@ export default async function ArtworkDetailPage({
       </div>
 
       <div className="lg:hidden fixed bottom-0 inset-x-0 z-40 border-t border-gallery-border bg-surface/95 backdrop-blur-sm p-3">
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-3" role="group" aria-label="Quick enquiry actions">
           <EnquiryModalTrigger
             ctaType="enquire"
             label="Enquire"
@@ -549,6 +631,13 @@ export default async function ArtworkDetailPage({
           <EnquiryModalTrigger
             ctaType="viewing"
             label="Book a viewing"
+            artworkId={artwork.id}
+            artworkSlug={artwork.slug}
+            artworkTitle={artwork.title}
+          />
+          <EnquiryModalTrigger
+            ctaType="price"
+            label="Request price & availability"
             artworkId={artwork.id}
             artworkSlug={artwork.slug}
             artworkTitle={artwork.title}

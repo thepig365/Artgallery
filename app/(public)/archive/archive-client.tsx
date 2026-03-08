@@ -49,6 +49,12 @@ export function ArchiveClient({ artworks }: ArchiveClientProps) {
   const [sortOrder, setSortOrder] = useState<"newest" | "az">(
     "newest"
   );
+  const hasActiveFilters =
+    !!query.trim() ||
+    !!selectedMedium ||
+    yearBucket !== "all" ||
+    sizeBucket !== "all" ||
+    sortOrder !== "newest";
 
   const mediums = useMemo(() => {
     const set = new Set<string>();
@@ -119,57 +125,106 @@ export function ArchiveClient({ artworks }: ArchiveClientProps) {
   return (
     <>
       <section className="rounded-lg border border-gallery-border bg-gallery-surface p-4 shadow-card sm:p-5">
+        <div className="mb-3 flex items-center justify-between">
+          <p className="text-xs font-medium uppercase tracking-[0.08em] text-gallery-muted">
+            Collection Filters
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setQuery("");
+              setSelectedMedium("");
+              setYearBucket("all");
+              setSizeBucket("all");
+              setSortOrder("newest");
+            }}
+            className="text-xs text-gallery-accent hover:underline disabled:opacity-40 disabled:no-underline"
+            disabled={!hasActiveFilters}
+          >
+            Clear filters
+          </button>
+        </div>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search works by title"
-            className="md:col-span-2 w-full rounded-full border border-gallery-border bg-white px-4 py-2.5 text-sm text-gallery-text outline-none transition-colors focus:border-family-accent"
-          />
-          <select
-            value={selectedMedium}
-            onChange={(e) => setSelectedMedium(e.target.value)}
-            className="w-full rounded-full border border-gallery-border bg-white px-4 py-2.5 text-sm text-gallery-text outline-none transition-colors focus:border-family-accent"
-          >
-            <option value="">All media</option>
-            {mediums.map((medium) => (
-              <option key={medium} value={medium}>
-                {medium}
-              </option>
-            ))}
-          </select>
-          <select
-            value={sortOrder}
-            onChange={(e) => setSortOrder(e.target.value as "newest" | "az")}
-            className="w-full rounded-full border border-gallery-border bg-white px-4 py-2.5 text-sm text-gallery-text outline-none transition-colors focus:border-family-accent"
-          >
-            <option value="newest">Newest</option>
-            <option value="az">Title A-Z</option>
-          </select>
-          <select
-            value={yearBucket}
-            onChange={(e) =>
-              setYearBucket(e.target.value as "all" | "2020s" | "2010s" | "older")
-            }
-            className="w-full rounded-full border border-gallery-border bg-white px-4 py-2.5 text-sm text-gallery-text outline-none transition-colors focus:border-family-accent"
-          >
-            <option value="all">All years</option>
-            <option value="2020s">2020s</option>
-            <option value="2010s">2010s</option>
-            <option value="older">Before 2010</option>
-          </select>
-          <select
-            value={sizeBucket}
-            onChange={(e) =>
-              setSizeBucket(e.target.value as "all" | "small" | "medium" | "large")
-            }
-            className="w-full rounded-full border border-gallery-border bg-white px-4 py-2.5 text-sm text-gallery-text outline-none transition-colors focus:border-family-accent"
-          >
-            <option value="all">All sizes</option>
-            <option value="small">Small</option>
-            <option value="medium">Medium</option>
-            <option value="large">Large</option>
-          </select>
+          <div className="md:col-span-2">
+            <label htmlFor="archive-search" className="mb-1 block text-xs text-gallery-muted">
+              Search title
+            </label>
+            <input
+              id="archive-search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search works by title"
+              className="w-full rounded-full border border-gallery-border bg-white px-4 py-2.5 text-sm text-gallery-text outline-none transition-colors focus:border-family-accent"
+            />
+          </div>
+          <div>
+            <label htmlFor="archive-medium" className="mb-1 block text-xs text-gallery-muted">
+              Medium
+            </label>
+            <select
+              id="archive-medium"
+              value={selectedMedium}
+              onChange={(e) => setSelectedMedium(e.target.value)}
+              className="w-full rounded-full border border-gallery-border bg-white px-4 py-2.5 text-sm text-gallery-text outline-none transition-colors focus:border-family-accent"
+            >
+              <option value="">All media</option>
+              {mediums.map((medium) => (
+                <option key={medium} value={medium}>
+                  {medium}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label htmlFor="archive-sort" className="mb-1 block text-xs text-gallery-muted">
+              Sort
+            </label>
+            <select
+              id="archive-sort"
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value as "newest" | "az")}
+              className="w-full rounded-full border border-gallery-border bg-white px-4 py-2.5 text-sm text-gallery-text outline-none transition-colors focus:border-family-accent"
+            >
+              <option value="newest">Newest</option>
+              <option value="az">Title A-Z</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="archive-year" className="mb-1 block text-xs text-gallery-muted">
+              Year
+            </label>
+            <select
+              id="archive-year"
+              value={yearBucket}
+              onChange={(e) =>
+                setYearBucket(e.target.value as "all" | "2020s" | "2010s" | "older")
+              }
+              className="w-full rounded-full border border-gallery-border bg-white px-4 py-2.5 text-sm text-gallery-text outline-none transition-colors focus:border-family-accent"
+            >
+              <option value="all">All years</option>
+              <option value="2020s">2020s</option>
+              <option value="2010s">2010s</option>
+              <option value="older">Before 2010</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="archive-size" className="mb-1 block text-xs text-gallery-muted">
+              Size
+            </label>
+            <select
+              id="archive-size"
+              value={sizeBucket}
+              onChange={(e) =>
+                setSizeBucket(e.target.value as "all" | "small" | "medium" | "large")
+              }
+              className="w-full rounded-full border border-gallery-border bg-white px-4 py-2.5 text-sm text-gallery-text outline-none transition-colors focus:border-family-accent"
+            >
+              <option value="all">All sizes</option>
+              <option value="small">Small</option>
+              <option value="medium">Medium</option>
+              <option value="large">Large</option>
+            </select>
+          </div>
           <div className="w-full rounded-full border border-gallery-border bg-gallery-surface-alt px-4 py-2.5 text-sm text-gallery-muted">
             Availability: Available on enquiry
           </div>

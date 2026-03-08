@@ -20,6 +20,8 @@ export function StudyLibraryClient({ items }: StudyLibraryClientProps) {
   const [query, setQuery] = useState("");
   const [kindFilter, setKindFilter] = useState<"all" | "master" | "pack">("all");
   const [institutionFilter, setInstitutionFilter] = useState("all");
+  const hasActiveFilters =
+    !!query.trim() || kindFilter !== "all" || institutionFilter !== "all";
 
   const institutions = useMemo(() => {
     return Array.from(
@@ -39,34 +41,69 @@ export function StudyLibraryClient({ items }: StudyLibraryClientProps) {
   return (
     <>
       <section className="border border-gallery-border rounded-lg bg-gallery-surface p-4 sm:p-5 mb-8">
+        <div className="mb-3 flex items-center justify-between">
+          <p className="text-xs font-medium uppercase tracking-[0.08em] text-gallery-muted">
+            Library Filters
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setQuery("");
+              setKindFilter("all");
+              setInstitutionFilter("all");
+            }}
+            className="text-xs text-gallery-accent hover:underline disabled:opacity-40 disabled:no-underline"
+            disabled={!hasActiveFilters}
+          >
+            Clear filters
+          </button>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-          <input
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search artist or study guide"
-            className="md:col-span-2 w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
-          />
-          <select
-            value={kindFilter}
-            onChange={(e) => setKindFilter(e.target.value as "all" | "master" | "pack")}
-            className="w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
-          >
-            <option value="all">All guide types</option>
-            <option value="master">Modern Masters</option>
-            <option value="pack">Study Packs</option>
-          </select>
-          <select
-            value={institutionFilter}
-            onChange={(e) => setInstitutionFilter(e.target.value)}
-            className="w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
-          >
-            <option value="all">All institutions</option>
-            {institutions.map((institution) => (
-              <option key={institution!} value={institution!}>
-                {institution}
-              </option>
-            ))}
-          </select>
+          <div className="md:col-span-2">
+            <label htmlFor="study-search" className="mb-1 block text-xs text-gallery-muted">
+              Search
+            </label>
+            <input
+              id="study-search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search artist or study guide"
+              className="w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
+            />
+          </div>
+          <div>
+            <label htmlFor="study-kind" className="mb-1 block text-xs text-gallery-muted">
+              Guide type
+            </label>
+            <select
+              id="study-kind"
+              value={kindFilter}
+              onChange={(e) => setKindFilter(e.target.value as "all" | "master" | "pack")}
+              className="w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
+            >
+              <option value="all">All guide types</option>
+              <option value="master">Modern Masters</option>
+              <option value="pack">Study Packs</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="study-institution" className="mb-1 block text-xs text-gallery-muted">
+              Institution
+            </label>
+            <select
+              id="study-institution"
+              value={institutionFilter}
+              onChange={(e) => setInstitutionFilter(e.target.value)}
+              className="w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
+            >
+              <option value="all">All institutions</option>
+              {institutions.map((institution) => (
+                <option key={institution!} value={institution!}>
+                  {institution}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
         <p className="mt-3 text-xs text-gallery-muted">
           {filtered.length} of {items.length} study guides

@@ -4,4 +4,4 @@
  */
 
 export const CONTACT_EMAIL =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "contact@gallery.bayviewhub.me";
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() || "gallery@bayviewhub.me";

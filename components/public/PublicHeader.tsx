@@ -7,7 +7,7 @@ import { PublicThemeToggle } from "@/components/public/PublicThemeToggle";
 
 const NAV_ITEMS = [
   { label: "Archive", href: "/archive" },
-  { label: "Mend Index", href: "/protocol" },
+  { label: "Mend Index Protocol", href: "/protocol" },
   { label: "Submit", href: "/submit" },
   { label: "Rights & Takedown", href: "/rights" },
 ] as const;
