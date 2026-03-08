@@ -126,7 +126,7 @@ export function ArchiveClient({ artworks }: ArchiveClientProps) {
     <>
       <section className="rounded-lg border border-gallery-border bg-gallery-surface p-4 shadow-card sm:p-5">
         <div className="mb-3 flex items-center justify-between">
-          <p className="text-xs font-medium uppercase tracking-[0.08em] text-gallery-muted">
+          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-gallery-text">
             Collection Filters
           </p>
           <button
@@ -138,7 +138,7 @@ export function ArchiveClient({ artworks }: ArchiveClientProps) {
               setSizeBucket("all");
               setSortOrder("newest");
             }}
-            className="text-xs text-gallery-accent hover:underline disabled:opacity-40 disabled:no-underline"
+            className="text-xs font-medium text-gallery-text hover:underline disabled:opacity-40 disabled:no-underline"
             disabled={!hasActiveFilters}
           >
             Clear filters
@@ -146,7 +146,7 @@ export function ArchiveClient({ artworks }: ArchiveClientProps) {
         </div>
         <div className="grid grid-cols-1 gap-3 md:grid-cols-4">
           <div className="md:col-span-2">
-            <label htmlFor="archive-search" className="mb-1 block text-xs text-gallery-muted">
+            <label htmlFor="archive-search" className="mb-1 block text-xs font-medium text-gallery-text">
               Search title
             </label>
             <input
@@ -158,7 +158,7 @@ export function ArchiveClient({ artworks }: ArchiveClientProps) {
             />
           </div>
           <div>
-            <label htmlFor="archive-medium" className="mb-1 block text-xs text-gallery-muted">
+            <label htmlFor="archive-medium" className="mb-1 block text-xs font-medium text-gallery-text">
               Medium
             </label>
             <select
@@ -176,7 +176,7 @@ export function ArchiveClient({ artworks }: ArchiveClientProps) {
             </select>
           </div>
           <div>
-            <label htmlFor="archive-sort" className="mb-1 block text-xs text-gallery-muted">
+            <label htmlFor="archive-sort" className="mb-1 block text-xs font-medium text-gallery-text">
               Sort
             </label>
             <select
@@ -190,7 +190,7 @@ export function ArchiveClient({ artworks }: ArchiveClientProps) {
             </select>
           </div>
           <div>
-            <label htmlFor="archive-year" className="mb-1 block text-xs text-gallery-muted">
+            <label htmlFor="archive-year" className="mb-1 block text-xs font-medium text-gallery-text">
               Year
             </label>
             <select
@@ -208,7 +208,7 @@ export function ArchiveClient({ artworks }: ArchiveClientProps) {
             </select>
           </div>
           <div>
-            <label htmlFor="archive-size" className="mb-1 block text-xs text-gallery-muted">
+            <label htmlFor="archive-size" className="mb-1 block text-xs font-medium text-gallery-text">
               Size
             </label>
             <select

@@ -42,7 +42,7 @@ export function StudyLibraryClient({ items }: StudyLibraryClientProps) {
     <>
       <section className="border border-gallery-border rounded-lg bg-gallery-surface p-4 sm:p-5 mb-8">
         <div className="mb-3 flex items-center justify-between">
-          <p className="text-xs font-medium uppercase tracking-[0.08em] text-gallery-muted">
+          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-gallery-text">
             Library Filters
           </p>
           <button
@@ -52,7 +52,7 @@ export function StudyLibraryClient({ items }: StudyLibraryClientProps) {
               setKindFilter("all");
               setInstitutionFilter("all");
             }}
-            className="text-xs text-gallery-accent hover:underline disabled:opacity-40 disabled:no-underline"
+            className="text-xs font-medium text-gallery-text hover:underline disabled:opacity-40 disabled:no-underline"
             disabled={!hasActiveFilters}
           >
             Clear filters
@@ -60,7 +60,7 @@ export function StudyLibraryClient({ items }: StudyLibraryClientProps) {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <div className="md:col-span-2">
-            <label htmlFor="study-search" className="mb-1 block text-xs text-gallery-muted">
+            <label htmlFor="study-search" className="mb-1 block text-xs font-medium text-gallery-text">
               Search
             </label>
             <input
@@ -72,7 +72,7 @@ export function StudyLibraryClient({ items }: StudyLibraryClientProps) {
             />
           </div>
           <div>
-            <label htmlFor="study-kind" className="mb-1 block text-xs text-gallery-muted">
+            <label htmlFor="study-kind" className="mb-1 block text-xs font-medium text-gallery-text">
               Guide type
             </label>
             <select
@@ -87,7 +87,7 @@ export function StudyLibraryClient({ items }: StudyLibraryClientProps) {
             </select>
           </div>
           <div>
-            <label htmlFor="study-institution" className="mb-1 block text-xs text-gallery-muted">
+            <label htmlFor="study-institution" className="mb-1 block text-xs font-medium text-gallery-text">
               Institution
             </label>
             <select

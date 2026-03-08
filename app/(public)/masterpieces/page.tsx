@@ -331,23 +331,40 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
       </div>
 
       <form className="mb-8 border border-gallery-border rounded-lg bg-gallery-surface p-4 sm:p-5">
+        <div className="mb-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-gallery-text">
+            Library Filters
+          </p>
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-          <input
-            name="q"
-            defaultValue={query}
-            placeholder="Search masterpiece title"
-            className="md:col-span-2 w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
-          />
-          <select
-            name="source"
-            defaultValue={sourceFilter}
-            className="w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
-          >
-            <option value="">All institutions</option>
-            <option value="aic">Art Institute of Chicago</option>
-            <option value="met">The Metropolitan Museum of Art</option>
-            <option value="rijks">Rijksmuseum</option>
-          </select>
+          <div className="md:col-span-2">
+            <label htmlFor="masterpieces-search" className="mb-1 block text-xs font-medium text-gallery-text">
+              Search title
+            </label>
+            <input
+              id="masterpieces-search"
+              name="q"
+              defaultValue={query}
+              placeholder="Search masterpiece title"
+              className="w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
+            />
+          </div>
+          <div>
+            <label htmlFor="masterpieces-source" className="mb-1 block text-xs font-medium text-gallery-text">
+              Institution
+            </label>
+            <select
+              id="masterpieces-source"
+              name="source"
+              defaultValue={sourceFilter}
+              className="w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
+            >
+              <option value="">All institutions</option>
+              <option value="aic">Art Institute of Chicago</option>
+              <option value="met">The Metropolitan Museum of Art</option>
+              <option value="rijks">Rijksmuseum</option>
+            </select>
+          </div>
           <div className="flex gap-2">
             {tagFilter && <input type="hidden" name="tag" value={tagFilter} />}
             <button

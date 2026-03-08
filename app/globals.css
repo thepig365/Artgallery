@@ -111,6 +111,21 @@ h2,
   color: var(--fg);
 }
 
+/* Improve readability for public dark-mode form controls */
+.dark input.bg-white,
+.dark select.bg-white,
+.dark textarea.bg-white {
+  background-color: var(--surface-alt) !important;
+  color: var(--fg) !important;
+  border-color: var(--border) !important;
+}
+
+.dark input.bg-white::placeholder,
+.dark textarea.bg-white::placeholder {
+  color: var(--muted);
+  opacity: 0.85;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
