@@ -1,5 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async redirects() {
+    return [
+      {
+        source: '/masterpieces/:uuid',
+        destination: '/masterpieces',
+        permanent: false, // 302 — UUID may be regenerated on data updates
+      },
+    ]
+  },
   images: {
     remotePatterns: [
       {
