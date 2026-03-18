@@ -4,10 +4,10 @@
 
 /* Family tokens from bayviewhub.me */
 :root {
-  --family-navy: #1a2332;
-  --family-navy-deep: #141b26;
-  --family-accent: #5eb1bf;
-  --family-accent-hover: #3d8a96;
+  --family-navy: #1a1408;
+  --family-navy-deep: #120f06;
+  --family-accent: #3d8a96;
+  --family-accent-hover: #2a6b75;
   --family-border: #e5e7eb;
   --family-muted: #374151;
   --family-subtle: #4b5563;
@@ -27,7 +27,7 @@
   --border: var(--family-border);
   --accent: var(--family-accent);
   --accent-hover: var(--family-accent-hover);
-  --accent-soft: #a8d5dd;
+  --accent-soft: #7fb5be;
 }
 
 /* ─── Bayview semantic tokens (hardened dark) ─── */
@@ -88,9 +88,9 @@ h2,
   --muted: #374151;
   --subtle: #4b5563;
   --border: #e5e7eb;
-  --accent: #5eb1bf;
-  --accent-hover: #3d8a96;
-  --accent-soft: #a8d5dd;
+  --accent: #3d8a96;
+  --accent-hover: #2a6b75;
+  --accent-soft: #7fb5be;
   background-color: var(--bg);
   color: var(--fg);
 }
