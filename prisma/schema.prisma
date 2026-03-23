@@ -464,6 +464,83 @@ model AuditLog {
   @@map("audit_logs")
 }
 
+// ──── Artwork Passport / Private Viewing Network ──────────
+
+enum HostPassportStatus {
+  PRELIMINARY
+  UNDER_REVIEW
+  REVIEWED
+  HIDDEN
+}
+
+enum HostType {
+  COLLECTOR
+  HOMEOWNER
+  STYLIST
+  DESIGNER
+  OTHER
+}
+
+enum VisibilityPreference {
+  PRIVATE_ONLY
+  BY_REQUEST
+  BY_INTRODUCTION
+  HIDDEN
+}
+
+enum ArtworkPassportType {
+  ORIGINAL
+  EDITION
+  DIGITAL_PRINT
+  REPRODUCTION
+}
+
+model HostPassport {
+  id         String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  /// Human-readable display ID — PP-YYYYMMDD-XXXXXX. Never used in public URLs.
+  passportId String             @unique @map("passport_id")
+  /// Unguessable UUID used in the public share URL /passport/record/[shareToken].
+  shareToken String             @unique @map("share_token")
+  status     HostPassportStatus @default(PRELIMINARY)
+  createdAt  DateTime           @default(now()) @map("created_at")
+  updatedAt  DateTime           @updatedAt @map("updated_at")
+
+  // ── Host details — never exposed in the public passport page ──
+  hostName       String               @map("host_name")
+  hostEmail      String               @map("host_email")
+  hostMobile     String               @map("host_mobile")
+  hostRegion     String               @map("host_region")        // suburb/region only
+  hostType       HostType             @map("host_type")
+  visibilityPref VisibilityPreference @default(BY_REQUEST) @map("visibility_pref")
+
+  // ── Artwork — shown on the public passport page ────────────
+  artworkTitle     String              @map("artwork_title")
+  artistName       String              @map("artist_name")
+  artworkYear      Int?                @map("artwork_year")
+  medium           String
+  dimensions       String
+  ownershipStatus  String              @map("ownership_status")
+  artworkType      ArtworkPassportType @map("artwork_type")
+  significance     String                                         // host-provided note
+  viewingRequested Boolean             @default(false) @map("viewing_requested")
+
+  // ── Supabase Storage paths (private passport-records bucket) ─
+  // Storage path convention: pending/{upload-uuid}/{slot}.{ext}
+  // The pending/ prefix is intentional — orphan files (upload with no
+  // completed registration) can be identified and cleaned by a future
+  // maintenance job by listing pending/ and cross-referencing this column.
+  mainImagePath    String   @map("main_image_path")               // required — non-nullable
+  detailImagePaths String[] @default([]) @map("detail_image_paths")
+  inRoomImagePath  String?  @map("in_room_image_path")
+  backImagePath    String?  @map("back_image_path")
+
+  @@index([shareToken])
+  @@index([passportId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("host_passports")
+}
+
 // ──── Open-Access Masterpieces ─────────────────────────────
 
 model Masterpiece {
