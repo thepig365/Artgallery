@@ -78,6 +78,7 @@ const HOST_TYPE_OPTIONS = [
   { value: "HOMEOWNER",  label: "Homeowner" },
   { value: "STYLIST",    label: "Stylist" },
   { value: "DESIGNER",   label: "Designer / Interior designer" },
+  { value: "ARTIST",     label: "Artist" },
   { value: "OTHER",      label: "Other" },
 ];
 
@@ -114,7 +115,7 @@ function validateStep(step: Step, form: FormState, upload: UploadState): string[
     if (!isValidEmail(form.hostEmail))     errs.push("A valid email address is required.");
     if (form.hostMobile.trim().length < 6) errs.push("Mobile number is required.");
     if (form.hostRegion.trim().length < 2) errs.push("Suburb / region is required.");
-    if (!form.hostType)                    errs.push("Host type is required.");
+    if (!form.hostType)                    errs.push("Your role is required.");
     if (!form.visibilityPref)              errs.push("Visibility preference is required.");
   }
   if (step === "artwork") {
@@ -435,7 +436,7 @@ export function HostRegisterClient() {
                     value={form.hostType}
                     onChange={(e) => set("hostType", e.target.value)}
                     options={HOST_TYPE_OPTIONS}
-                    placeholder="Select host type"
+                    placeholder="Select your role"
                   />
                 </div>
                 <div>
@@ -696,7 +697,7 @@ export function HostRegisterClient() {
                       <dd className="text-gallery-text">{form.hostRegion}</dd>
                     </div>
                     <div className="flex gap-2">
-                      <dt className="w-28 flex-shrink-0 text-gallery-muted">Host type</dt>
+                      <dt className="w-28 flex-shrink-0 text-gallery-muted">Your role</dt>
                       <dd className="text-gallery-text">{hostTypeLabel}</dd>
                     </div>
                     <div className="flex gap-2">

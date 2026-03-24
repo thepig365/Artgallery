@@ -253,6 +253,7 @@ export default async function PassportRecordPage({
             qrDataUrl={qrDataUrl}
             passportUrl={passportUrl}
             passportId={passport.passportId}
+            artworkTitle={passport.artworkTitle}
             contactEmail={CONTACT_EMAIL}
           />
         </Container>
