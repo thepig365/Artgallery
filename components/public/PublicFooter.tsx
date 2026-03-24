@@ -44,6 +44,11 @@ export function PublicFooter() {
                   Submit for Curation
                 </Link>
               </li>
+              <li>
+                <Link href="/passport" className="text-sm text-white/70 transition-colors hover:text-white">
+                  Artwork Passport
+                </Link>
+              </li>
             </ul>
           </div>
           <div>
