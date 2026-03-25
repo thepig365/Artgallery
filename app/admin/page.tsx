@@ -365,6 +365,12 @@ export default function AdminPage() {
           >
             Enquiries
           </Link>
+          <Link
+            href="/admin/private-walls"
+            className="inline-flex items-center gap-1.5 text-[10px] text-noir-muted hover:text-noir-text border border-noir-border px-2 py-1 tracking-widest uppercase transition-colors"
+          >
+            Private Walls
+          </Link>
           <Badge variant="muted">{counts.total} total</Badge>
           <button
             onClick={handleLogout}

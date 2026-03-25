@@ -41,6 +41,9 @@ interface FormState {
   significance: string;
   viewingRequested: boolean;
 
+  // Step 2 — private walls opt-in
+  hostPublicOptIn: boolean;
+
   // Step 4 — confirmation
   disclaimerAccepted: boolean;
 }
@@ -61,6 +64,7 @@ const INITIAL_FORM: FormState = {
   artworkType: "",
   significance: "",
   viewingRequested: false,
+  hostPublicOptIn: false,
   disclaimerAccepted: false,
 };
 
@@ -263,6 +267,7 @@ export function HostRegisterClient() {
         artworkType:     form.artworkType,
         significance:    form.significance.trim(),
         viewingRequested: form.viewingRequested,
+        hostPublicOptIn: form.hostPublicOptIn,
         mainImagePath:   upload.path,
       };
 
@@ -569,6 +574,29 @@ export function HostRegisterClient() {
                     </span>
                   </label>
                 </div>
+
+                <div className="border border-gallery-border p-4">
+                  <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-gallery-accent">
+                    Works for Private Walls — Public Listing
+                  </p>
+                  <label className="flex cursor-pointer items-start gap-3">
+                    <input
+                      type="checkbox"
+                      checked={form.hostPublicOptIn}
+                      onChange={(e) => set("hostPublicOptIn", e.target.checked)}
+                      className="mt-0.5 h-4 w-4 accent-accent"
+                    />
+                    <span className="text-sm leading-relaxed text-gallery-muted">
+                      I am open to this work being publicly listed on
+                      BayviewHub&apos;s Works for Private Walls programme.
+                    </span>
+                  </label>
+                  <p className="mt-2 text-[11px] leading-relaxed text-gallery-muted">
+                    Opting in does not automatically make this work public.
+                    Public listing still requires Bayview review and publication
+                    through the programme. Your host details are never disclosed.
+                  </p>
+                </div>
               </div>
             </div>
           )}
@@ -746,6 +774,14 @@ export function HostRegisterClient() {
                       <dt className="w-28 flex-shrink-0 text-gallery-muted">Viewing</dt>
                       <dd className="text-gallery-text">
                         {form.viewingRequested ? "Requested" : "Not requested"}
+                      </dd>
+                    </div>
+                    <div className="flex gap-2">
+                      <dt className="w-28 flex-shrink-0 text-gallery-muted">Public opt-in</dt>
+                      <dd className="text-gallery-text">
+                        {form.hostPublicOptIn
+                          ? "Open to listing on Works for Private Walls"
+                          : "Private only"}
                       </dd>
                     </div>
                   </dl>

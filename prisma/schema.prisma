@@ -496,17 +496,24 @@ enum ArtworkPassportType {
   REPRODUCTION
 }
 
+enum WallPublication {
+  /// Default — record is private and not shown on the Public Private Walls page.
+  PRIVATE_ONLY
+  /// Bayview admin has published this work to the Public Private Walls page.
+  PUBLIC_PRIVATE_WALLS
+}
+
 model HostPassport {
   id         String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   /// Human-readable display ID — PP-YYYYMMDD-XXXXXX. Never used in public URLs.
   passportId String             @unique @map("passport_id")
-  /// Unguessable UUID used in the public share URL /passport/record/[shareToken].
+  /// Unguessable UUID used in the private share URL /passport/record/[shareToken].
   shareToken String             @unique @map("share_token")
   status     HostPassportStatus @default(PRELIMINARY)
   createdAt  DateTime           @default(now()) @map("created_at")
   updatedAt  DateTime           @updatedAt @map("updated_at")
 
-  // ── Host details — never exposed in the public passport page ──
+  // ── Host details — never exposed in any public page ────────
   hostName       String               @map("host_name")
   hostEmail      String               @map("host_email")
   hostMobile     String               @map("host_mobile")
@@ -535,9 +542,25 @@ model HostPassport {
   inRoomImagePath  String?  @map("in_room_image_path")
   backImagePath    String?  @map("back_image_path")
 
+  // ── Private Walls / Public programme layer ─────────────────
+  /// Host has expressed willingness to be listed on the Public Private Walls page.
+  /// This does NOT equal publication — Bayview admin must still publish explicitly.
+  hostPublicOptIn Boolean         @default(false) @map("host_public_opt_in")
+  /// Actual publication state, controlled exclusively by Bayview admin.
+  /// PRIVATE_ONLY = default; PUBLIC_PRIVATE_WALLS = live on the public page.
+  wallPublication WallPublication @default(PRIVATE_ONLY) @map("wall_publication")
+  /// URL slug for the public detail page. Stable once generated — never cleared on unpublish.
+  publicSlug      String?         @unique @map("public_slug")
+  /// Timestamp of most recent publication action (set/updated when admin publishes).
+  publishedAt     DateTime?       @map("published_at")
+  /// Supabase auth UID of the admin who last published this record.
+  publishedBy     String?         @map("published_by")
+
   @@index([shareToken])
   @@index([passportId])
   @@index([status])
+  @@index([wallPublication])
+  @@index([publicSlug])
   @@index([createdAt])
   @@map("host_passports")
 }
