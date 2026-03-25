@@ -139,13 +139,12 @@ export default function PassportPage() {
                 Bayview Hub · Private Viewing Network
               </p>
               <h1 className="mb-5 font-serif text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl">
-                Open Your Private Wall to Selected Art Lovers
+                Private Viewing Network & Artwork Passport
               </h1>
               <p className="mb-8 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg">
-                An invitation-led programme for collectors and hosts who want to
-                share selected works with the right people — in a curated,
-                controlled, and Bayview-mediated way. Artwork Passport records
-                and QR-linked documentation included.
+                A BayviewHub programme for registering selected works,
+                generating a Preliminary Passport, and enabling private viewing
+                by request.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link
