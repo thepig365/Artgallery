@@ -152,9 +152,9 @@ export default function OpenYourWallPage() {
             </Link>
             <a
               href="#how-it-works"
-              className="inline-flex items-center justify-center border border-white/25 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-white/10"
+              className="text-sm text-white/55 transition-colors hover:text-white"
             >
-              How It Works
+              How It Works ↓
             </a>
           </div>
         </Container>
@@ -175,10 +175,7 @@ export default function OpenYourWallPage() {
                 key={p.n}
                 className="border border-gallery-border p-5 sm:p-6"
               >
-                <p className="mb-3 font-mono text-xs text-gallery-accent">
-                  {p.n}
-                </p>
-                <h3 className="mb-2 text-xs font-semibold uppercase tracking-widest text-gallery-text">
+                <h3 className="mb-2.5 text-sm font-medium text-gallery-text">
                   {p.headline}
                 </h3>
                 <p className="text-sm leading-relaxed text-gallery-muted">
@@ -196,7 +193,7 @@ export default function OpenYourWallPage() {
           <p className="mb-6 text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent">
             The Mediated Layer
           </p>
-          <blockquote className="mb-8 max-w-3xl border-l-2 border-gallery-accent pl-6 font-serif text-xl font-semibold leading-snug text-gallery-text sm:text-2xl md:text-3xl">
+          <blockquote className="mb-8 max-w-2xl border-l-2 border-gallery-accent pl-6 font-serif text-lg font-medium leading-snug text-gallery-text sm:text-xl md:text-2xl">
             We do not open private walls to the public. We organise carefully
             curated viewing relationships around selected works.
           </blockquote>
@@ -428,12 +425,12 @@ export default function OpenYourWallPage() {
         <Container className="py-20 sm:py-28">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="mb-5 font-serif text-2xl font-semibold sm:text-3xl">
-              The right encounter between a work and a viewer rarely arranges
-              itself.
+              By arrangement. By introduction. By BayviewHub.
             </h2>
             <p className="mb-10 text-sm leading-relaxed text-white/60">
-              BayviewHub organises those introductions — carefully, selectively,
-              and always by arrangement.
+              If you have a work you would like to share more carefully, or
+              would like to be considered for invited viewing introductions,
+              enquiries are welcome.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <Link
