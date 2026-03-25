@@ -5,10 +5,35 @@ import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
 import { FAMILY_STRIP, MAIN_SITE_URL } from "@/lib/brand";
 import { Container } from "@/components/layout/Container";
 
+// ── Open Your Wall footer CTA ────────────────────────────────────
+function OpenWallCTA() {
+  return (
+    <div className="mb-10 border border-white/15 p-5 sm:p-6">
+      <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.2em] text-family-accent">
+        Bayview Hub · Private Viewing Network
+      </p>
+      <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+        <div>
+          <Link
+            href="/open-your-wall"
+            className="font-serif text-lg font-semibold text-white transition-colors hover:text-family-accent"
+          >
+            Open Your Private Wall →
+          </Link>
+          <p className="mt-1 text-xs text-white/50">
+            For artists, collectors, private hosts, and invited viewers
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function PublicFooter() {
   return (
     <footer className="mt-auto bg-family-navy text-white">
       <Container className="py-12 md:py-14">
+        <OpenWallCTA />
         <div className="mb-8 grid grid-cols-1 gap-8 sm:grid-cols-3">
           <div>
             <h3 className="mb-3 font-serif text-xl font-semibold text-white">

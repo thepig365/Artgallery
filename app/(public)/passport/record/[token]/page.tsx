@@ -6,6 +6,7 @@ import QRCode from "qrcode";
 import { prisma } from "@/lib/db/client";
 import { getPassportImageUrl } from "@/lib/passport/storage";
 import { Container } from "@/components/layout/Container";
+import { PassportActions } from "./PassportActions";
 
 // ── Routing ──────────────────────────────────────────────────────
 // This page is reached via /passport/record/[shareToken].
@@ -32,6 +33,9 @@ const TYPE_LABELS: Record<string, string> = {
   DIGITAL_PRINT: "Digital Print",
   REPRODUCTION:  "Reproduction",
 };
+
+const CONTACT_EMAIL =
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL ?? "gallery@bayviewhub.me";
 
 // ── Page ─────────────────────────────────────────────────────────
 export default async function PassportRecordPage({
@@ -68,31 +72,46 @@ export default async function PassportRecordPage({
     day: "numeric",
   });
 
-  const statusLabel  = STATUS_LABELS[passport.status] ?? passport.status;
-  const artworkType  = TYPE_LABELS[passport.artworkType] ?? passport.artworkType;
+  const statusLabel = STATUS_LABELS[passport.status] ?? passport.status;
+  const artworkType = TYPE_LABELS[passport.artworkType] ?? passport.artworkType;
 
   return (
     <div className="min-h-screen bg-gallery-surface-alt">
+
       {/* ── Minimal header ──────────────────────────────────────── */}
       <div className="border-b border-gallery-border bg-family-navy">
         <Container className="py-5">
-          <div className="flex items-center justify-between">
-            <Link
-              href="/passport"
-              className="text-[11px] font-medium uppercase tracking-[0.2em] text-family-accent transition-colors hover:text-white"
-            >
-              ← Bayview Hub · Artwork Passport
-            </Link>
-          </div>
+          <Link
+            href="/passport"
+            className="text-[11px] font-medium uppercase tracking-[0.2em] text-family-accent transition-colors hover:text-white"
+          >
+            ← Bayview Hub · Artwork Passport
+          </Link>
         </Container>
       </div>
 
-      {/* ── Passport card ───────────────────────────────────────── */}
-      <Container className="py-12 sm:py-16">
-        <div className="mx-auto max-w-lg">
+      <Container className="py-10 sm:py-14">
+        <div className="mx-auto max-w-lg space-y-6">
+
+          {/* ── Success confirmation ─────────────────────────────── */}
+          <div className="border border-gallery-border bg-gallery-surface px-6 py-5 sm:px-8">
+            <p className="mb-1 text-[10px] uppercase tracking-widest text-gallery-muted">
+              Preliminary Passport Created
+            </p>
+            <p className="font-serif text-lg font-semibold leading-snug text-gallery-text sm:text-xl">
+              Your work is now recorded and ready for selective sharing.
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-gallery-muted">
+              This record is not publicly listed or indexed. It is intended for
+              selective sharing by link or QR code, and Bayview can mediate
+              interest on your behalf.
+            </p>
+          </div>
+
+          {/* ── Passport card ───────────────────────────────────── */}
           <div className="border border-gallery-border bg-gallery-surface">
 
-            {/* ── Artwork image ────────────────────────────────── */}
+            {/* Artwork image */}
             <div className="border-b border-gallery-border">
               {imageUrl ? (
                 <div className="relative aspect-[4/3] w-full overflow-hidden bg-gallery-surface-alt">
@@ -114,13 +133,15 @@ export default async function PassportRecordPage({
               )}
             </div>
 
-            {/* ── Artwork metadata ─────────────────────────────── */}
+            {/* Artwork metadata */}
             <div className="p-6 sm:p-8">
               <div className="mb-5 space-y-1.5">
                 <p className="font-serif text-xl font-semibold leading-snug text-gallery-text sm:text-2xl">
                   {passport.artworkTitle}
                 </p>
-                <p className="text-sm text-gallery-muted">{passport.artistName}</p>
+                <p className="text-sm text-gallery-muted">
+                  {passport.artistName}
+                </p>
                 <p className="text-xs text-gallery-muted">
                   {[passport.medium, passport.dimensions, passport.artworkYear]
                     .filter(Boolean)
@@ -136,20 +157,20 @@ export default async function PassportRecordPage({
                 <p className="text-[10px] uppercase tracking-widest text-gallery-muted">
                   Host note
                 </p>
-                <p className="mt-1 text-sm leading-relaxed text-gallery-muted italic">
+                <p className="mt-1 text-sm italic leading-relaxed text-gallery-muted">
                   &ldquo;{passport.significance}&rdquo;
                 </p>
               </div>
 
-              {/* ── Passport identity ─────────────────────────── */}
+              {/* Passport identity + QR */}
               <div className="border-t border-gallery-border pt-5">
                 <div className="flex items-start justify-between gap-4">
-                  <div className="space-y-3 min-w-0">
+                  <div className="min-w-0 space-y-3">
                     <div>
                       <p className="text-[10px] uppercase tracking-widest text-gallery-muted">
                         Passport ID
                       </p>
-                      <p className="font-mono text-xs text-gallery-text break-all">
+                      <p className="break-all font-mono text-xs text-gallery-text">
                         {passport.passportId}
                       </p>
                     </div>
@@ -174,12 +195,14 @@ export default async function PassportRecordPage({
                       <p className="text-[10px] uppercase tracking-widest text-gallery-muted">
                         Registered
                       </p>
-                      <p className="text-xs text-gallery-muted">{createdDate}</p>
+                      <p className="text-xs text-gallery-muted">
+                        {createdDate}
+                      </p>
                     </div>
                   </div>
 
                   {/* QR code */}
-                  <div className="flex-shrink-0">
+                  <div className="flex-shrink-0 text-center">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={qrDataUrl}
@@ -188,14 +211,16 @@ export default async function PassportRecordPage({
                       height={90}
                       className="border border-gallery-border"
                     />
-                    <p className="mt-1 text-center text-[9px] uppercase tracking-widest text-gallery-muted">
-                      Scan to view
+                    <p className="mt-1.5 text-[9px] leading-snug text-gallery-muted">
+                      Scan to view · use beside the work
+                      <br />
+                      or for invited sharing
                     </p>
                   </div>
                 </div>
               </div>
 
-              {/* ── Preliminary disclaimer ────────────────────── */}
+              {/* Preliminary disclaimer */}
               <div className="mt-5 border-t border-gallery-border pt-5">
                 <div className="border border-accent/20 bg-accent/5 p-3">
                   <p className="text-[10px] leading-relaxed text-gallery-muted">
@@ -211,20 +236,28 @@ export default async function PassportRecordPage({
                   </p>
                 </div>
               </div>
-
-              {/* ── Footer link ───────────────────────────────── */}
-              <div className="mt-5 text-center">
-                <Link
-                  href="/passport"
-                  className="text-[11px] text-gallery-muted underline underline-offset-4 hover:text-gallery-text"
-                >
-                  About the Artwork Passport programme
-                </Link>
-              </div>
             </div>
           </div>
+
+          {/* ── Actions + What happens next + Secondary links ────── */}
+          {/* Rendered as a client component — handles Download QR,   */}
+          {/* Copy Link, and Keep as Is dismiss interactions.         */}
         </div>
       </Container>
+
+      {/* ── Client action layer — outside Container for full width  */}
+      {/* control but still visually centred via inner max-w-lg     */}
+      <div className="bg-gallery-surface-alt pb-4">
+        <Container>
+          <PassportActions
+            qrDataUrl={qrDataUrl}
+            passportUrl={passportUrl}
+            passportId={passport.passportId}
+            artworkTitle={passport.artworkTitle}
+            contactEmail={CONTACT_EMAIL}
+          />
+        </Container>
+      </div>
     </div>
   );
 }
