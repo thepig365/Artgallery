@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/layout/Container";
 import { Panel } from "@/components/ui/Panel";
@@ -132,55 +131,31 @@ export default function PassportPage() {
       {/* ── §1 Hero ───────────────────────────────────────────────── */}
       <section className="bg-family-navy text-white">
         <Container className="py-20 sm:py-28">
-          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
-            {/* Left: text content */}
-            <div>
-              <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.22em] text-family-accent">
-                Bayview Hub · Private Viewing Network
-              </p>
-              <h1 className="mb-5 font-serif text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl">
-                Private Viewing Network & Artwork Passport
-              </h1>
-              <p className="mb-8 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg">
-                A BayviewHub programme for registering selected works,
-                generating a Preliminary Passport, and enabling private viewing
-                by request.
-              </p>
-              <div className="flex flex-wrap gap-3">
-                <Link
-                  href="/passport/register"
-                  className="inline-flex items-center justify-center bg-white px-5 py-2.5 text-sm font-medium text-family-navy transition-colors hover:bg-white/90"
-                >
-                  Register as a Host →
-                </Link>
-                <a
-                  href={VIEWING_HREF}
-                  className="inline-flex items-center justify-center border border-white/25 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-white/10"
-                >
-                  Request Viewing Access
-                </a>
-              </div>
-            </div>
-
-            {/* Right: featured artwork */}
-            <div className="hidden lg:block">
-              <div className="relative aspect-[4/5] overflow-hidden">
-                <Image
-                  src="https://xarwzmsaoqgbjsrmswxz.supabase.co/storage/v1/object/public/gallery-public/chelsey/new-dandenong-ranges-botanic-garden/2_Dandenong_Ranges_Botanic_Garden.jpg"
-                  alt="Dandenong Ranges Botanic Garden by Chelsey L"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 1024px) 0vw, 45vw"
-                  priority
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-family-navy/60 via-transparent to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-5">
-                  <p className="text-xs font-medium text-white/90">
-                    Dandenong Ranges Botanic Garden
-                  </p>
-                  <p className="text-[11px] text-white/55">Chelsey L · 2024</p>
-                </div>
-              </div>
+          <div className="max-w-2xl">
+            <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.22em] text-family-accent">
+              Bayview Hub · Private Viewing Network
+            </p>
+            <h1 className="mb-5 font-serif text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl">
+              Private Viewing Network & Artwork Passport
+            </h1>
+            <p className="mb-8 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg">
+              A BayviewHub programme for registering selected works,
+              generating a Preliminary Passport, and enabling private viewing
+              by request.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/passport/register"
+                className="inline-flex items-center justify-center bg-white px-5 py-2.5 text-sm font-medium text-family-navy transition-colors hover:bg-white/90"
+              >
+                Register as a Host →
+              </Link>
+              <a
+                href={VIEWING_HREF}
+                className="inline-flex items-center justify-center border border-white/25 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-white/10"
+              >
+                Request Viewing Access
+              </a>
             </div>
           </div>
         </Container>
