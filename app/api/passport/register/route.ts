@@ -24,6 +24,9 @@ const schema = z.object({
   artworkType:     z.enum(["ORIGINAL", "EDITION", "DIGITAL_PRINT", "REPRODUCTION"]),
   significance:    z.string().trim().min(10).max(2000),
   viewingRequested: z.boolean(),
+  // Host opt-in for the Works for Private Walls programme.
+  // Does NOT automatically publish — Bayview admin must still publish explicitly.
+  hostPublicOptIn: z.boolean().default(false),
 
   // Image — required. Must be a valid storage path from /api/passport/upload.
   mainImagePath: z.string().trim().min(1),
@@ -139,6 +142,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         artworkType:     data.artworkType,
         significance:    data.significance,
         viewingRequested: data.viewingRequested,
+        hostPublicOptIn: data.hostPublicOptIn,
         mainImagePath:   data.mainImagePath,
       },
     });
