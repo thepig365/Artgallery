@@ -8,11 +8,20 @@ import { Container } from "@/components/layout/Container";
 import { MAIN_SITE_URL } from "@/lib/brand";
 import { PublicThemeToggle } from "@/components/public/PublicThemeToggle";
 
-const NAV_ITEMS = [
-  { label: "Collection", href: "/archive" },
-  { label: "Mend Index Protocol", href: "/protocol" },
-  { label: "Submit", href: "/submit" },
-  { label: "Rights & Takedown", href: "/rights" },
+const DESKTOP_NAV_ITEMS = [
+  { label: "Collection",           href: "/archive" },
+  { label: "Private Viewing",      href: "/open-your-wall" },
+  { label: "Mend Index Protocol",  href: "/protocol" },
+  { label: "Submit",               href: "/submit" },
+] as const;
+
+const MOBILE_NAV_ITEMS = [
+  { label: "Collection",           href: "/archive" },
+  { label: "Private Viewing",      href: "/open-your-wall" },
+  { label: "Open Your Wall",       href: "/passport/register" },
+  { label: "Artwork Passport",     href: "/passport" },
+  { label: "Mend Index Protocol",  href: "/protocol" },
+  { label: "Submit",               href: "/submit" },
 ] as const;
 
 export function PublicHeader() {
@@ -41,7 +50,7 @@ export function PublicHeader() {
               <span className="text-xl md:text-2xl font-serif font-semibold leading-tight text-white">
                 Bayview Hub
               </span>
-              <span className="text-[11px] tracking-[0.16em] uppercase text-white/70">
+              <span className="text-xs tracking-[0.16em] uppercase text-white/70">
                 Art Gallery
               </span>
             </div>
@@ -52,7 +61,7 @@ export function PublicHeader() {
 
             {/* Desktop nav */}
             <nav aria-label="Main navigation" className="hidden md:flex items-center gap-1.5 md:gap-2">
-              {NAV_ITEMS.map((item) => {
+              {DESKTOP_NAV_ITEMS.map((item) => {
                 const isActive =
                   pathname === item.href || pathname.startsWith(`${item.href}/`);
                 return (
@@ -94,17 +103,26 @@ export function PublicHeader() {
           className="md:hidden absolute top-full left-0 right-0 z-50 border-t border-white/10"
           style={{ background: "var(--family-navy)" }}
         >
-          <div className="container mx-auto px-4 py-3 flex flex-col gap-1">
-            {NAV_ITEMS.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setMenuOpen(false)}
-                className="px-3 py-2 text-sm rounded-md hover:bg-white/10"
-              >
-                {item.label}
-              </Link>
-            ))}
+          <div className="container mx-auto px-4 py-3 flex flex-col gap-0.5">
+            {MOBILE_NAV_ITEMS.map((item) => {
+              const isActive =
+                pathname === item.href || pathname.startsWith(`${item.href}/`);
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setMenuOpen(false)}
+                  aria-current={isActive ? "page" : undefined}
+                  className={
+                    isActive
+                      ? "px-3 py-3 text-base font-medium rounded-md bg-white/12 text-white"
+                      : "px-3 py-3 text-base font-medium rounded-md text-white/80 hover:bg-white/10 hover:text-white"
+                  }
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
           </div>
         </div>
       )}
