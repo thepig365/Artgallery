@@ -283,38 +283,38 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
       <div className="mb-10">
         {hasDataError && (
           <div className="mb-5 border border-amber-300 bg-amber-50 rounded-lg px-4 py-3">
-            <p className="text-xs text-amber-900 leading-relaxed">
+            <p className="text-caption text-amber-900 leading-relaxed">
               Masterpieces data is temporarily unavailable. Please refresh shortly.
             </p>
           </div>
         )}
-        <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
+        <p className="text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
           {activeArtistLabel ? "Featured Artist" : "Open-Access Collection"}
         </p>
-        <h1 className="text-3xl sm:text-4xl font-bold text-gallery-text tracking-tight mb-3">
+        <h1 className="font-bold text-gallery-text tracking-tight mb-3">
           {activeArtistLabel || "Masterpieces"}
         </h1>
         {activeArtistLabel ? (
           <div className="flex items-center gap-3 mb-4">
-            <p className="text-sm text-gallery-muted leading-relaxed">
+            <p className="text-body text-gallery-muted leading-relaxed">
               Showing public-domain works by {activeArtistLabel}.
             </p>
             <Link
               href="/masterpieces"
-              className="inline-flex items-center gap-1 text-xs text-gallery-accent hover:underline"
+              className="inline-flex items-center gap-1 text-caption text-gallery-accent hover:underline"
             >
               <X className="w-3 h-3" strokeWidth={2} />
               Clear filter
             </Link>
           </div>
         ) : (
-          <p className="text-sm text-gallery-muted leading-relaxed max-w-2xl mb-4">
+          <p className="text-body text-gallery-muted leading-relaxed max-w-2xl mb-4">
             All works shown here are sourced from museum open-access / public-domain
             programs. Each image is used under its respective open license (CC0 or
             Public Domain) and links back to the source institution.
           </p>
         )}
-        <div className="flex flex-wrap items-center gap-3 text-xs text-gallery-muted">
+        <div className="flex flex-wrap items-center gap-3 text-caption text-gallery-muted">
           {Object.entries(bySource).map(([source, count]) => (
             <span
               key={source}
@@ -332,7 +332,7 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
 
       <form className="mb-8 border border-gallery-border rounded-lg bg-gallery-surface p-4 sm:p-5">
         <div className="mb-3">
-          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-gallery-text">
+          <p className="text-caption font-semibold uppercase tracking-[0.08em] text-gallery-text">
             Library Filters
           </p>
         </div>
@@ -386,10 +386,10 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
       {!tagFilter && (
         <div className="mb-10 bg-gallery-surface border border-gallery-border rounded-lg p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <p className="text-sm text-gallery-text font-medium mb-1">
+            <p className="text-body text-gallery-text font-medium mb-1">
               Interested in curatorial assessment?
             </p>
-            <p className="text-xs text-gallery-muted leading-relaxed max-w-md">
+            <p className="text-helper text-gallery-muted leading-relaxed max-w-md">
               Explore how the Mend Index evaluates material sincerity, or submit
               your own work for review.
             </p>
@@ -421,7 +421,7 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
       {showFeatured && featuredData.some((f) => f.works.length > 0) && (
         <div className="mb-14 space-y-12">
           <div>
-            <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-1">
+            <p className="text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent mb-1">
               Curated Selections
             </p>
             <h2 className="text-2xl font-bold text-gallery-text tracking-tight">
@@ -472,7 +472,7 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
                           <p className="text-xs font-medium text-gallery-text leading-snug line-clamp-2">
                             {m.title}
                           </p>
-                          <p className="text-[10px] text-gallery-muted/70 mt-0.5">
+                          <p className="text-micro text-gallery-muted/70 mt-0.5">
                             {SOURCE_LABELS[m.source] || m.source}
                           </p>
                         </div>
@@ -489,7 +489,7 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
             <h3 className="text-lg font-semibold text-gallery-text mb-1">
               Modern Masters Study Kit
             </h3>
-            <p className="text-xs text-gallery-muted mb-4">
+            <p className="text-helper text-gallery-muted mb-4">
               We don&apos;t host images here due to copyright. Use these official sources, then apply the Mend Index Protocol.
             </p>
             <div className="mb-5">
@@ -507,8 +507,8 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
                   className="bg-gallery-surface border border-gallery-border rounded-lg p-5 flex flex-col gap-3"
                 >
                   <div>
-                    <p className="text-sm font-semibold text-gallery-text">{master.name}</p>
-                    <p className="text-xs text-gallery-muted">{master.institution}</p>
+                    <p className="text-body font-semibold text-gallery-text">{master.name}</p>
+                    <p className="text-helper text-gallery-muted">{master.institution}</p>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     <Link
@@ -536,7 +536,7 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
                     href={master.official}
                     target="_blank"
                     rel="nofollow noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-[11px] text-gallery-muted/70 hover:text-gallery-muted transition-colors mt-auto"
+                    className="inline-flex items-center gap-1 text-micro text-gallery-muted/70 hover:text-gallery-muted transition-colors mt-auto"
                   >
                     Official collection
                     <ExternalLink className="w-3 h-3" strokeWidth={1.5} />
@@ -552,13 +552,13 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
       {showFeatured && top50Chips.length > 0 && (
         <div className="mb-14">
           <div className="mb-4">
-            <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-1">
+            <p className="text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent mb-1">
               Browse by Artist
             </p>
             <h2 className="text-2xl font-bold text-gallery-text tracking-tight">
               Top 50 Artists
             </h2>
-            <p className="text-xs text-gallery-muted mt-1">
+            <p className="text-helper text-gallery-muted mt-1">
               Counts grow over time as we ingest more public-domain works.
             </p>
           </div>
@@ -572,7 +572,7 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
                 <span className="group-hover:text-gallery-accent transition-colors">
                   {chip.label}
                 </span>
-                <span className="text-[10px] font-semibold bg-gallery-surface-alt group-hover:bg-gallery-accent/10 text-gallery-muted group-hover:text-gallery-accent border border-gallery-border/60 rounded-full px-1.5 py-0.5 min-w-[1.25rem] text-center transition-colors">
+                <span className="text-micro font-semibold bg-gallery-surface-alt group-hover:bg-gallery-accent/10 text-gallery-muted group-hover:text-gallery-accent border border-gallery-border/60 rounded-full px-1.5 py-0.5 min-w-[1.25rem] text-center transition-colors">
                   {chip.count}
                 </span>
               </Link>
@@ -585,13 +585,13 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
       {showFeatured && STUDY_PACKS_TOP50.length > 0 && (
         <div className="mb-14">
           <div className="mb-4">
-            <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-1">
+            <p className="text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent mb-1">
               Text-Only Guides
             </p>
             <h2 className="text-2xl font-bold text-gallery-text tracking-tight">
               Study Packs for Artists Not Yet Ingested
             </h2>
-            <p className="text-xs text-gallery-muted mt-1">
+            <p className="text-helper text-gallery-muted mt-1">
               No public-domain images available yet. Use these guides to study
               their work through the Mend Index Protocol.
             </p>
@@ -606,7 +606,7 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
                   <p className="text-sm font-semibold text-gallery-text">
                     {pack.name}
                   </p>
-                  <p className="text-xs text-gallery-muted/80 leading-relaxed line-clamp-2 mt-1">
+                  <p className="text-helper text-gallery-muted/80 leading-relaxed line-clamp-2 mt-1">
                     {pack.shortBlurb}
                   </p>
                 </div>
@@ -640,7 +640,7 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
                       href={link.url}
                       target="_blank"
                       rel="nofollow noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-[11px] text-gallery-muted/60 hover:text-gallery-muted transition-colors"
+                      className="inline-flex items-center gap-1 text-micro text-gallery-muted/60 hover:text-gallery-muted transition-colors"
                     >
                       {link.label}
                       <ExternalLink className="w-2.5 h-2.5" strokeWidth={1.5} />
@@ -706,11 +706,11 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
                   <p className="text-xs text-gallery-muted truncate">{m.artist}</p>
                 )}
                 <div className="flex items-center justify-between mt-2">
-                  <span className="text-[10px] text-gallery-muted/70">
+                  <span className="text-micro text-gallery-muted/70">
                     {SOURCE_LABELS[m.source] || m.source}
                   </span>
                   {LICENSE_LABELS[m.license] && (
-                    <span className="text-[10px] font-medium bg-green-50 text-green-700 border border-green-200 rounded px-1.5 py-0.5">
+                    <span className="text-micro font-medium bg-green-50 text-green-700 border border-green-200 rounded px-1.5 py-0.5">
                       {LICENSE_LABELS[m.license]}
                     </span>
                   )}
@@ -726,7 +726,7 @@ export default async function MasterpiecesPage({ searchParams }: PageProps) {
           <h3 className="text-lg font-semibold text-gallery-text mb-2">
             Library is being curated
           </h3>
-          <p className="text-sm text-gallery-muted mb-4">
+          <p className="text-body text-gallery-muted mb-4">
             We are expanding the museum library. In the meantime, explore study packs
             and subscribe for updates.
           </p>

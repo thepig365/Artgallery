@@ -32,7 +32,7 @@ export function StepMaterials({
 }: StepMaterialsProps) {
   return (
     <Panel>
-      <h2 className="text-sm font-medium tracking-forensic text-noir-text mb-2">
+      <h2 className="text-body font-medium tracking-forensic text-noir-text mb-2">
         Material Declaration (Optional)
       </h2>
       <p className="text-xs text-noir-muted mb-6">
@@ -98,7 +98,7 @@ export function StepMaterials({
       <div className="mt-6">
         <label
           htmlFor="materials-other"
-          className="text-[10px] font-medium text-noir-muted tracking-widest uppercase mb-1.5 block"
+          className="text-micro font-medium text-noir-muted tracking-widest uppercase mb-1.5 block"
         >
           Other (optional)
         </label>

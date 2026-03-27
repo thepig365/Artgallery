@@ -24,7 +24,7 @@ export function Badge({
       className={`
         inline-flex items-center
         border px-2 py-0.5
-        text-[10px] font-medium tracking-widest uppercase
+        text-micro font-medium tracking-widest uppercase
         ${variantStyles[variant]}
         ${className}
       `}

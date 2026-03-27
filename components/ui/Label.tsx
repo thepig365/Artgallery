@@ -13,7 +13,7 @@ export function Label({
   return (
     <label
       className={`
-        block text-xs font-medium tracking-widest uppercase text-noir-muted mb-1.5
+        block text-helper font-medium tracking-widest uppercase text-noir-muted mb-1.5
         ${className}
       `}
       {...props}

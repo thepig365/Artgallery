@@ -16,7 +16,7 @@ interface StepIdentityProps {
 export function StepIdentity({ data, onChange, errors }: StepIdentityProps) {
   return (
     <Panel>
-      <h2 className="text-sm font-medium tracking-forensic text-noir-text mb-6">
+      <h2 className="text-body font-medium tracking-forensic text-noir-text mb-6">
         Artwork Details
       </h2>
       <div className="space-y-5">
@@ -24,7 +24,7 @@ export function StepIdentity({ data, onChange, errors }: StepIdentityProps) {
           <Label htmlFor="workTitle" required>
             Work Title
           </Label>
-          <p id="workTitle-help" className="mb-1.5 text-[10px] text-noir-muted">
+          <p id="workTitle-help" className="mb-1.5 text-caption text-noir-muted">
             Use the formal title exactly as you want it displayed.
           </p>
           <Input
@@ -36,7 +36,7 @@ export function StepIdentity({ data, onChange, errors }: StepIdentityProps) {
             aria-describedby="workTitle-help"
           />
           {errors.workTitle && (
-            <p className="text-noir-accent text-[10px] mt-1 tracking-wider">
+            <p className="text-noir-accent text-caption mt-1 tracking-wider">
               {errors.workTitle}
             </p>
           )}
@@ -45,7 +45,7 @@ export function StepIdentity({ data, onChange, errors }: StepIdentityProps) {
           <Label htmlFor="artistName" required>
             Artist Name
           </Label>
-          <p id="artistName-help" className="mb-1.5 text-[10px] text-noir-muted">
+          <p id="artistName-help" className="mb-1.5 text-caption text-noir-muted">
             Enter the public-facing artist or collective name.
           </p>
           <Input
@@ -57,7 +57,7 @@ export function StepIdentity({ data, onChange, errors }: StepIdentityProps) {
             aria-describedby="artistName-help"
           />
           {errors.artistName && (
-            <p className="text-noir-accent text-[10px] mt-1 tracking-wider">
+            <p className="text-noir-accent text-caption mt-1 tracking-wider">
               {errors.artistName}
             </p>
           )}
@@ -66,7 +66,7 @@ export function StepIdentity({ data, onChange, errors }: StepIdentityProps) {
           <Label htmlFor="medium" required>
             Medium
           </Label>
-          <p id="medium-help" className="mb-1.5 text-[10px] text-noir-muted">
+          <p id="medium-help" className="mb-1.5 text-caption text-noir-muted">
             Choose one primary medium; additional details can be added in narrative.
           </p>
           <Select
@@ -79,7 +79,7 @@ export function StepIdentity({ data, onChange, errors }: StepIdentityProps) {
             aria-describedby="medium-help"
           />
           {errors.medium && (
-            <p className="text-noir-accent text-[10px] mt-1 tracking-wider">
+            <p className="text-noir-accent text-caption mt-1 tracking-wider">
               {errors.medium}
             </p>
           )}
@@ -89,7 +89,7 @@ export function StepIdentity({ data, onChange, errors }: StepIdentityProps) {
             <Label htmlFor="year" required>
               Year of Completion
             </Label>
-            <p id="year-help" className="mb-1.5 text-[10px] text-noir-muted">
+            <p id="year-help" className="mb-1.5 text-caption text-noir-muted">
               Use a 4-digit year (e.g. 2024).
             </p>
             <Input
@@ -102,7 +102,7 @@ export function StepIdentity({ data, onChange, errors }: StepIdentityProps) {
               aria-describedby="year-help"
             />
             {errors.year && (
-              <p className="text-noir-accent text-[10px] mt-1 tracking-wider">
+              <p className="text-noir-accent text-caption mt-1 tracking-wider">
                 {errors.year}
               </p>
             )}
@@ -111,7 +111,7 @@ export function StepIdentity({ data, onChange, errors }: StepIdentityProps) {
             <Label htmlFor="dimensions" required>
               Dimensions
             </Label>
-            <p id="dimensions-help" className="mb-1.5 text-[10px] text-noir-muted">
+            <p id="dimensions-help" className="mb-1.5 text-caption text-noir-muted">
               Include units, e.g. 120 x 90 cm.
             </p>
             <Input
@@ -123,7 +123,7 @@ export function StepIdentity({ data, onChange, errors }: StepIdentityProps) {
               aria-describedby="dimensions-help"
             />
             {errors.dimensions && (
-              <p className="text-noir-accent text-[10px] mt-1 tracking-wider">
+              <p className="text-noir-accent text-caption mt-1 tracking-wider">
                 {errors.dimensions}
               </p>
             )}

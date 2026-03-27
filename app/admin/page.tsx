@@ -290,7 +290,7 @@ export default function AdminPage() {
         </div>
         <div className="border border-noir-accent bg-noir-accent/10 p-4" role="alert">
           <p className="text-xs text-noir-accent font-medium mb-1">Connection Failed</p>
-          <p className="text-[10px] text-noir-muted leading-relaxed">
+          <p className="text-micro text-noir-muted leading-relaxed">
             Could not load artworks from the database. Check that DATABASE_URL is configured and the database is reachable.
           </p>
           <button
@@ -322,7 +322,7 @@ export default function AdminPage() {
             <p className="text-xs text-noir-accent font-medium">
               Action Failed
             </p>
-            <p className="text-[10px] text-noir-muted mt-0.5 leading-relaxed">
+            <p className="text-micro text-noir-muted mt-0.5 leading-relaxed">
               {apiError}
             </p>
           </div>
@@ -349,32 +349,32 @@ export default function AdminPage() {
         <div className="flex items-center gap-3">
           <Link
             href="/admin/submissions"
-            className="inline-flex items-center gap-1.5 text-[10px] text-noir-muted hover:text-noir-text border border-noir-border px-2 py-1 tracking-widest uppercase transition-colors"
+            className="inline-flex items-center gap-1.5 text-micro text-noir-muted hover:text-noir-text border border-noir-border px-2 py-1 tracking-widest uppercase transition-colors"
           >
             Submissions
           </Link>
           <Link
             href="/admin/claims"
-            className="inline-flex items-center gap-1.5 text-[10px] text-noir-muted hover:text-noir-text border border-noir-border px-2 py-1 tracking-widest uppercase transition-colors"
+            className="inline-flex items-center gap-1.5 text-micro text-noir-muted hover:text-noir-text border border-noir-border px-2 py-1 tracking-widest uppercase transition-colors"
           >
             Ownership Claims
           </Link>
           <Link
             href="/admin/enquiries"
-            className="inline-flex items-center gap-1.5 text-[10px] text-noir-muted hover:text-noir-text border border-noir-border px-2 py-1 tracking-widest uppercase transition-colors"
+            className="inline-flex items-center gap-1.5 text-micro text-noir-muted hover:text-noir-text border border-noir-border px-2 py-1 tracking-widest uppercase transition-colors"
           >
             Enquiries
           </Link>
           <Link
             href="/admin/private-walls"
-            className="inline-flex items-center gap-1.5 text-[10px] text-noir-muted hover:text-noir-text border border-noir-border px-2 py-1 tracking-widest uppercase transition-colors"
+            className="inline-flex items-center gap-1.5 text-micro text-noir-muted hover:text-noir-text border border-noir-border px-2 py-1 tracking-widest uppercase transition-colors"
           >
             Private Walls
           </Link>
           <Badge variant="muted">{counts.total} total</Badge>
           <button
             onClick={handleLogout}
-            className="inline-flex items-center gap-1.5 text-[10px] text-noir-muted hover:text-noir-text border border-noir-border px-2 py-1 tracking-widest uppercase transition-colors"
+            className="inline-flex items-center gap-1.5 text-micro text-noir-muted hover:text-noir-text border border-noir-border px-2 py-1 tracking-widest uppercase transition-colors"
             title="Sign out"
           >
             <LogOut className="w-3 h-3" strokeWidth={1.5} />
@@ -387,7 +387,7 @@ export default function AdminPage() {
         <div className="space-y-4">
           <div>
             <h2 className="text-sm font-medium text-noir-text">Testing — Assessor Task</h2>
-            <p className="text-[11px] text-noir-muted mt-1 leading-relaxed">
+            <p className="text-micro text-noir-muted mt-1 leading-relaxed">
               Creates a tagged TEST audit session/assignment. Use Revert to remove.
             </p>
           </div>
@@ -487,24 +487,24 @@ export default function AdminPage() {
             <div className="border border-noir-border bg-noir-bg p-3">
               {testResult && (
                 <div className="space-y-1 mb-2">
-                  <p className="text-[10px] text-noir-muted">testKey: {testResult.testKey}</p>
-                  <p className="text-[10px] text-noir-muted">reviewHref: {testResult.reviewHref}</p>
+                  <p className="text-micro text-noir-muted">testKey: {testResult.testKey}</p>
+                  <p className="text-micro text-noir-muted">reviewHref: {testResult.reviewHref}</p>
                   {testResult.assignmentId && (
-                    <p className="text-[10px] text-noir-muted">
+                    <p className="text-micro text-noir-muted">
                       assignmentId: {testResult.assignmentId}
                     </p>
                   )}
                   {testResult.auditSessionId && (
-                    <p className="text-[10px] text-noir-muted">
+                    <p className="text-micro text-noir-muted">
                       auditSessionId: {testResult.auditSessionId}
                     </p>
                   )}
                   {testResult.warning && (
-                    <p className="text-[10px] text-noir-accent">{testResult.warning}</p>
+                    <p className="text-micro text-noir-accent">{testResult.warning}</p>
                   )}
                 </div>
               )}
-              {testMessage && <p className="text-[10px] text-noir-text">{testMessage}</p>}
+              {testMessage && <p className="text-micro text-noir-text">{testMessage}</p>}
             </div>
           )}
         </div>
@@ -565,7 +565,7 @@ export default function AdminPage() {
                       <Badge variant="muted">Updated</Badge>
                     )}
                   </div>
-                  <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[10px] text-noir-muted tracking-widest uppercase">
+                  <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-micro text-noir-muted tracking-widest uppercase">
                     <span>{artwork.id}</span>
                     {artwork.artist && <span>{artwork.artist.name}</span>}
                     {artwork.medium && <span>{artwork.medium}</span>}
@@ -574,14 +574,14 @@ export default function AdminPage() {
                     )}
                   </div>
                   {!artwork.isVisible && artwork.hiddenReason && (
-                    <p className="text-[10px] text-noir-accent/80 mt-1.5 leading-relaxed">
+                    <p className="text-micro text-noir-accent/80 mt-1.5 leading-relaxed">
                       Reason: {artwork.hiddenReason}
                     </p>
                   )}
                   {!artwork.imageUrl && (
                     <div className="mt-3 flex flex-wrap items-end gap-2">
                       <div className="flex-1 min-w-[180px]">
-                        <Label htmlFor={`image-${artwork.id}`} className="text-[10px]">
+                        <Label htmlFor={`image-${artwork.id}`} className="text-micro">
                           Set gallery-public URL or object path
                         </Label>
                         <Input
@@ -703,10 +703,10 @@ export default function AdminPage() {
       <Divider className="my-6" />
 
       <div className="border border-noir-border bg-noir-bg p-3">
-        <p className="text-[10px] text-noir-muted tracking-widest uppercase font-medium mb-1">
+        <p className="text-micro text-noir-muted tracking-widest uppercase font-medium mb-1">
           Audit Note
         </p>
-        <p className="text-[9px] text-noir-muted/50 leading-relaxed">
+        <p className="text-micro text-noir-muted/50 leading-relaxed">
           Connected to database. All visibility toggles are recorded in the
           audit log with actor ID, timestamp, and reason.
         </p>

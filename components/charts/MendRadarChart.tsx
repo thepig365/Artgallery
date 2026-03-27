@@ -56,7 +56,7 @@ export function MendRadarChart({
         className={`flex items-center justify-center border border-noir-border bg-noir-surface ${className}`}
         style={{ width: size, height: size }}
       >
-        <span className="text-[10px] text-noir-muted tracking-widest uppercase">
+        <span className="text-micro text-noir-muted tracking-widest uppercase">
           No Valid Data
         </span>
       </div>

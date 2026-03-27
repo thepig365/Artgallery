@@ -20,10 +20,10 @@ export default function TermsPage() {
   return (
     <div className="container mx-auto px-4 py-12 max-w-4xl">
       <div className="mb-8">
-        <span className="text-xs font-medium text-gallery-accent uppercase tracking-wide">
+        <span className="text-caption font-medium text-gallery-accent uppercase tracking-wide">
           Legal
         </span>
-        <h1 className="text-3xl font-bold text-gallery-text tracking-tight mt-2 mb-4">
+        <h1 className="font-bold text-gallery-text tracking-tight mt-2 mb-4">
           Terms of Use
         </h1>
         <p className="text-gallery-muted leading-relaxed">
@@ -34,7 +34,7 @@ export default function TermsPage() {
 
       <div className="space-y-8 text-gallery-muted leading-relaxed">
         <section>
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             Acceptance
           </h2>
           <p>
@@ -48,7 +48,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             Eligibility and access
           </h2>
           <p>
@@ -60,7 +60,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             Submissions
           </h2>
           <p>
@@ -74,7 +74,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             Prohibited content
           </h2>
           <p>
@@ -85,7 +85,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             Assessments are opinions — not advice
           </h2>
           <p>
@@ -97,7 +97,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             Intellectual property
           </h2>
           <p>
@@ -112,7 +112,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             Limitation of liability
           </h2>
           <p>
@@ -124,7 +124,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             Changes to terms
           </h2>
           <p>
@@ -134,7 +134,7 @@ export default function TermsPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             Governing law
           </h2>
           <p>
@@ -144,7 +144,7 @@ export default function TermsPage() {
         </section>
 
         <section className="border-t border-gallery-border pt-6">
-          <p className="text-sm">
+          <p className="text-helper">
             Contact:{" "}
             <a
               href={`mailto:${CONTACT_EMAIL}`}

@@ -33,7 +33,7 @@ export function SiteNav() {
               href={item.href}
               aria-current={isActive ? "page" : undefined}
               className={`
-                px-3 py-2 text-sm font-medium rounded-md
+                px-3 py-2 text-body md:text-nav font-medium rounded-md
                 transition-colors duration-200
                 ${
                   isActive
@@ -62,7 +62,7 @@ export function SiteNav() {
             href={item.href}
             aria-current={isActive ? "page" : undefined}
             className={`
-              px-4 py-4 text-xs font-medium tracking-widest uppercase
+              px-4 py-4 text-body md:text-nav font-medium tracking-widest uppercase
               border-l border-noir-border
               transition-colors duration-120
               focus-visible:outline focus-visible:outline-1 focus-visible:outline-noir-text focus-visible:outline-offset-[-1px]

@@ -51,7 +51,7 @@ export function GalleryCard({ artwork }: GalleryCardProps) {
 
             {artwork.finalV != null && (
               <div className="absolute right-2.5 top-2.5 rounded-sm border border-border bg-surface px-2 py-0.5 backdrop-blur-sm">
-                <span className="text-[11px] font-semibold text-accent tabular-nums tracking-tight">
+                <span className="text-micro font-semibold text-accent tabular-nums tracking-tight">
                   V {artwork.finalV.toFixed(2)}
                 </span>
               </div>
@@ -59,20 +59,20 @@ export function GalleryCard({ artwork }: GalleryCardProps) {
           </div>
 
           <div className="border-t border-border/70 px-4 py-3.5">
-            <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-fg transition-colors duration-200 group-hover:text-accent">
+            <h3 className="line-clamp-2 text-body font-semibold leading-snug text-fg transition-colors duration-200 group-hover:text-accent">
               {artwork.title}
             </h3>
             {artwork.artist && (
-              <p className="mt-1 text-xs text-muted">
+              <p className="mt-1 text-caption text-muted">
                 {artwork.artist.name}
               </p>
             )}
             {(artwork.medium || artwork.year) && (
-              <p className="mt-1.5 text-[11px] uppercase tracking-[0.08em] text-subtle">
+              <p className="mt-1.5 text-caption uppercase tracking-[0.08em] text-subtle">
                 {[artwork.medium, artwork.year].filter(Boolean).join(" · ")}
               </p>
             )}
-            <p className="mt-1 text-[10px] text-subtle">
+            <p className="mt-1 text-micro text-subtle">
               Available on enquiry • Viewings by appointment
             </p>
           </div>

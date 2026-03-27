@@ -22,7 +22,7 @@ export function StepNarrative({
 
   return (
     <Panel>
-      <h2 className="text-sm font-medium tracking-forensic text-noir-text mb-2">
+      <h2 className="text-body font-medium tracking-forensic text-noir-text mb-2">
         Narrative Justification (Optional but recommended)
       </h2>
       <p className="text-xs text-noir-muted mb-6">
@@ -44,14 +44,14 @@ export function StepNarrative({
         />
         <div className="flex items-center justify-between mt-2">
           {errors.narrative ? (
-            <p className="text-noir-accent text-[10px] tracking-wider">
+            <p className="text-noir-accent text-micro tracking-wider">
               {errors.narrative}
             </p>
           ) : (
             <span />
           )}
           <p
-            className={`text-[10px] tracking-wider ${
+            className={`text-micro tracking-wider ${
               charCount > MAX_CHARS ? "text-noir-accent" : "text-noir-muted"
             }`}
           >

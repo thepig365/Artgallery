@@ -39,7 +39,7 @@ export function SiteHeaderServer() {
                   Bayview Hub
                 </span>
                 <span
-                  className="text-[11px] tracking-widest uppercase"
+                  className="text-caption tracking-widest uppercase"
                   style={{ color: subtitleColor }}
                 >
                   Art Gallery
@@ -77,7 +77,7 @@ export function SiteHeaderServer() {
                 Bayview Hub
               </span>
               <span
-                className="text-[10px] tracking-widest uppercase"
+                className="text-caption tracking-widest uppercase"
                 style={{ color: subtitleColor }}
               >
                 Art Gallery

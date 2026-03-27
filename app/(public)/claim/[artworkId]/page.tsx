@@ -50,8 +50,8 @@ export default function ClaimPage() {
   if (!artworkId) {
     return (
       <div className="container mx-auto px-4 py-24 text-center">
-        <p className="text-sm text-gallery-muted">Invalid artwork ID.</p>
-        <Link href="/archive" className="mt-4 inline-block text-sm text-gallery-accent hover:underline">
+        <p className="text-helper text-gallery-muted">Invalid artwork ID.</p>
+        <Link href="/archive" className="mt-4 inline-block text-body text-gallery-accent hover:underline">
           Back to Collection
         </Link>
       </div>
@@ -103,7 +103,7 @@ export default function ClaimPage() {
   if (authenticated === null) {
     return (
       <div className="container mx-auto px-4 py-24 text-center">
-        <p className="text-sm text-gallery-muted animate-pulse">Loading…</p>
+        <p className="text-helper text-gallery-muted animate-pulse">Loading…</p>
       </div>
     );
   }
@@ -118,17 +118,17 @@ export default function ClaimPage() {
               strokeWidth={1.5}
             />
           </div>
-          <h1 className="text-xl font-bold text-gallery-text mb-3">
+          <h1 className="text-h4 font-bold text-gallery-text mb-3">
             Claim Submitted
           </h1>
-          <p className="text-sm text-gallery-muted leading-relaxed max-w-md mx-auto">
+          <p className="text-helper text-gallery-muted leading-relaxed max-w-md mx-auto">
             Your ownership claim has been submitted for review. No changes have
             been made to the artwork listing yet.
           </p>
           <div className="mt-6">
             <Link
               href="/archive"
-              className="inline-flex items-center gap-1.5 text-sm text-gallery-accent hover:underline"
+              className="inline-flex items-center gap-1.5 text-body text-gallery-accent hover:underline"
             >
               <ArrowLeft className="w-4 h-4" strokeWidth={1.5} />
               Back to Collection
@@ -143,7 +143,7 @@ export default function ClaimPage() {
     <div className="container mx-auto px-4 py-8 sm:py-12">
       <Link
         href="/archive"
-        className="inline-flex items-center gap-1.5 text-sm text-gallery-muted hover:text-gallery-accent transition-colors duration-200 mb-6"
+        className="inline-flex items-center gap-1.5 text-body text-gallery-muted hover:text-gallery-accent transition-colors duration-200 mb-6"
       >
         <ArrowLeft className="w-4 h-4" strokeWidth={1.5} />
         Back to Collection
@@ -155,11 +155,11 @@ export default function ClaimPage() {
             className="w-5 h-5 text-gallery-accent"
             strokeWidth={1.5}
           />
-          <h1 className="text-2xl font-bold text-gallery-text tracking-tight">
+          <h1 className="text-h3 font-bold text-gallery-text tracking-tight md:text-h2">
             Claim Artwork Ownership
           </h1>
         </div>
-        <p className="text-sm text-gallery-muted leading-relaxed">
+        <p className="text-helper text-gallery-muted leading-relaxed">
           Submit a verified ownership claim for this artwork. Claims are
           reviewed by an administrator before granting management access.
         </p>
@@ -174,20 +174,20 @@ export default function ClaimPage() {
             className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5"
             strokeWidth={1.5}
           />
-          <p className="text-sm text-red-800">{submitError}</p>
+          <p className="text-body text-red-800">{submitError}</p>
         </div>
       )}
 
       <div className="space-y-6">
         <div className="bg-gallery-surface border border-gallery-border rounded-xl p-6">
-          <h2 className="text-base font-semibold text-gallery-text mb-4">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-4">
             Claimant Details
           </h2>
           <div className="space-y-4">
             <div>
               <label
                 htmlFor="claimantName"
-                className="block text-sm font-medium text-gallery-text mb-1"
+                className="block text-caption md:text-helper font-medium text-gallery-text mb-1"
               >
                 Full Name <span className="text-red-500">*</span>
               </label>
@@ -197,11 +197,11 @@ export default function ClaimPage() {
                 onChange={(e) =>
                   setForm((p) => ({ ...p, claimantName: e.target.value }))
                 }
-                className={`w-full px-3 py-2.5 text-sm bg-gallery-bg border rounded-lg text-gallery-text placeholder:text-gallery-muted/50 focus:outline-none focus:ring-2 focus:ring-gallery-accent/30 focus:border-gallery-accent transition-colors ${errors.claimantName ? "border-red-400" : "border-gallery-border"}`}
+                className={`w-full px-3 py-2.5 text-body bg-gallery-bg border rounded-lg text-gallery-text placeholder:text-gallery-muted/50 focus:outline-none focus:ring-2 focus:ring-gallery-accent/30 focus:border-gallery-accent transition-colors ${errors.claimantName ? "border-red-400" : "border-gallery-border"}`}
                 placeholder="Your legal name"
               />
               {errors.claimantName && (
-                <p className="text-red-600 text-xs mt-1">
+                <p className="text-red-600 text-caption mt-1">
                   {errors.claimantName}
                 </p>
               )}
@@ -210,7 +210,7 @@ export default function ClaimPage() {
             <div>
               <label
                 htmlFor="claimantEmail"
-                className="block text-sm font-medium text-gallery-text mb-1"
+                className="block text-caption md:text-helper font-medium text-gallery-text mb-1"
               >
                 Email <span className="text-red-500">*</span>
               </label>
@@ -221,11 +221,11 @@ export default function ClaimPage() {
                 onChange={(e) =>
                   setForm((p) => ({ ...p, claimantEmail: e.target.value }))
                 }
-                className={`w-full px-3 py-2.5 text-sm bg-gallery-bg border rounded-lg text-gallery-text placeholder:text-gallery-muted/50 focus:outline-none focus:ring-2 focus:ring-gallery-accent/30 focus:border-gallery-accent transition-colors ${errors.claimantEmail ? "border-red-400" : "border-gallery-border"}`}
+                className={`w-full px-3 py-2.5 text-body bg-gallery-bg border rounded-lg text-gallery-text placeholder:text-gallery-muted/50 focus:outline-none focus:ring-2 focus:ring-gallery-accent/30 focus:border-gallery-accent transition-colors ${errors.claimantEmail ? "border-red-400" : "border-gallery-border"}`}
                 placeholder="your@email.com"
               />
               {errors.claimantEmail && (
-                <p className="text-red-600 text-xs mt-1">
+                <p className="text-red-600 text-caption mt-1">
                   {errors.claimantEmail}
                 </p>
               )}
@@ -234,14 +234,14 @@ export default function ClaimPage() {
         </div>
 
         <div className="bg-gallery-surface border border-gallery-border rounded-xl p-6">
-          <h2 className="text-base font-semibold text-gallery-text mb-4">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-4">
             Relationship & Evidence
           </h2>
           <div className="space-y-4">
             <div>
               <label
                 htmlFor="relationship"
-                className="block text-sm font-medium text-gallery-text mb-1"
+                className="block text-caption md:text-helper font-medium text-gallery-text mb-1"
               >
                 Relationship to Artwork{" "}
                 <span className="text-red-500">*</span>
@@ -255,7 +255,7 @@ export default function ClaimPage() {
                     relationshipToArtwork: e.target.value,
                   }))
                 }
-                className={`w-full px-3 py-2.5 text-sm bg-gallery-bg border rounded-lg text-gallery-text focus:outline-none focus:ring-2 focus:ring-gallery-accent/30 focus:border-gallery-accent transition-colors ${errors.relationshipToArtwork ? "border-red-400" : "border-gallery-border"}`}
+                className={`w-full px-3 py-2.5 text-body bg-gallery-bg border rounded-lg text-gallery-text focus:outline-none focus:ring-2 focus:ring-gallery-accent/30 focus:border-gallery-accent transition-colors ${errors.relationshipToArtwork ? "border-red-400" : "border-gallery-border"}`}
               >
                 <option value="">Select relationship…</option>
                 {RELATIONSHIPS.map((r) => (
@@ -265,7 +265,7 @@ export default function ClaimPage() {
                 ))}
               </select>
               {errors.relationshipToArtwork && (
-                <p className="text-red-600 text-xs mt-1">
+                <p className="text-red-600 text-caption mt-1">
                   {errors.relationshipToArtwork}
                 </p>
               )}
@@ -274,7 +274,7 @@ export default function ClaimPage() {
             <div>
               <label
                 htmlFor="evidenceText"
-                className="block text-sm font-medium text-gallery-text mb-1"
+                className="block text-caption md:text-helper font-medium text-gallery-text mb-1"
               >
                 Evidence of Ownership{" "}
                 <span className="text-red-500">*</span>
@@ -286,11 +286,11 @@ export default function ClaimPage() {
                   setForm((p) => ({ ...p, evidenceText: e.target.value }))
                 }
                 rows={4}
-                className={`w-full px-3 py-2.5 text-sm bg-gallery-bg border rounded-lg text-gallery-text placeholder:text-gallery-muted/50 focus:outline-none focus:ring-2 focus:ring-gallery-accent/30 focus:border-gallery-accent transition-colors resize-y ${errors.evidenceText ? "border-red-400" : "border-gallery-border"}`}
+                className={`w-full px-3 py-2.5 text-body bg-gallery-bg border rounded-lg text-gallery-text placeholder:text-gallery-muted/50 focus:outline-none focus:ring-2 focus:ring-gallery-accent/30 focus:border-gallery-accent transition-colors resize-y ${errors.evidenceText ? "border-red-400" : "border-gallery-border"}`}
                 placeholder="Describe your relationship to this artwork and provide evidence of ownership (e.g., purchase records, exhibition history, creation documentation)…"
               />
               {errors.evidenceText && (
-                <p className="text-red-600 text-xs mt-1">
+                <p className="text-red-600 text-caption mt-1">
                   {errors.evidenceText}
                 </p>
               )}
@@ -341,7 +341,7 @@ export default function ClaimPage() {
                 </svg>
               )}
             </div>
-            <p className="text-sm text-gallery-text leading-relaxed">
+            <p className="text-body text-gallery-text leading-relaxed">
               I declare that the information provided is accurate, and I have a
               legitimate ownership or rights-holder relationship with this
               artwork. I understand that false claims may result in account
@@ -349,7 +349,7 @@ export default function ClaimPage() {
             </p>
           </div>
           {errors.declarationAccepted && (
-            <p className="text-red-600 text-xs mt-2 ml-8">
+            <p className="text-red-600 text-caption mt-2 ml-8">
               {errors.declarationAccepted}
             </p>
           )}
@@ -360,7 +360,7 @@ export default function ClaimPage() {
         <button
           onClick={handleSubmit}
           disabled={submitState === "submitting" || !form.declarationAccepted}
-          className="px-6 py-3 bg-gallery-accent text-white text-sm font-medium rounded-lg hover:bg-gallery-accent-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
+          className="px-6 py-3 bg-gallery-accent text-white text-body font-medium rounded-lg hover:bg-gallery-accent-hover disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200"
         >
           {submitState === "submitting" ? (
             <span className="flex items-center gap-2">

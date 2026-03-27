@@ -307,7 +307,7 @@ export function HostRegisterClient() {
       {/* ── Page header ─────────────────────────────────────────── */}
       <div className="border-b border-gallery-border bg-family-navy">
         <Container className="py-8 sm:py-10">
-          <p className="mb-1 text-[11px] font-medium uppercase tracking-[0.22em] text-family-accent">
+          <p className="mb-1 text-micro font-medium uppercase tracking-[0.22em] text-family-accent">
             Bayview Hub · Private Viewing Network
           </p>
           <h1 className="font-serif text-2xl font-semibold text-white sm:text-3xl">
@@ -327,7 +327,7 @@ export function HostRegisterClient() {
                 <div key={step.id} className="flex items-center">
                   <div className="flex items-center gap-2">
                     <div
-                      className={`flex h-6 w-6 items-center justify-center text-[10px] font-semibold ${
+                      className={`flex h-6 w-6 items-center justify-center text-micro font-semibold ${
                         active
                           ? "bg-family-navy text-white"
                           : done
@@ -430,7 +430,7 @@ export function HostRegisterClient() {
                     onChange={(e) => set("hostRegion", e.target.value)}
                     placeholder="e.g. South Yarra, VIC"
                   />
-                  <p className="mt-1 text-[11px] text-gallery-muted">
+                  <p className="mt-1 text-micro text-gallery-muted">
                     Suburb and state only — no full address is collected or published.
                   </p>
                 </div>
@@ -453,7 +453,7 @@ export function HostRegisterClient() {
                     options={VISIBILITY_OPTIONS}
                     placeholder="Select preference"
                   />
-                  <p className="mt-1 text-[11px] text-gallery-muted">
+                  <p className="mt-1 text-micro text-gallery-muted">
                     This controls how Bayview may present your interest in the
                     programme. It can be changed later.
                   </p>
@@ -554,7 +554,7 @@ export function HostRegisterClient() {
                     placeholder="A brief note about this work — where it came from, why it is held, what it means to you."
                     className="min-h-[120px]"
                   />
-                  <p className="mt-1 text-[11px] text-gallery-muted">
+                  <p className="mt-1 text-micro text-gallery-muted">
                     This note will appear on the Preliminary Passport as a
                     host-provided background note.
                   </p>
@@ -576,7 +576,7 @@ export function HostRegisterClient() {
                 </div>
 
                 <div className="border border-gallery-border p-4">
-                  <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-gallery-accent">
+                  <p className="mb-2 text-micro font-semibold uppercase tracking-widest text-gallery-accent">
                     Works for Private Walls — Public Listing
                   </p>
                   <label className="flex cursor-pointer items-start gap-3">
@@ -591,7 +591,7 @@ export function HostRegisterClient() {
                       BayviewHub&apos;s Works for Private Walls programme.
                     </span>
                   </label>
-                  <p className="mt-2 text-[11px] leading-relaxed text-gallery-muted">
+                  <p className="mt-2 text-micro leading-relaxed text-gallery-muted">
                     Opting in does not automatically make this work public.
                     Public listing still requires Bayview review and publication
                     through the programme. Your host details are never disclosed.
@@ -631,7 +631,7 @@ export function HostRegisterClient() {
                     <p className="text-xs text-gallery-accent">
                       ✓ {upload.name} uploaded
                     </p>
-                    <p className="text-[11px] text-gallery-muted">
+                    <p className="text-micro text-gallery-muted">
                       Click to replace
                     </p>
                   </div>
@@ -660,7 +660,7 @@ export function HostRegisterClient() {
                     <p className="text-sm text-gallery-muted">
                       Click to select an image
                     </p>
-                    <p className="text-[11px] text-gallery-muted">
+                    <p className="text-micro text-gallery-muted">
                       JPEG, PNG, WebP or TIFF · Max 10 MB
                     </p>
                   </div>
@@ -679,7 +679,7 @@ export function HostRegisterClient() {
               )}
 
               <div className="border border-accent/20 bg-accent/5 p-3">
-                <p className="text-[11px] leading-relaxed text-gallery-muted">
+                <p className="text-micro leading-relaxed text-gallery-muted">
                   Images are stored in a private storage bucket and are only
                   accessible via time-limited signed links generated when the
                   record page is viewed. They are not indexed or publicly listed.
@@ -704,7 +704,7 @@ export function HostRegisterClient() {
               {/* Summary panels */}
               <div className="space-y-4">
                 <div className="border border-gallery-border p-4 sm:p-5">
-                  <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-gallery-accent">
+                  <p className="mb-3 text-micro font-semibold uppercase tracking-widest text-gallery-accent">
                     Your Details
                   </p>
                   <dl className="space-y-1.5 text-sm">
@@ -736,7 +736,7 @@ export function HostRegisterClient() {
                 </div>
 
                 <div className="border border-gallery-border p-4 sm:p-5">
-                  <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-gallery-accent">
+                  <p className="mb-3 text-micro font-semibold uppercase tracking-widest text-gallery-accent">
                     Artwork
                   </p>
                   <dl className="space-y-1.5 text-sm">
@@ -786,7 +786,7 @@ export function HostRegisterClient() {
                     </div>
                   </dl>
                   <div className="mt-3 border-t border-gallery-border pt-3">
-                    <p className="text-[11px] font-medium uppercase tracking-widest text-gallery-muted">
+                    <p className="text-micro font-medium uppercase tracking-widest text-gallery-muted">
                       Background note
                     </p>
                     <p className="mt-1 text-sm leading-relaxed text-gallery-text">
@@ -796,7 +796,7 @@ export function HostRegisterClient() {
                 </div>
 
                 <div className="border border-gallery-border p-4 sm:p-5">
-                  <p className="mb-2 text-[10px] font-semibold uppercase tracking-widest text-gallery-accent">
+                  <p className="mb-2 text-micro font-semibold uppercase tracking-widest text-gallery-accent">
                     Image
                   </p>
                   {upload.preview && (

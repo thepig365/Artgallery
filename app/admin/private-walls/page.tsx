@@ -212,7 +212,7 @@ export default function AdminPrivateWallsPage() {
       {apiError && (
         <div className="border border-noir-accent bg-noir-accent/10 p-3 mb-6" role="alert">
           <p className="text-xs text-noir-accent font-medium">Action Failed</p>
-          <p className="text-[10px] text-noir-muted mt-0.5">{apiError}</p>
+          <p className="text-micro text-noir-muted mt-0.5">{apiError}</p>
         </div>
       )}
 
@@ -233,7 +233,7 @@ export default function AdminPrivateWallsPage() {
         <div className="flex items-center gap-2 flex-wrap justify-end">
           <Link
             href="/admin"
-            className="text-[10px] text-noir-muted hover:text-noir-text border border-noir-border px-2 py-1 tracking-widest uppercase"
+            className="text-micro text-noir-muted hover:text-noir-text border border-noir-border px-2 py-1 tracking-widest uppercase"
           >
             ← Admin
           </Link>
@@ -241,14 +241,14 @@ export default function AdminPrivateWallsPage() {
             href="/art-work-for-private-walls"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 text-[10px] text-noir-muted hover:text-noir-text border border-noir-border px-2 py-1 tracking-widest uppercase"
+            className="inline-flex items-center gap-1 text-micro text-noir-muted hover:text-noir-text border border-noir-border px-2 py-1 tracking-widest uppercase"
           >
             <Globe className="w-3 h-3" strokeWidth={1.5} />
             View Page
           </Link>
           <button
             onClick={handleLogout}
-            className="inline-flex items-center gap-1.5 text-[10px] text-noir-muted hover:text-noir-text border border-noir-border px-2 py-1 tracking-widest uppercase"
+            className="inline-flex items-center gap-1.5 text-micro text-noir-muted hover:text-noir-text border border-noir-border px-2 py-1 tracking-widest uppercase"
           >
             <LogOut className="w-3 h-3" strokeWidth={1.5} />
             Logout
@@ -265,7 +265,7 @@ export default function AdminPrivateWallsPage() {
         ].map(({ label, value }) => (
           <Panel key={label} className="py-4 text-center">
             <p className="text-xl font-semibold text-noir-text">{value}</p>
-            <p className="text-[10px] uppercase tracking-widest text-noir-muted mt-1">{label}</p>
+            <p className="text-micro uppercase tracking-widest text-noir-muted mt-1">{label}</p>
           </Panel>
         ))}
       </div>
@@ -328,7 +328,7 @@ export default function AdminPrivateWallsPage() {
                       )}
                       {state === "done" && <Badge variant="muted">Updated</Badge>}
                     </div>
-                    <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[10px] text-noir-muted tracking-widest uppercase mb-2">
+                    <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-micro text-noir-muted tracking-widest uppercase mb-2">
                       <span>{record.artistName}</span>
                       <span>{record.medium}</span>
                       {record.artworkYear && <span>{record.artworkYear}</span>}
@@ -337,7 +337,7 @@ export default function AdminPrivateWallsPage() {
                     </div>
 
                     {/* Internal host details */}
-                    <div className="text-[10px] text-noir-muted space-y-0.5 mb-2">
+                    <div className="text-micro text-noir-muted space-y-0.5 mb-2">
                       <p>Host: {record.hostName} · {record.hostEmail}</p>
                       <p>Passport ID: {record.passportId}</p>
                       {record.publicSlug && (
@@ -365,7 +365,7 @@ export default function AdminPrivateWallsPage() {
                       )}
                     </div>
 
-                    <p className="text-[10px] text-noir-muted/60">
+                    <p className="text-micro text-noir-muted/60">
                       Private record:{" "}
                       <a
                         href={`/passport/record/${record.shareToken}`}
@@ -434,10 +434,10 @@ export default function AdminPrivateWallsPage() {
 
       <Divider className="my-6" />
       <div className="border border-noir-border bg-noir-bg p-3">
-        <p className="text-[10px] text-noir-muted tracking-widest uppercase font-medium mb-1">
+        <p className="text-micro text-noir-muted tracking-widest uppercase font-medium mb-1">
           Programme Note
         </p>
-        <p className="text-[9px] text-noir-muted/50 leading-relaxed">
+        <p className="text-micro text-noir-muted/50 leading-relaxed">
           Publishing a work makes it visible on /art-work-for-private-walls only.
           It does not add the work to the main curated archive. Unpublishing sets
           the state to Private Only but preserves the public slug for future use.

@@ -4,7 +4,7 @@ export default function NotFound() {
   return (
     <div className="container mx-auto px-4 py-24 text-center">
       <div className="border border-noir-border bg-noir-surface p-8">
-        <p className="text-[10px] text-noir-muted tracking-widest uppercase mb-4">
+        <p className="text-micro text-noir-muted tracking-widest uppercase mb-4">
           Error 404
         </p>
         <h1 className="text-lg font-medium tracking-forensic text-noir-text mb-3">

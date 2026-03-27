@@ -9,7 +9,7 @@ import { Container } from "@/components/layout/Container";
 function OpenWallCTA() {
   return (
     <div className="mb-10 border border-white/15 p-5 sm:p-6">
-      <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.2em] text-family-accent">
+      <p className="mb-2 text-caption font-medium uppercase tracking-[0.2em] text-family-accent">
         Bayview Hub · Private Viewing Network
       </p>
       <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
@@ -20,7 +20,7 @@ function OpenWallCTA() {
           >
             Open Your Private Wall →
           </Link>
-          <p className="mt-1 text-xs text-white/50">
+          <p className="mt-1 text-caption text-white/50">
             For artists, collectors, private hosts, and invited viewers
           </p>
         </div>
@@ -45,61 +45,61 @@ export function PublicFooter() {
             </p>
           </div>
           <div>
-            <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-white">
+            <h4 className="mb-3 text-caption font-semibold uppercase tracking-[0.16em] text-white">
               Explore
             </h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/archive" className="text-sm text-white/70 transition-colors hover:text-white">
+                <Link href="/archive" className="text-helper text-white/70 transition-colors hover:text-white">
                   Collection
                 </Link>
               </li>
               <li>
-                <Link href="/masterpieces" className="text-sm text-white/70 transition-colors hover:text-white">
+                <Link href="/masterpieces" className="text-helper text-white/70 transition-colors hover:text-white">
                   Open Masterpieces
                 </Link>
               </li>
               <li>
-                <Link href="/study" className="text-sm text-white/70 transition-colors hover:text-white">
+                <Link href="/study" className="text-helper text-white/70 transition-colors hover:text-white">
                   Study Guides
                 </Link>
               </li>
               <li>
-                <Link href="/submit" className="text-sm text-white/70 transition-colors hover:text-white">
+                <Link href="/submit" className="text-helper text-white/70 transition-colors hover:text-white">
                   Submit for Curation
                 </Link>
               </li>
               <li>
-                <Link href="/passport" className="text-sm text-white/70 transition-colors hover:text-white">
+                <Link href="/passport" className="text-helper text-white/70 transition-colors hover:text-white">
                   Artwork Passport
                 </Link>
               </li>
             </ul>
           </div>
           <div>
-            <h4 className="mb-3 text-xs font-semibold uppercase tracking-[0.16em] text-white">
+            <h4 className="mb-3 text-caption font-semibold uppercase tracking-[0.16em] text-white">
               Legal
             </h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/privacy" className="text-sm text-white/70 transition-colors hover:text-white">
+                <Link href="/privacy" className="text-helper text-white/70 transition-colors hover:text-white">
                   Privacy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="text-sm text-white/70 transition-colors hover:text-white">
+                <Link href="/terms" className="text-helper text-white/70 transition-colors hover:text-white">
                   Terms
                 </Link>
               </li>
               <li>
-                <Link href="/rights" className="text-sm text-white/70 transition-colors hover:text-white">
+                <Link href="/rights" className="text-helper text-white/70 transition-colors hover:text-white">
                   Rights &amp; Takedown
                 </Link>
               </li>
               <li>
                 <Link
                   href="/login?redirect=/portal"
-                  className="text-xs text-white/45 transition-colors hover:text-white/70"
+                  className="text-caption text-white/45 transition-colors hover:text-white/70"
                 >
                   Staff Sign-In
                 </Link>
@@ -108,7 +108,7 @@ export function PublicFooter() {
           </div>
         </div>
         <div className="border-t border-white/20 pt-6">
-          <p className="max-w-4xl text-[11px] leading-relaxed text-white/55">
+          <p className="max-w-4xl text-micro leading-relaxed text-white/55">
             {DISCLAIMERS.global}
           </p>
         </div>
@@ -119,11 +119,11 @@ export function PublicFooter() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
             <a
               href={MAIN_SITE_URL}
-              className="whitespace-nowrap text-sm font-medium text-white transition-colors hover:text-family-accent"
+              className="whitespace-nowrap text-helper font-medium text-white transition-colors hover:text-family-accent"
             >
               ← Back to Bayview Hub
             </a>
-            <div className="text-center text-xs leading-relaxed text-white/70">
+            <div className="text-center text-helper leading-relaxed text-white/70">
               <p>{FAMILY_STRIP.address}</p>
               <p className="mt-1">{FAMILY_STRIP.hours}</p>
             </div>
@@ -132,7 +132,7 @@ export function PublicFooter() {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="text-xs uppercase tracking-[0.14em] text-white/70 transition-colors hover:text-white"
+                  className="text-caption uppercase tracking-[0.14em] text-white/70 transition-colors hover:text-white"
                 >
                   {link.label}
                 </a>
@@ -144,7 +144,7 @@ export function PublicFooter() {
 
       <div className="border-t border-white/15 bg-family-navy">
         <Container className="py-4">
-          <div className="flex flex-col items-center justify-between gap-3 text-[10px] text-white/55 sm:flex-row">
+          <div className="flex flex-col items-center justify-between gap-3 text-micro text-white/55 sm:flex-row">
             <p>
               © {new Date().getFullYear()} Bayview Hub ·{" "}
               <Link href="/privacy" className="transition-colors hover:text-white">

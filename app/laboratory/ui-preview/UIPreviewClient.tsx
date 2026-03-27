@@ -38,7 +38,7 @@ export default function UIPreviewClient() {
         <Panel>
           <div className="space-y-6">
             <div>
-              <p className="text-[10px] text-noir-muted tracking-widest uppercase mb-3">
+              <p className="text-micro text-noir-muted tracking-widest uppercase mb-3">
                 Variants
               </p>
               <div className="flex flex-wrap gap-3">
@@ -48,7 +48,7 @@ export default function UIPreviewClient() {
               </div>
             </div>
             <div>
-              <p className="text-[10px] text-noir-muted tracking-widest uppercase mb-3">
+              <p className="text-micro text-noir-muted tracking-widest uppercase mb-3">
                 Sizes
               </p>
               <div className="flex flex-wrap items-center gap-3">
@@ -58,7 +58,7 @@ export default function UIPreviewClient() {
               </div>
             </div>
             <div>
-              <p className="text-[10px] text-noir-muted tracking-widest uppercase mb-3">
+              <p className="text-micro text-noir-muted tracking-widest uppercase mb-3">
                 States
               </p>
               <div className="flex flex-wrap gap-3">
@@ -107,7 +107,7 @@ export default function UIPreviewClient() {
                   Input with Error
                 </Label>
                 <Input id="input-error" error placeholder="Invalid entry" />
-                <p className="text-noir-accent text-[10px] mt-1 tracking-wider">
+                <p className="text-noir-accent text-micro mt-1 tracking-wider">
                   Field is required
                 </p>
               </div>
@@ -197,7 +197,7 @@ export default function UIPreviewClient() {
         <Divider />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           <Panel>
-            <p className="text-[10px] text-noir-muted tracking-widest uppercase mb-4">
+            <p className="text-micro text-noir-muted tracking-widest uppercase mb-4">
               Valid Scores
             </p>
             <MendRadarChart
@@ -206,7 +206,7 @@ export default function UIPreviewClient() {
             />
           </Panel>
           <Panel>
-            <p className="text-[10px] text-noir-muted tracking-widest uppercase mb-4">
+            <p className="text-micro text-noir-muted tracking-widest uppercase mb-4">
               Edge Case — Max Values
             </p>
             <MendRadarChart
@@ -215,7 +215,7 @@ export default function UIPreviewClient() {
             />
           </Panel>
           <Panel>
-            <p className="text-[10px] text-noir-muted tracking-widest uppercase mb-4">
+            <p className="text-micro text-noir-muted tracking-widest uppercase mb-4">
               Fallback — Invalid Data
             </p>
             <MendRadarChart scores={null} size={220} />

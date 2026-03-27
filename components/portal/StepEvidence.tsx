@@ -207,7 +207,7 @@ export function StepEvidence({
 
   return (
     <Panel>
-      <h2 className="text-sm font-medium tracking-forensic text-noir-text mb-2">
+      <h2 className="text-body font-medium tracking-forensic text-noir-text mb-2">
         Evidence Images
       </h2>
       <div className="text-xs text-noir-muted mb-6 space-y-1">
@@ -256,20 +256,20 @@ export function StepEvidence({
               ? "Drop files here"
               : "Click to upload or drag and drop"}
           </p>
-          <p className="text-[10px] text-noir-muted mt-1">
+          <p className="text-micro text-noir-muted mt-1">
             JPG, PNG, or WebP — Max 50MB per file
           </p>
         </div>
       </div>
 
-      <p className="text-[10px] text-noir-muted/70 mt-2 italic">
+      <p className="text-micro text-noir-muted/70 mt-2 italic">
         Tip: 3–6 clear images usually work best (front view, detail views, signature/back if relevant).
       </p>
 
       {fileErrors.length > 0 && (
         <div className="mt-3 space-y-1">
           {fileErrors.map((err, i) => (
-            <p key={i} className="text-[10px] text-noir-accent">
+            <p key={i} className="text-micro text-noir-accent">
               {err}
             </p>
           ))}
@@ -308,17 +308,17 @@ export function StepEvidence({
                   {file.name}
                 </span>
                 {file.status === "uploading" && (
-                  <span className="text-[10px] text-noir-muted flex-shrink-0">
+                  <span className="text-micro text-noir-muted flex-shrink-0">
                     Uploading…
                   </span>
                 )}
                 {file.status === "error" && (
-                  <span className="text-[10px] text-noir-accent flex-shrink-0">
+                  <span className="text-micro text-noir-accent flex-shrink-0">
                     {file.error ?? FALLBACK_ERROR}
                   </span>
                 )}
                 {file.status === "done" && (
-                  <span className="text-[10px] text-noir-muted uppercase flex-shrink-0">
+                  <span className="text-micro text-noir-muted uppercase flex-shrink-0">
                     {file.type}
                   </span>
                 )}
@@ -336,7 +336,7 @@ export function StepEvidence({
       )}
 
       <div className="mt-4 flex items-center justify-between">
-        <span className="text-[10px] text-noir-muted tracking-widest uppercase">
+        <span className="text-micro text-noir-muted tracking-widest uppercase">
           {doneCount} image{doneCount !== 1 ? "s" : ""} uploaded
         </span>
         <Button variant="ghost" size="sm" onClick={handleClick}>

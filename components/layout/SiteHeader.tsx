@@ -62,7 +62,7 @@ export function SiteHeader() {
                 Bayview Hub
               </span>
               <span
-                className="text-[10px] tracking-widest uppercase"
+                className="text-caption tracking-widest uppercase"
                 style={{ color: subtitleColor }}
               >
                 Art Gallery

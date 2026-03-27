@@ -95,7 +95,7 @@ function renderModernMaster(
         <span className="text-gallery-text">{master.name}</span>
       </nav>
 
-      <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
+      <p className="text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
         Study Guide
       </p>
       <h1 className="text-3xl sm:text-4xl font-bold text-gallery-text tracking-tight mb-2">
@@ -190,7 +190,7 @@ function renderStudyPack(
         <span className="text-gallery-text">{pack.name}</span>
       </nav>
 
-      <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
+      <p className="text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
         Study Pack
       </p>
       <h1 className="text-3xl sm:text-4xl font-bold text-gallery-text tracking-tight mb-2">

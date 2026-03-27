@@ -98,7 +98,7 @@ export default async function WorkDetailPage({
         <Container className="py-5">
           <Link
             href="/art-work-for-private-walls"
-            className="text-[11px] font-medium uppercase tracking-[0.2em] text-family-accent transition-colors hover:text-white"
+            className="text-micro font-medium uppercase tracking-[0.2em] text-family-accent transition-colors hover:text-white"
           >
             ← Works for Private Walls
           </Link>
@@ -123,7 +123,7 @@ export default async function WorkDetailPage({
               </div>
             ) : (
               <div className="flex aspect-[4/3] w-full items-center justify-center bg-gallery-surface-alt">
-                <p className="text-[11px] uppercase tracking-widest text-gallery-muted">
+                <p className="text-micro uppercase tracking-widest text-gallery-muted">
                   Image not available
                 </p>
               </div>
@@ -133,7 +133,7 @@ export default async function WorkDetailPage({
             <div className="p-6 sm:p-8">
 
               {/* Badge */}
-              <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-gallery-accent">
+              <p className="mb-3 text-micro font-semibold uppercase tracking-widest text-gallery-accent">
                 Private Walls · By Request
               </p>
 
@@ -147,7 +147,7 @@ export default async function WorkDetailPage({
                     .filter(Boolean)
                     .join(" · ")}
                 </p>
-                <p className="text-[10px] uppercase tracking-widest text-gallery-muted">
+                <p className="text-micro uppercase tracking-widest text-gallery-muted">
                   {artworkType}
                 </p>
               </div>
@@ -155,7 +155,7 @@ export default async function WorkDetailPage({
               {/* Host note */}
               {work.significance && (
                 <div className="mb-6 border-l-2 border-accent/40 pl-3">
-                  <p className="text-[10px] uppercase tracking-widest text-gallery-muted">
+                  <p className="text-micro uppercase tracking-widest text-gallery-muted">
                     Host note
                   </p>
                   <p className="mt-1 text-sm italic leading-relaxed text-gallery-muted">
@@ -184,7 +184,7 @@ export default async function WorkDetailPage({
           {/* ── Private Walls Record module ────────────────────────── */}
           {/* Secondary identity layer — QR is not the hero element.   */}
           <div className="mt-4 border border-gallery-border bg-gallery-surface p-6 sm:p-8">
-            <p className="mb-1 text-[10px] font-semibold uppercase tracking-widest text-gallery-muted">
+            <p className="mb-1 text-micro font-semibold uppercase tracking-widest text-gallery-muted">
               Private Walls Record
             </p>
             <p className="mb-4 font-serif text-base font-semibold text-gallery-text">
@@ -202,7 +202,7 @@ export default async function WorkDetailPage({
                   height={80}
                   className="border border-gallery-border"
                 />
-                <p className="mt-1.5 text-[9px] leading-snug text-gallery-muted">
+                <p className="mt-1.5 text-micro leading-snug text-gallery-muted">
                   Scan to view or share
                   <br />
                   this work through the
@@ -212,7 +212,7 @@ export default async function WorkDetailPage({
               </div>
 
               {/* Record copy */}
-              <div className="min-w-0 space-y-3 text-[11px] leading-relaxed text-gallery-muted">
+              <div className="min-w-0 space-y-3 text-micro leading-relaxed text-gallery-muted">
                 <p>
                   This work is publicly visible through BayviewHub&apos;s
                   Private Viewing Network.
@@ -223,7 +223,7 @@ export default async function WorkDetailPage({
                   Walls programme, distinct from the main archive.
                 </p>
                 {work.passportId && (
-                  <p className="font-mono text-[10px] text-gallery-muted/70">
+                  <p className="font-mono text-micro text-gallery-muted/70">
                     Passport ID: {work.passportId}
                   </p>
                 )}
@@ -235,7 +235,7 @@ export default async function WorkDetailPage({
           <div className="mt-6">
             <Link
               href="/art-work-for-private-walls"
-              className="text-[11px] uppercase tracking-widest text-gallery-muted underline underline-offset-4 hover:text-gallery-text"
+              className="text-micro uppercase tracking-widest text-gallery-muted underline underline-offset-4 hover:text-gallery-text"
             >
               ← All works for private walls
             </Link>

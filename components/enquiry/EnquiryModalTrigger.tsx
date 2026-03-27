@@ -131,8 +131,8 @@ export function EnquiryModalTrigger({
         aria-label={`${label} for ${artworkTitle}`}
         className={
           compact
-            ? "px-2.5 py-1 text-[11px] font-medium border border-gallery-border rounded-md text-gallery-muted hover:text-gallery-text hover:border-gallery-accent transition-colors"
-            : "inline-flex items-center justify-center px-4 py-2 text-sm font-medium border border-gallery-border rounded-lg text-gallery-text hover:border-gallery-accent hover:text-gallery-accent transition-colors"
+            ? "px-2.5 py-1 text-caption font-medium border border-gallery-border rounded-md text-gallery-muted hover:text-gallery-text hover:border-gallery-accent transition-colors"
+            : "inline-flex items-center justify-center px-4 py-2 text-body font-medium border border-gallery-border rounded-lg text-gallery-text hover:border-gallery-accent hover:text-gallery-accent transition-colors"
         }
       >
         {label}
@@ -148,7 +148,7 @@ export function EnquiryModalTrigger({
                     <h3 className="text-lg font-semibold text-gallery-text">
                       {CTA_LABELS[ctaType]}
                     </h3>
-                    <p className="text-xs text-gallery-muted mt-1">{artworkTitle}</p>
+                    <p className="text-caption text-gallery-muted mt-1">{artworkTitle}</p>
                   </div>
                   <button
                     type="button"

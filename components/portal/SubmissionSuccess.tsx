@@ -97,7 +97,7 @@ export function SubmissionSuccess({ referenceId, onSubmitAnother }: SubmissionSu
         {referenceId && (
           <div className="border border-noir-border bg-noir-bg px-4 py-3 flex items-center justify-between gap-3">
             <div className="min-w-0">
-              <p className="text-[10px] text-noir-muted tracking-widest uppercase mb-0.5">
+              <p className="text-micro text-noir-muted tracking-widest uppercase mb-0.5">
                 Reference
               </p>
               <p className="text-sm text-noir-text font-mono tracking-wide truncate">
@@ -118,14 +118,14 @@ export function SubmissionSuccess({ referenceId, onSubmitAnother }: SubmissionSu
           </div>
         )}
 
-        <p className="text-[10px] text-noir-muted mt-3">
+        <p className="text-micro text-noir-muted mt-3">
           Please keep this reference for support enquiries.
         </p>
       </div>
 
       {/* What happens next */}
       <div className="border border-noir-border bg-noir-surface p-6 sm:p-8 mb-6">
-        <h2 className="text-sm font-medium tracking-forensic text-noir-text mb-4">
+        <h2 className="text-body font-medium tracking-forensic text-noir-text mb-4">
           What happens next
         </h2>
         <div className="space-y-4">
@@ -139,7 +139,7 @@ export function SubmissionSuccess({ referenceId, onSubmitAnother }: SubmissionSu
                 <p className="text-xs text-noir-text font-medium">
                   {step.title}
                 </p>
-                <p className="text-[11px] text-noir-muted leading-relaxed mt-0.5">
+                <p className="text-micro text-noir-muted leading-relaxed mt-0.5">
                   {step.description}
                 </p>
               </div>
@@ -150,7 +150,7 @@ export function SubmissionSuccess({ referenceId, onSubmitAnother }: SubmissionSu
 
       {/* While you wait */}
       <div className="border border-noir-border bg-noir-surface p-6 sm:p-8 mb-6">
-        <h2 className="text-sm font-medium tracking-forensic text-noir-text mb-3">
+        <h2 className="text-body font-medium tracking-forensic text-noir-text mb-3">
           While you wait
         </h2>
         <ul className="space-y-2">
@@ -179,7 +179,7 @@ export function SubmissionSuccess({ referenceId, onSubmitAnother }: SubmissionSu
                 key={cta.href}
                 type="button"
                 onClick={onSubmitAnother}
-                className="flex items-center justify-center gap-2 border border-noir-border text-noir-text hover:bg-noir-surface hover:text-white px-4 py-3 text-xs font-medium tracking-widest uppercase transition-colors duration-120 focus-visible:outline focus-visible:outline-1 focus-visible:outline-noir-text"
+                className="flex items-center justify-center gap-2 border border-noir-border text-noir-text hover:bg-noir-surface hover:text-white px-4 py-3 text-body font-medium tracking-widest uppercase transition-colors duration-120 focus-visible:outline focus-visible:outline-1 focus-visible:outline-noir-text"
               >
                 <cta.icon className="w-3.5 h-3.5" strokeWidth={1.5} />
                 {cta.label}
@@ -190,7 +190,7 @@ export function SubmissionSuccess({ referenceId, onSubmitAnother }: SubmissionSu
             <Link
               key={cta.href}
               href={cta.href}
-              className="flex items-center justify-center gap-2 border border-noir-border text-noir-text hover:bg-noir-surface hover:text-white px-4 py-3 text-xs font-medium tracking-widest uppercase transition-colors duration-120 focus-visible:outline focus-visible:outline-1 focus-visible:outline-noir-text"
+              className="flex items-center justify-center gap-2 border border-noir-border text-noir-text hover:bg-noir-surface hover:text-white px-4 py-3 text-body font-medium tracking-widest uppercase transition-colors duration-120 focus-visible:outline focus-visible:outline-1 focus-visible:outline-noir-text"
             >
               <cta.icon className="w-3.5 h-3.5" strokeWidth={1.5} />
               {cta.label}
@@ -200,7 +200,7 @@ export function SubmissionSuccess({ referenceId, onSubmitAnother }: SubmissionSu
       </div>
 
       {/* Disclaimer */}
-      <p className="text-[9px] text-noir-muted/50 leading-relaxed">
+      <p className="text-micro text-noir-muted/50 leading-relaxed">
         {DISCLAIMERS.report}
       </p>
     </div>

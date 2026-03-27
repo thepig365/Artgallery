@@ -39,13 +39,13 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       transition-colors duration-120
       disabled:opacity-40 disabled:cursor-not-allowed
       focus-visible:outline focus-visible:outline-1 focus-visible:outline-noir-text focus-visible:outline-offset-[-1px]
-      text-sm select-none
+      text-body select-none
     `;
 
     return (
       <div className={`flex flex-col gap-1 ${className}`}>
         {label && (
-          <span className="text-[10px] font-medium tracking-widest uppercase text-noir-muted">
+          <span className="text-micro font-medium tracking-widest uppercase text-noir-muted">
             {label}
           </span>
         )}
@@ -70,7 +70,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
             step={step}
             aria-label={label || undefined}
             className={`
-              w-full bg-noir-bg border text-noir-text text-sm text-center
+              w-full bg-noir-bg border text-noir-text text-body text-center
               px-2 py-2 tabular-nums
               transition-colors duration-120
               disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-noir-surface/30

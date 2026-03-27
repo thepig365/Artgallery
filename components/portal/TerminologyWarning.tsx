@@ -26,16 +26,16 @@ export function TerminologyWarning({ text }: TerminologyWarningProps) {
         aria-hidden="true"
       />
       <div className="min-w-0">
-        <p className="text-[10px] text-noir-accent font-medium tracking-widest uppercase mb-1.5">
+        <p className="text-micro text-noir-accent font-medium tracking-widest uppercase mb-1.5">
           Terminology Warning
         </p>
-        <p className="text-[10px] text-noir-muted leading-relaxed mb-2">
+        <p className="text-micro text-noir-muted leading-relaxed mb-2">
           Your narrative contains language that may be flagged during review.
           This platform provides curatorial assessments, not financial valuations.
         </p>
         <ul className="space-y-1">
           {result.matches.map((match: TerminologyMatch, i: number) => (
-            <li key={i} className="text-[10px] text-noir-muted flex items-baseline gap-1 min-w-0">
+            <li key={i} className="text-micro text-noir-muted flex items-baseline gap-1 min-w-0">
               <span className="text-noir-accent font-medium flex-shrink-0">&quot;{match.phrase}&quot;</span>
               <span className="flex-shrink-0">{" — "}</span>
               <span className="italic truncate block min-w-0">

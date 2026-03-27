@@ -90,23 +90,23 @@ export default async function ArchivePage() {
       <section className="bg-family-navy text-white">
         <div className="container mx-auto flex min-h-[100px] flex-col justify-center gap-4 px-4 py-5 md:min-h-[120px] md:flex-row md:items-center md:justify-between md:py-6">
           <div>
-            <p className="mb-1 text-[11px] uppercase tracking-[0.2em] text-white/70">
+            <p className="mb-1 text-caption uppercase tracking-[0.2em] text-white/70">
               Public Collection
             </p>
-            <p className="text-sm text-white/90 md:text-base">
+            <p className="text-body text-white/90 md:text-nav">
               Curated works assessed under the Mend Index, available by enquiry and private viewing.
             </p>
           </div>
           <div className="flex items-center gap-2.5">
             <a
               href={`mailto:${GALLERY_EMAIL}?subject=Collection%20Enquiry`}
-              className="inline-flex items-center justify-center rounded-md border border-white/20 bg-white px-4 py-2 text-xs font-medium uppercase tracking-wide text-family-navy transition-colors hover:bg-white/90"
+              className="inline-flex items-center justify-center rounded-md border border-white/20 bg-white px-4 py-2 text-caption font-medium uppercase tracking-wide text-family-navy transition-colors hover:bg-white/90"
             >
               Enquire
             </a>
             <a
               href={`mailto:${GALLERY_EMAIL}?subject=Book%20a%20Viewing`}
-              className="inline-flex items-center justify-center rounded-md border border-white/25 bg-transparent px-4 py-2 text-xs font-medium uppercase tracking-wide text-white transition-colors hover:bg-white/10"
+              className="inline-flex items-center justify-center rounded-md border border-white/25 bg-transparent px-4 py-2 text-caption font-medium uppercase tracking-wide text-white transition-colors hover:bg-white/10"
             >
               Book a viewing
             </a>
@@ -118,7 +118,7 @@ export default async function ArchivePage() {
         <ArchiveClient artworks={publicArtworks} />
 
         <footer className="mt-16 border-t border-gallery-border pt-6">
-          <p className="max-w-4xl text-[11px] leading-relaxed text-gallery-muted/60">
+          <p className="max-w-4xl text-micro leading-relaxed text-gallery-muted/60">
             {DISCLAIMERS.report}
           </p>
         </footer>

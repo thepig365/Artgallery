@@ -200,7 +200,7 @@ export default function AssessorSessionPage({
               {isDraft ? "Draft" : "Submitted"}
             </Badge>
           </div>
-          <p className="text-[10px] text-noir-muted tracking-widest uppercase">
+          <p className="text-micro text-noir-muted tracking-widest uppercase">
             Session {auditSessionId} — Blind Review Protocol
           </p>
         </div>
@@ -238,7 +238,7 @@ export default function AssessorSessionPage({
 
       {/* Assessor Disclosure */}
       <div className="border border-noir-border bg-noir-surface p-3 mb-4">
-        <p className="text-[10px] text-noir-muted leading-relaxed">
+        <p className="text-micro text-noir-muted leading-relaxed">
           {DISCLAIMERS.assessorDisclosure}
         </p>
       </div>
@@ -258,7 +258,7 @@ export default function AssessorSessionPage({
           />
           <div>
             <p className="text-xs text-noir-accent font-medium">Variance Alert</p>
-            <p className="text-[10px] text-noir-muted mt-0.5 leading-relaxed">
+            <p className="text-micro text-noir-muted mt-0.5 leading-relaxed">
               Significant scoring variance detected between assessors for this
               submission. Please review your scores carefully and provide
               additional justification in your notes.
@@ -304,7 +304,7 @@ export default function AssessorSessionPage({
                   }
                 `}
               >
-                <span className="text-[10px] tracking-widest uppercase text-noir-muted mr-2">
+                <span className="text-micro tracking-widest uppercase text-noir-muted mr-2">
                   {ev.type}
                 </span>
                 {ev.label}
@@ -387,7 +387,7 @@ export default function AssessorSessionPage({
 
             {mendIndex !== null && (
               <div className="border border-noir-border bg-noir-bg px-3 py-2 mb-4 flex items-center justify-between">
-                <span className="text-[10px] text-noir-muted tracking-widest uppercase">
+                <span className="text-micro text-noir-muted tracking-widest uppercase">
                   Mend Index (V)
                 </span>
                 <span className="text-sm text-noir-text font-medium tabular-nums">
@@ -412,7 +412,7 @@ export default function AssessorSessionPage({
                       disabled={!isDraft}
                     />
                     {scoreErrors[axis] && (
-                      <p className="text-noir-accent text-[10px] mt-1 tracking-wider">
+                      <p className="text-noir-accent text-micro mt-1 tracking-wider">
                         {scoreErrors[axis]}
                       </p>
                     )}
@@ -440,7 +440,7 @@ export default function AssessorSessionPage({
 
           {/* Report disclaimer */}
           <div className="border border-noir-border bg-noir-bg p-3">
-            <p className="text-[9px] text-noir-muted/50 leading-relaxed">
+            <p className="text-micro text-noir-muted/50 leading-relaxed">
               {DISCLAIMERS.report}
             </p>
           </div>

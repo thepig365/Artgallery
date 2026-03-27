@@ -39,7 +39,7 @@ export function GalleryFilters({
       <div className="flex flex-wrap items-center gap-2">
         <button
           onClick={() => onMediumChange("")}
-          className={`px-3.5 py-1.5 text-[11px] font-medium tracking-wide rounded-full border transition-all duration-200 ${
+          className={`px-3.5 py-1.5 text-caption font-medium tracking-wide rounded-full border transition-all duration-200 ${
             selectedMedium === ""
               ? "bg-gallery-text text-white border-gallery-text"
               : "bg-transparent text-gallery-muted border-gallery-border hover:border-gallery-text hover:text-gallery-text"
@@ -55,7 +55,7 @@ export function GalleryFilters({
             <button
               key={medium}
               onClick={() => onMediumChange(medium)}
-              className={`px-3.5 py-1.5 text-[11px] font-medium tracking-wide rounded-full border transition-all duration-200 ${
+              className={`px-3.5 py-1.5 text-caption font-medium tracking-wide rounded-full border transition-all duration-200 ${
                 selectedMedium === medium
                   ? "bg-gallery-text text-white border-gallery-text"
                   : "bg-transparent text-gallery-muted border-gallery-border hover:border-gallery-text hover:text-gallery-text"
@@ -67,7 +67,7 @@ export function GalleryFilters({
         })}
       </div>
       <div className="flex items-center gap-3 flex-shrink-0">
-        <span className="text-[11px] text-gallery-muted/70 tabular-nums">
+        <span className="text-micro text-gallery-muted/70 tabular-nums">
           {resultCount} {resultCount === 1 ? "work" : "works"}
         </span>
         <select
@@ -75,7 +75,7 @@ export function GalleryFilters({
           onChange={(e) =>
             onSortChange(e.target.value as "newest" | "highest" | "az")
           }
-          className="text-[11px] bg-transparent border border-gallery-border rounded-md px-2.5 py-1.5 text-gallery-text appearance-none cursor-pointer hover:border-gallery-text transition-colors"
+          className="text-body bg-transparent border border-gallery-border rounded-md px-2.5 py-1.5 text-gallery-text appearance-none cursor-pointer hover:border-gallery-text transition-colors"
         >
           <option value="newest">Newest first</option>
           <option value="highest">Highest score</option>

@@ -134,7 +134,7 @@ export default function TakedownRequestPage() {
             </p>
           )}
           <div className="border-t border-gallery-border pt-6 mt-6">
-            <p className="text-[11px] text-gallery-muted/60 leading-relaxed text-left">
+            <p className="text-micro text-gallery-muted/60 leading-relaxed text-left">
               {DISCLAIMERS.report}
             </p>
           </div>
@@ -154,7 +154,7 @@ export default function TakedownRequestPage() {
             Legal
           </span>
         </div>
-        <p className="text-sm text-gallery-muted leading-relaxed">
+        <p className="text-body text-gallery-muted leading-relaxed">
           Use this form to request the removal of content from the assessment
           archive. All requests are reviewed under the platform takedown
           protocol.

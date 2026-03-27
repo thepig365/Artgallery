@@ -15,23 +15,23 @@ export function SiteFooter() {
         <Container className="py-10">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-8">
             <div>
-              <h3 className="text-sm font-semibold text-fg mb-3 font-serif">
+              <h3 className="text-body font-semibold text-fg mb-3 font-serif">
                 Art Gallery
               </h3>
-              <p className="text-xs text-muted leading-relaxed">
+              <p className="text-helper text-muted leading-relaxed">
                 Curatorial protocol system for material sincerity assessment.
                 Forensic-grade evaluation framework.
               </p>
             </div>
             <div>
-              <h4 className="text-xs font-semibold text-fg mb-3 uppercase tracking-wide">
+              <h4 className="text-caption font-semibold text-fg mb-3 uppercase tracking-wide">
                 Explore
               </h4>
               <ul className="space-y-2">
                 <li>
                   <Link
                     href="/archive"
-                    className="text-xs text-muted hover:text-fg transition-colors"
+                    className="text-helper text-muted hover:text-fg transition-colors"
                   >
                     Browse Collection
                   </Link>
@@ -39,7 +39,7 @@ export function SiteFooter() {
                 <li>
                   <Link
                     href="/protocol"
-                    className="text-xs text-muted hover:text-fg transition-colors"
+                    className="text-helper text-muted hover:text-fg transition-colors"
                   >
                     Assessment Protocol
                   </Link>
@@ -47,7 +47,7 @@ export function SiteFooter() {
                 <li>
                   <Link
                     href="/submit"
-                    className="text-xs text-muted hover:text-fg transition-colors"
+                    className="text-helper text-muted hover:text-fg transition-colors"
                   >
                     Submit for Curation
                   </Link>
@@ -55,7 +55,7 @@ export function SiteFooter() {
                 <li>
                   <Link
                     href="/masterpieces"
-                    className="text-xs text-muted hover:text-fg transition-colors"
+                    className="text-helper text-muted hover:text-fg transition-colors"
                   >
                     Open Masterpieces
                   </Link>
@@ -63,14 +63,14 @@ export function SiteFooter() {
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-semibold text-fg mb-3 uppercase tracking-wide">
+              <h4 className="text-caption font-semibold text-fg mb-3 uppercase tracking-wide">
                 Legal
               </h4>
               <ul className="space-y-2">
                 <li>
                   <Link
                     href="/privacy"
-                    className="text-xs text-muted hover:text-fg transition-colors"
+                    className="text-helper text-muted hover:text-fg transition-colors"
                   >
                     Privacy
                   </Link>
@@ -78,7 +78,7 @@ export function SiteFooter() {
                 <li>
                   <Link
                     href="/terms"
-                    className="text-xs text-muted hover:text-fg transition-colors"
+                    className="text-helper text-muted hover:text-fg transition-colors"
                   >
                     Terms
                   </Link>
@@ -86,7 +86,7 @@ export function SiteFooter() {
                 <li>
                   <Link
                     href="/rights"
-                    className="text-xs text-muted hover:text-fg transition-colors"
+                    className="text-helper text-muted hover:text-fg transition-colors"
                   >
                     Rights & Takedown
                   </Link>
@@ -103,7 +103,7 @@ export function SiteFooter() {
             </div>
           </div>
           <div className="border-t border-border pt-6">
-            <p className="text-[11px] text-muted leading-relaxed max-w-4xl">
+            <p className="text-micro text-muted leading-relaxed max-w-4xl">
               {DISCLAIMERS.global}
             </p>
           </div>
@@ -122,7 +122,7 @@ export function SiteFooter() {
               </a>
 
               {/* Middle: Address + Hours */}
-              <div className="text-xs text-muted text-center leading-relaxed">
+              <div className="text-helper text-muted text-center leading-relaxed">
                 <p>365 Purves Road, Main Ridge, Victoria 3928</p>
                 <p className="mt-1">Wed–Sun | 11 AM – Late · Closed Christmas Day</p>
               </div>
@@ -131,19 +131,19 @@ export function SiteFooter() {
               <div className="flex items-center gap-4">
                 <a
                   href="https://bayviewhub.me/visit"
-                  className="text-xs text-muted hover:text-fg transition-colors"
+                  className="text-helper text-muted hover:text-fg transition-colors"
                 >
                   Visit
                 </a>
                 <a
                   href="https://bayviewhub.me/events"
-                  className="text-xs text-muted hover:text-fg transition-colors"
+                  className="text-helper text-muted hover:text-fg transition-colors"
                 >
                   What&apos;s On
                 </a>
                 <a
                   href="https://bayviewhub.me/partners"
-                  className="text-xs text-muted hover:text-fg transition-colors"
+                  className="text-helper text-muted hover:text-fg transition-colors"
                 >
                   Partners
                 </a>
@@ -155,7 +155,7 @@ export function SiteFooter() {
         {/* Bottom Legal + Acknowledgment */}
         <div className="border-t border-border bg-surface">
           <Container className="py-4">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-[10px] text-muted/70">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-micro text-muted/70">
               <p>
                 © {new Date().getFullYear()} Bayview Hub ·{" "}
                 <Link href="/privacy" className="hover:text-muted">Privacy</Link>
@@ -176,14 +176,14 @@ export function SiteFooter() {
     <footer className="border-t border-noir-border bg-noir-bg mt-auto">
       <Container className="py-6">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-noir-muted text-xs tracking-widest uppercase">
+          <p className="text-noir-muted text-caption tracking-widest uppercase">
             Curatorial Protocol System v0.1
           </p>
-          <p className="text-noir-muted text-xs">
+          <p className="text-noir-muted text-caption">
             Material Sincerity Assessment Framework
           </p>
         </div>
-        <p className="text-noir-muted/60 text-[10px] leading-relaxed mt-4 max-w-4xl">
+        <p className="text-noir-muted/60 text-micro leading-relaxed mt-4 max-w-4xl">
           {DISCLAIMERS.global}
         </p>
       </Container>

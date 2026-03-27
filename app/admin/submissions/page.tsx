@@ -396,7 +396,7 @@ export default function AdminSubmissionsPage() {
                           <span className="text-[#9A9A9A] block mb-0.5">
                             Reference
                           </span>
-                          <span className="text-[#E5E5E5] font-mono text-[11px]">
+                          <span className="text-[#E5E5E5] font-mono text-micro">
                             {sub.referenceId}
                           </span>
                         </div>
@@ -412,13 +412,13 @@ export default function AdminSubmissionsPage() {
                             {sub.materials.map((m) => (
                               <span
                                 key={m}
-                                className="px-2 py-0.5 text-[11px] bg-[#1a1a1a] border border-[#222] text-[#E5E5E5]"
+                                className="px-2 py-0.5 text-micro bg-[#1a1a1a] border border-[#222] text-[#E5E5E5]"
                               >
                                 {m}
                               </span>
                             ))}
                             {sub.materialsOther && (
-                              <span className="px-2 py-0.5 text-[11px] bg-[#1a1a1a] border border-[#333] text-[#9A9A9A] italic">
+                              <span className="px-2 py-0.5 text-micro bg-[#1a1a1a] border border-[#333] text-[#9A9A9A] italic">
                                 {sub.materialsOther}
                               </span>
                             )}

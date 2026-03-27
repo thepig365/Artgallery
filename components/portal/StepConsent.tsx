@@ -23,7 +23,7 @@ export function StepConsent({
 }: StepConsentProps) {
   return (
     <Panel>
-      <h2 className="text-sm font-medium tracking-forensic text-noir-text mb-6">
+      <h2 className="text-body font-medium tracking-forensic text-noir-text mb-6">
         Consent & Final Submission
       </h2>
 
@@ -96,22 +96,22 @@ export function StepConsent({
             placeholder="Full legal or professional name"
             error={!!errors.submitterPrintName}
           />
-          <p className="text-[10px] text-noir-muted mt-1">
+          <p className="text-micro text-noir-muted mt-1">
             Artist or authorized curator signing this submission.
           </p>
           {errors.submitterPrintName && (
-            <p className="text-noir-accent text-[10px] mt-1 tracking-wider">
+            <p className="text-noir-accent text-caption mt-1 tracking-wider">
               {errors.submitterPrintName}
             </p>
           )}
         </div>
-        <p className="text-[10px] text-noir-muted">
+        <p className="text-micro text-noir-muted">
           Date of submission will be recorded upon final submission.
         </p>
       </div>
 
       {errors.consent && (
-        <p className="text-noir-accent text-[10px] mt-2 tracking-wider ml-7">
+        <p className="text-noir-accent text-caption mt-2 tracking-wider ml-7">
           {errors.consent}
         </p>
       )}
@@ -122,7 +122,7 @@ export function StepConsent({
           strokeWidth={1}
           aria-hidden="true"
         />
-        <p className="text-[10px] text-noir-muted leading-relaxed">
+        <p className="text-micro text-noir-muted leading-relaxed">
           Once submitted, your work enters the blind assessment queue and cannot
           be modified. Ensure all fields are complete before final submission.
         </p>

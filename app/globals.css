@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ─── Bayview unified type-scale tokens ─── */
+:root {
+  --fs-micro:   0.75rem;     /* 12px */
+  --fs-caption: 0.875rem;    /* 14px */
+  --fs-helper:  0.9375rem;   /* 15px */
+  --fs-body:    1rem;        /* 16px */
+  --fs-nav:     1.125rem;    /* 18px */
+  --fs-lead:    1.25rem;     /* 20px */
+  --fs-h4:      1.5rem;      /* 24px */
+  --fs-h3:      2rem;        /* 32px */
+  --fs-h2:      2.5rem;      /* 40px */
+  --fs-h1:      3.5rem;      /* 56px */
+  --fs-hero:    4rem;        /* 64px */
+}
+
 /* Family tokens from bayviewhub.me */
 :root {
   --family-navy: #1a1408;
@@ -65,14 +80,26 @@ h6 {
 
 h1,
 .h1 {
-  font-size: clamp(2rem, 3vw, 3rem);
+  font-size: clamp(2.25rem, 6vw, 3.5rem); /* 36px → 56px */
   line-height: 1.1;
 }
 
 h2,
 .h2 {
-  font-size: clamp(1.5rem, 2vw, 2.25rem);
+  font-size: clamp(2.125rem, 4.5vw, 2.5rem); /* 34px → 40px */
   line-height: 1.15;
+}
+
+h3,
+.h3 {
+  font-size: clamp(1.75rem, 3.5vw, 2rem); /* 28px → 32px */
+  line-height: 1.2;
+}
+
+h4,
+.h4 {
+  font-size: clamp(1.375rem, 2vw, 1.5rem); /* 22px → 24px */
+  line-height: 1.3;
 }
 
 .container {

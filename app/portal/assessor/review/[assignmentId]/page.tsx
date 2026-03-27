@@ -259,7 +259,7 @@ export default function AssessorReviewPage({
               {isDraft ? "Draft" : "Submitted"}
             </Badge>
           </div>
-          <p className="text-[10px] text-gallery-muted tracking-widest uppercase">
+          <p className="text-micro text-gallery-muted tracking-widest uppercase">
             Assignment {assignment.id.slice(0, 8)} · Due{" "}
             {assignment.dueAt
               ? new Date(assignment.dueAt).toLocaleDateString()
@@ -300,14 +300,14 @@ export default function AssessorReviewPage({
       </div>
 
       <div className="border border-gallery-border bg-gallery-surface p-3 mb-6">
-        <p className="text-[10px] text-gallery-muted leading-relaxed">
+        <p className="text-micro text-gallery-muted leading-relaxed">
           {DISCLAIMERS.assessorDisclosure}
         </p>
       </div>
 
       {assignment.notesToAssessor && (
         <div className="border border-gallery-accent/30 bg-gallery-accent/5 p-3 mb-6">
-          <p className="text-[10px] font-medium text-gallery-accent uppercase tracking-wide mb-1">
+          <p className="text-micro font-medium text-gallery-accent uppercase tracking-wide mb-1">
             Notes from Admin
           </p>
           <p className="text-xs text-gallery-text leading-relaxed">
@@ -427,7 +427,7 @@ export default function AssessorReviewPage({
 
             {mendIndex !== null && (
               <div className="border border-gallery-border bg-gallery-bg px-3 py-2 mb-4 flex items-center justify-between">
-                <span className="text-[10px] text-gallery-muted tracking-widest uppercase">
+                <span className="text-micro text-gallery-muted tracking-widest uppercase">
                   Mend Index (V)
                 </span>
                 <span className="text-sm text-gallery-text font-medium tabular-nums">
@@ -455,7 +455,7 @@ export default function AssessorReviewPage({
                       disabled={!isDraft}
                     />
                     {scoreErrors[axis] && (
-                      <p className="text-gallery-accent text-[10px] mt-1 tracking-wider">
+                      <p className="text-gallery-accent text-micro mt-1 tracking-wider">
                         {scoreErrors[axis]}
                       </p>
                     )}
@@ -482,7 +482,7 @@ export default function AssessorReviewPage({
           </Panel>
 
           <div className="border border-gallery-border bg-gallery-bg p-3">
-            <p className="text-[9px] text-gallery-muted/80 leading-relaxed">
+            <p className="text-micro text-gallery-muted/80 leading-relaxed">
               {DISCLAIMERS.report}
             </p>
           </div>

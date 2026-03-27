@@ -132,13 +132,13 @@ export default function PassportPage() {
       <section className="bg-family-navy text-white">
         <Container className="py-20 sm:py-28">
           <div className="max-w-2xl">
-            <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.22em] text-family-accent">
+            <p className="mb-4 text-micro font-medium uppercase tracking-[0.22em] text-family-accent">
               Bayview Hub · Private Viewing Network
             </p>
-            <h1 className="mb-5 font-serif text-3xl font-semibold leading-tight sm:text-4xl md:text-5xl">
+            <h1 className="mb-5 font-serif font-semibold leading-tight">
               Private Viewing Network & Artwork Passport
             </h1>
-            <p className="mb-8 max-w-xl text-base leading-relaxed text-white/75 sm:text-lg">
+            <p className="mb-8 max-w-xl text-body leading-relaxed text-white/75 sm:text-lead">
               A BayviewHub programme for registering selected works,
               generating a Preliminary Passport, and enabling private viewing
               by request.
@@ -146,13 +146,13 @@ export default function PassportPage() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/passport/register"
-                className="inline-flex items-center justify-center bg-white px-5 py-2.5 text-sm font-medium text-family-navy transition-colors hover:bg-white/90"
+                className="inline-flex items-center justify-center bg-white px-5 py-2.5 text-body font-medium text-family-navy transition-colors hover:bg-white/90"
               >
                 Register as a Host →
               </Link>
               <a
                 href={VIEWING_HREF}
-                className="inline-flex items-center justify-center border border-white/25 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-white/10"
+                className="inline-flex items-center justify-center border border-white/25 px-5 py-2.5 text-body font-medium text-white transition-colors hover:bg-white/10"
               >
                 Request Viewing Access
               </a>
@@ -164,15 +164,15 @@ export default function PassportPage() {
       {/* ── §2 What This Is ──────────────────────────────────────── */}
       <section className="border-b border-gallery-border">
         <Container className="py-16 sm:py-20">
-          <p className="mb-6 text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent">
+          <p className="mb-6 text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent">
             The Programme
           </p>
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16">
             <div>
-              <h2 className="mb-4 font-serif text-2xl font-semibold text-gallery-text sm:text-3xl">
+              <h2 className="mb-4 font-serif text-h3 font-semibold text-gallery-text md:text-h2">
                 A different kind of art encounter
               </h2>
-              <div className="space-y-4 text-sm leading-relaxed text-gallery-muted">
+              <div className="space-y-4 text-body leading-relaxed text-gallery-muted">
                 <p>
                   The Bayview Private Viewing Network connects selected hosts
                   and collectors with invited art lovers for private viewings of
@@ -192,10 +192,10 @@ export default function PassportPage() {
                   key={a.label}
                   className="border border-gallery-border bg-gallery-surface p-4 sm:p-5"
                 >
-                  <h3 className="mb-1.5 text-xs font-semibold uppercase tracking-widest text-gallery-text">
+                  <h3 className="mb-1.5 text-caption font-semibold uppercase tracking-widest text-gallery-text">
                     {a.label}
                   </h3>
-                  <p className="text-sm leading-relaxed text-gallery-muted">
+                  <p className="text-body leading-relaxed text-gallery-muted">
                     {a.body}
                   </p>
                 </div>
@@ -208,14 +208,14 @@ export default function PassportPage() {
       {/* ── §3 Why This Exists ───────────────────────────────────── */}
       <section className="border-b border-gallery-border bg-gallery-surface-alt">
         <Container className="py-16 sm:py-20">
-          <p className="mb-6 text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent">
+          <p className="mb-6 text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent">
             Why Private Viewing
           </p>
           <div className="max-w-2xl">
-            <h2 className="mb-5 font-serif text-2xl font-semibold text-gallery-text sm:text-3xl">
+            <h2 className="mb-5 font-serif text-h3 font-semibold text-gallery-text md:text-h2">
               Not every meaningful encounter with art happens in a gallery
             </h2>
-            <div className="space-y-4 text-sm leading-relaxed text-gallery-muted">
+            <div className="space-y-4 text-body leading-relaxed text-gallery-muted">
               <p>
                 Some of the most affecting encounters with art happen in private
                 spaces — a considered living room, a collector&apos;s study, a
@@ -236,15 +236,15 @@ export default function PassportPage() {
       {/* ── §4 How Artwork Passport Fits In ─────────────────────── */}
       <section className="border-b border-gallery-border">
         <Container className="py-16 sm:py-20">
-          <p className="mb-6 text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent">
+          <p className="mb-6 text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent">
             The Documentation Layer
           </p>
           <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16">
             <div>
-              <h2 className="mb-4 font-serif text-2xl font-semibold text-gallery-text sm:text-3xl">
+              <h2 className="mb-4 font-serif text-h3 font-semibold text-gallery-text md:text-h2">
                 Artwork Passport — a record layer for selected works
               </h2>
-              <div className="space-y-4 text-sm leading-relaxed text-gallery-muted">
+              <div className="space-y-4 text-body leading-relaxed text-gallery-muted">
                 <p>
                   If the Private Viewing Network is the relationship layer, the
                   Artwork Passport is the documentation layer underneath it.
@@ -270,14 +270,14 @@ export default function PassportPage() {
             </div>
             <div>
               <div className="border border-accent/30 bg-surface p-5 sm:p-6">
-                <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent">
+                <p className="mb-4 text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent">
                   A Preliminary Passport may include
                 </p>
                 <ul className="space-y-3">
                   {PASSPORT_ITEMS.map((item) => (
                     <li key={item} className="flex items-start gap-2.5">
                       <span className="mt-[5px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-accent" />
-                      <span className="text-sm leading-relaxed text-gallery-muted">
+                      <span className="text-body leading-relaxed text-gallery-muted">
                         {item}
                       </span>
                     </li>
@@ -293,14 +293,14 @@ export default function PassportPage() {
       <section className="bg-family-navy text-white">
         <Container className="py-16 sm:py-20">
           <div className="max-w-xl">
-            <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.22em] text-family-accent">
+            <p className="mb-4 text-micro font-medium uppercase tracking-[0.22em] text-family-accent">
               Register as a Host
             </p>
-            <h2 className="mb-4 font-serif text-2xl font-semibold sm:text-3xl">
+            <h2 className="mb-4 font-serif text-h3 font-semibold md:text-h2">
               Open your wall. Your Preliminary Passport is generated on
               submission.
             </h2>
-            <p className="mb-6 text-sm leading-relaxed text-white/70">
+            <p className="mb-6 text-body leading-relaxed text-white/70">
               Registration takes around five minutes. You will need basic
               artwork details and a clear image of the work. No approval is
               required to generate a Preliminary Passport. Future viewing access
@@ -309,11 +309,11 @@ export default function PassportPage() {
             </p>
             <Link
               href="/passport/register"
-              className="inline-flex items-center justify-center bg-white px-5 py-2.5 text-sm font-medium text-family-navy transition-colors hover:bg-white/90"
+              className="inline-flex items-center justify-center bg-white px-5 py-2.5 text-body font-medium text-family-navy transition-colors hover:bg-white/90"
             >
               Register as a Host →
             </Link>
-            <p className="mt-4 text-[11px] leading-relaxed text-white/40">
+            <p className="mt-4 text-micro leading-relaxed text-white/40">
               Registration is subject to Bayview Hub review. Preliminary
               Passports are host-generated records and do not represent
               verification, authentication, or gallery endorsement.
@@ -325,22 +325,22 @@ export default function PassportPage() {
       {/* ── §6 How It Works ──────────────────────────────────────── */}
       <section className="border-b border-gallery-border bg-gallery-surface-alt">
         <Container className="py-16 sm:py-20">
-          <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent">
+          <p className="mb-2 text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent">
             Process
           </p>
-          <h2 className="mb-10 font-serif text-2xl font-semibold text-gallery-text sm:text-3xl">
+          <h2 className="mb-10 font-serif text-h3 font-semibold text-gallery-text md:text-h2">
             From registration to private viewing
           </h2>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {HOW_STEPS.map((step) => (
               <Panel key={step.n}>
-                <p className="mb-3 font-mono text-xs text-gallery-accent">
+                <p className="mb-3 font-mono text-caption text-gallery-accent">
                   {step.n}
                 </p>
-                <h3 className="mb-2 text-xs font-semibold uppercase tracking-widest text-gallery-text">
+                <h3 className="mb-2 text-caption font-semibold uppercase tracking-widest text-gallery-text">
                   {step.label}
                 </h3>
-                <p className="text-sm leading-relaxed text-gallery-muted">
+                <p className="text-body leading-relaxed text-gallery-muted">
                   {step.body}
                 </p>
               </Panel>
@@ -352,10 +352,10 @@ export default function PassportPage() {
       {/* ── §7 Who This Is For ───────────────────────────────────── */}
       <section className="border-b border-gallery-border">
         <Container className="py-16 sm:py-20">
-          <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent">
+          <p className="mb-2 text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent">
             Audience
           </p>
-          <h2 className="mb-10 font-serif text-2xl font-semibold text-gallery-text sm:text-3xl">
+          <h2 className="mb-10 font-serif text-h3 font-semibold text-gallery-text md:text-h2">
             Selected for a reason
           </h2>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
@@ -364,10 +364,10 @@ export default function PassportPage() {
                 key={card.label}
                 className="border border-gallery-border p-5 sm:p-6"
               >
-                <h3 className="mb-2.5 text-xs font-semibold uppercase tracking-widest text-gallery-text">
+                <h3 className="mb-2.5 text-caption font-semibold uppercase tracking-widest text-gallery-text">
                   {card.label}
                 </h3>
-                <p className="text-sm leading-relaxed text-gallery-muted">
+                <p className="text-body leading-relaxed text-gallery-muted">
                   {card.body}
                 </p>
               </div>
@@ -379,10 +379,10 @@ export default function PassportPage() {
       {/* ── §8 Trust / Privacy / Control ─────────────────────────── */}
       <section className="bg-family-navy text-white">
         <Container className="py-16 sm:py-20">
-          <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.22em] text-family-accent">
+          <p className="mb-2 text-micro font-medium uppercase tracking-[0.22em] text-family-accent">
             What This Is Not
           </p>
-          <h2 className="mb-10 font-serif text-2xl font-semibold sm:text-3xl">
+          <h2 className="mb-10 font-serif text-h3 font-semibold md:text-h2">
             Privacy and host control are central to this programme
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -391,10 +391,10 @@ export default function PassportPage() {
                 key={pt.heading}
                 className="border border-white/10 bg-white/5 p-4 sm:p-5"
               >
-                <p className="mb-1.5 text-sm font-semibold text-white">
+                <p className="mb-1.5 text-nav font-semibold text-white">
                   → {pt.heading}
                 </p>
-                <p className="text-sm leading-relaxed text-white/65">{pt.body}</p>
+                <p className="text-body leading-relaxed text-white/65">{pt.body}</p>
               </div>
             ))}
           </div>
@@ -404,34 +404,34 @@ export default function PassportPage() {
       {/* ── §9 Example Passport Preview ──────────────────────────── */}
       <section className="border-b border-gallery-border bg-gallery-surface-alt">
         <Container className="py-16 sm:py-20">
-          <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent">
+          <p className="mb-2 text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent">
             What a Record Looks Like
           </p>
-          <h2 className="mb-10 font-serif text-2xl font-semibold text-gallery-text sm:text-3xl">
+          <h2 className="mb-10 font-serif text-h3 font-semibold text-gallery-text md:text-h2">
             Example — Preliminary Passport
           </h2>
           <div className="mx-auto max-w-lg border border-gallery-border bg-gallery-surface p-6 sm:p-8">
             {/* Artwork image placeholder */}
             <div className="mb-6 flex aspect-[4/3] w-full items-center justify-center border border-gallery-border bg-gallery-surface-alt">
-              <p className="text-[11px] uppercase tracking-widest text-gallery-muted">
+              <p className="text-micro uppercase tracking-widest text-gallery-muted">
                 Artwork Image
               </p>
             </div>
             {/* Artwork metadata */}
             <div className="mb-5 space-y-1.5">
-              <p className="font-serif text-lg font-semibold text-gallery-text">
+              <p className="font-serif text-h4 font-semibold text-gallery-text">
                 Untitled No. 3
               </p>
-              <p className="text-sm text-gallery-muted">Artist Name</p>
-              <p className="text-xs text-gallery-muted">
+              <p className="text-helper text-gallery-muted">Artist Name</p>
+              <p className="text-caption text-gallery-muted">
                 Oil on linen · 90 × 120 cm · 2019
               </p>
-              <p className="text-[11px] uppercase tracking-widest text-gallery-muted">
+              <p className="text-micro uppercase tracking-widest text-gallery-muted">
                 Original
               </p>
             </div>
             {/* Host note */}
-            <p className="mb-5 border-l-2 border-accent/40 pl-3 text-xs leading-relaxed text-gallery-muted italic">
+            <p className="mb-5 border-l-2 border-accent/40 pl-3 text-caption leading-relaxed text-gallery-muted italic">
               &ldquo;Acquired in Melbourne, 2020. Hung in the north-facing
               study.&rdquo;
             </p>
@@ -439,18 +439,18 @@ export default function PassportPage() {
               <div className="flex items-start justify-between gap-4">
                 <div className="space-y-2">
                   <div>
-                    <p className="text-[10px] uppercase tracking-widest text-gallery-muted">
+                    <p className="text-micro uppercase tracking-widest text-gallery-muted">
                       Passport ID
                     </p>
-                    <p className="font-mono text-xs text-gallery-text">
+                    <p className="font-mono text-caption text-gallery-text">
                       PP-20260323-XK7M2P
                     </p>
                   </div>
                   <div>
-                    <p className="text-[10px] uppercase tracking-widest text-gallery-muted">
+                    <p className="text-micro uppercase tracking-widest text-gallery-muted">
                       Status
                     </p>
-                    <span className="inline-flex items-center gap-1.5 text-xs text-gallery-muted">
+                    <span className="inline-flex items-center gap-1.5 text-caption text-gallery-muted">
                       <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent" />
                       Preliminary
                     </span>
@@ -458,12 +458,12 @@ export default function PassportPage() {
                 </div>
                 {/* QR placeholder */}
                 <div className="flex h-16 w-16 flex-shrink-0 items-center justify-center border border-gallery-border bg-gallery-surface-alt">
-                  <p className="text-[9px] uppercase tracking-widest text-gallery-muted">
+                  <p className="text-micro uppercase tracking-widest text-gallery-muted">
                     QR
                   </p>
                 </div>
               </div>
-              <p className="mt-4 text-[10px] leading-relaxed text-gallery-muted">
+              <p className="mt-4 text-micro leading-relaxed text-gallery-muted">
                 This record was generated from information submitted by the
                 host. It has not been reviewed, verified, or authenticated by
                 Bayview Hub.
@@ -477,22 +477,22 @@ export default function PassportPage() {
       <section className="border-t border-gallery-border">
         <Container className="py-16 sm:py-20">
           <div className="mx-auto max-w-xl text-center">
-            <h2 className="mb-3 font-serif text-2xl font-semibold text-gallery-text sm:text-3xl">
+            <h2 className="mb-3 font-serif text-h3 font-semibold text-gallery-text md:text-h2">
               Open your wall. Or request access.
             </h2>
-            <p className="mb-8 text-sm leading-relaxed text-gallery-muted">
+            <p className="mb-8 text-helper leading-relaxed text-gallery-muted">
               Both begin with a conversation with Bayview Hub.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <Link
                 href="/passport/register"
-                className="inline-flex items-center justify-center bg-family-navy px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-family-navy/90"
+                className="inline-flex items-center justify-center bg-family-navy px-5 py-2.5 text-body font-medium text-white transition-colors hover:bg-family-navy/90"
               >
                 I Want to Open My Wall →
               </Link>
               <a
                 href={VIEWING_HREF}
-                className="inline-flex items-center justify-center border border-gallery-border px-5 py-2.5 text-sm font-medium text-gallery-text transition-colors hover:bg-gallery-surface-alt"
+                className="inline-flex items-center justify-center border border-gallery-border px-5 py-2.5 text-body font-medium text-gallery-text transition-colors hover:bg-gallery-surface-alt"
               >
                 I Want to Request Access
               </a>
@@ -505,10 +505,10 @@ export default function PassportPage() {
       <section className="border-t border-gallery-border bg-gallery-surface-alt">
         <Container className="py-8 sm:py-10">
           <div className="border border-accent/20 bg-accent/5 p-4 sm:p-5">
-            <p className="mb-2 text-[10px] font-medium uppercase tracking-widest text-gallery-accent">
+            <p className="mb-2 text-micro font-medium uppercase tracking-widest text-gallery-accent">
               Programme Note
             </p>
-            <p className="max-w-3xl text-xs leading-relaxed text-gallery-muted">
+            <p className="max-w-3xl text-caption leading-relaxed text-gallery-muted">
               The Artwork Passport and Private Viewing Network are being
               introduced at Bayview Hub for selected works and spaces. Not all
               works will be enrolled. Documentation content, access

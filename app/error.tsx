@@ -9,7 +9,7 @@ export default function ErrorPage({ error, reset }: ErrorProps) {
   return (
     <div className="container mx-auto px-4 py-24 text-center">
       <div className="border border-noir-accent/30 bg-noir-surface p-8">
-        <p className="text-[10px] text-noir-accent tracking-widest uppercase mb-4">
+        <p className="text-micro text-noir-accent tracking-widest uppercase mb-4">
           System Error
         </p>
         <h1 className="text-lg font-medium tracking-forensic text-noir-text mb-3">
@@ -19,7 +19,7 @@ export default function ErrorPage({ error, reset }: ErrorProps) {
           The protocol system encountered an unexpected condition.
         </p>
         {error.digest && (
-          <p className="text-[10px] text-noir-muted/50 tracking-widest uppercase mb-8">
+          <p className="text-micro text-noir-muted/50 tracking-widest uppercase mb-8">
             Ref: {error.digest}
           </p>
         )}

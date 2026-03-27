@@ -21,6 +21,20 @@ const config: Config = {
         serif: ["var(--font-serif)", "Georgia", "serif"],
         mono: ["JetBrains Mono", "monospace"],
       },
+      fontSize: {
+        // Bayview unified type scale
+        micro:   ["0.75rem",    { lineHeight: "1rem" }],         // 12px — true micro only
+        caption: ["0.875rem",   { lineHeight: "1.25rem" }],      // 14px — eyebrow / caption
+        helper:  ["0.9375rem",  { lineHeight: "1.5rem" }],       // 15px — secondary / helper
+        body:    ["1rem",       { lineHeight: "1.6" }],           // 16px — default body
+        nav:     ["1.125rem",   { lineHeight: "1.75rem" }],      // 18px — nav / strong body
+        lead:    ["1.25rem",    { lineHeight: "1.75rem" }],      // 20px — lead paragraph
+        "h4":    ["1.5rem",     { lineHeight: "1.3" }],          // 24px — minor heading
+        "h3":    ["2rem",       { lineHeight: "1.2" }],          // 32px — section heading
+        "h2":    ["2.5rem",     { lineHeight: "1.15" }],         // 40px — page heading
+        "h1":    ["3.5rem",     { lineHeight: "1.1" }],          // 56px — standard hero
+        hero:    ["4rem",       { lineHeight: "1.05" }],         // 64px — homepage hero
+      },
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",

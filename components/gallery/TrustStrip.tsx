@@ -32,10 +32,10 @@ export function TrustStrip() {
                 />
               </div>
               <div>
-                <p className="text-sm font-semibold text-gallery-text">
+                <p className="text-body font-semibold text-gallery-text">
                   {title}
                 </p>
-                <p className="text-xs text-gallery-muted mt-0.5">{text}</p>
+                <p className="text-caption text-gallery-muted mt-0.5">{text}</p>
               </div>
             </div>
           ))}

@@ -42,7 +42,7 @@ export function StudyLibraryClient({ items }: StudyLibraryClientProps) {
     <>
       <section className="border border-gallery-border rounded-lg bg-gallery-surface p-4 sm:p-5 mb-8">
         <div className="mb-3 flex items-center justify-between">
-          <p className="text-xs font-semibold uppercase tracking-[0.08em] text-gallery-text">
+          <p className="text-caption font-semibold uppercase tracking-[0.08em] text-gallery-text">
             Library Filters
           </p>
           <button
@@ -52,7 +52,7 @@ export function StudyLibraryClient({ items }: StudyLibraryClientProps) {
               setKindFilter("all");
               setInstitutionFilter("all");
             }}
-            className="text-xs font-medium text-gallery-text hover:underline disabled:opacity-40 disabled:no-underline"
+            className="text-caption font-medium text-gallery-text hover:underline disabled:opacity-40 disabled:no-underline"
             disabled={!hasActiveFilters}
           >
             Clear filters
@@ -60,7 +60,7 @@ export function StudyLibraryClient({ items }: StudyLibraryClientProps) {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           <div className="md:col-span-2">
-            <label htmlFor="study-search" className="mb-1 block text-xs font-medium text-gallery-text">
+            <label htmlFor="study-search" className="mb-1 block text-caption md:text-helper font-medium text-gallery-text">
               Search
             </label>
             <input
@@ -68,18 +68,18 @@ export function StudyLibraryClient({ items }: StudyLibraryClientProps) {
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search artist or study guide"
-              className="w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
+              className="w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-body text-gallery-text"
             />
           </div>
           <div>
-            <label htmlFor="study-kind" className="mb-1 block text-xs font-medium text-gallery-text">
+            <label htmlFor="study-kind" className="mb-1 block text-caption md:text-helper font-medium text-gallery-text">
               Guide type
             </label>
             <select
               id="study-kind"
               value={kindFilter}
               onChange={(e) => setKindFilter(e.target.value as "all" | "master" | "pack")}
-              className="w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
+              className="w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-body text-gallery-text"
             >
               <option value="all">All guide types</option>
               <option value="master">Modern Masters</option>
@@ -87,14 +87,14 @@ export function StudyLibraryClient({ items }: StudyLibraryClientProps) {
             </select>
           </div>
           <div>
-            <label htmlFor="study-institution" className="mb-1 block text-xs font-medium text-gallery-text">
+            <label htmlFor="study-institution" className="mb-1 block text-caption md:text-helper font-medium text-gallery-text">
               Institution
             </label>
             <select
               id="study-institution"
               value={institutionFilter}
               onChange={(e) => setInstitutionFilter(e.target.value)}
-              className="w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-sm text-gallery-text"
+              className="w-full rounded-md border border-gallery-border bg-white px-3 py-2 text-body text-gallery-text"
             >
               <option value="all">All institutions</option>
               {institutions.map((institution) => (
@@ -105,7 +105,7 @@ export function StudyLibraryClient({ items }: StudyLibraryClientProps) {
             </select>
           </div>
         </div>
-        <p className="mt-3 text-xs text-gallery-muted">
+        <p className="mt-3 text-caption text-gallery-muted">
           {filtered.length} of {items.length} study guides
         </p>
       </section>
@@ -119,13 +119,13 @@ export function StudyLibraryClient({ items }: StudyLibraryClientProps) {
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <h3 className="text-base font-semibold text-gallery-text group-hover:text-gallery-accent transition-colors mb-1">
+                <h3 className="text-h4 font-semibold text-gallery-text group-hover:text-gallery-accent transition-colors mb-1">
                   {item.name}
                 </h3>
-                <p className="text-xs text-gallery-muted mb-2">
+                <p className="text-caption text-gallery-muted mb-2">
                   {item.institution ?? "Study Pack"}
                 </p>
-                <p className="text-sm text-gallery-muted/80 leading-relaxed line-clamp-2">
+                <p className="text-helper text-gallery-muted/80 leading-relaxed line-clamp-2">
                   {item.blurb}
                 </p>
               </div>

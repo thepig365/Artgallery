@@ -20,10 +20,10 @@ export default function PrivacyPage() {
   return (
     <div className="container mx-auto px-4 py-12 max-w-4xl">
       <div className="mb-8">
-        <span className="text-xs font-medium text-gallery-accent uppercase tracking-wide">
+        <span className="text-caption font-medium text-gallery-accent uppercase tracking-wide">
           Legal
         </span>
-        <h1 className="text-3xl font-bold text-gallery-text tracking-tight mt-2 mb-4">
+        <h1 className="font-bold text-gallery-text tracking-tight mt-2 mb-4">
           Privacy Policy
         </h1>
         <p className="text-gallery-muted leading-relaxed">
@@ -34,7 +34,7 @@ export default function PrivacyPage() {
 
       <div className="space-y-8 text-gallery-muted leading-relaxed">
         <section>
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             Who we are
           </h2>
           <p>
@@ -51,7 +51,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             What data we collect
           </h2>
           <p>We collect:</p>
@@ -74,7 +74,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             Why we collect it
           </h2>
           <p>
@@ -85,7 +85,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             Sharing
           </h2>
           <p>
@@ -96,7 +96,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             International transfers
           </h2>
           <p>
@@ -107,7 +107,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             Retention
           </h2>
           <p>
@@ -118,7 +118,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             Your rights
           </h2>
           <p>
@@ -139,7 +139,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             Security
           </h2>
           <p>
@@ -150,7 +150,7 @@ export default function PrivacyPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             Governing law
           </h2>
           <p>
@@ -161,7 +161,7 @@ export default function PrivacyPage() {
         </section>
 
         <section className="border-t border-gallery-border pt-6">
-          <p className="text-sm">
+          <p className="text-helper">
             See also:{" "}
             <Link href="/rights" className="text-gallery-accent hover:underline">
               Rights & Licensing

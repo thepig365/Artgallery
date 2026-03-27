@@ -63,7 +63,7 @@ export default async function WorksForPrivateWallsPage() {
       {/* ── Hero ──────────────────────────────────────────────── */}
       <div className="border-b border-gallery-border bg-family-navy">
         <Container className="py-14 sm:py-20">
-          <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.22em] text-family-accent">
+          <p className="mb-3 text-micro font-medium uppercase tracking-[0.22em] text-family-accent">
             Bayview Hub · Private Viewing Network
           </p>
           <h1 className="font-serif text-3xl font-semibold leading-tight text-white sm:text-4xl">
@@ -101,7 +101,7 @@ export default async function WorksForPrivateWallsPage() {
       <Container className="py-12 sm:py-16">
         {worksWithUrls.length === 0 ? (
           <div className="border border-gallery-border bg-gallery-surface px-8 py-16 text-center">
-            <p className="text-[11px] uppercase tracking-widest text-gallery-muted">
+            <p className="text-micro uppercase tracking-widest text-gallery-muted">
               No works are currently listed through this programme.
             </p>
           </div>
@@ -125,14 +125,14 @@ export default async function WorksForPrivateWallsPage() {
                     />
                   ) : (
                     <div className="flex h-full items-center justify-center">
-                      <p className="text-[10px] uppercase tracking-widest text-gallery-muted">
+                      <p className="text-micro uppercase tracking-widest text-gallery-muted">
                         Image not available
                       </p>
                     </div>
                   )}
                   {/* Badge */}
                   <div className="absolute left-3 top-3">
-                    <span className="inline-flex items-center gap-1.5 border border-white/20 bg-family-navy/80 px-2 py-1 text-[9px] font-medium uppercase tracking-[0.18em] text-white backdrop-blur-sm">
+                    <span className="inline-flex items-center gap-1.5 border border-white/20 bg-family-navy/80 px-2 py-1 text-micro font-medium uppercase tracking-[0.18em] text-white backdrop-blur-sm">
                       <span className="inline-block h-1.5 w-1.5 rounded-full bg-family-accent" />
                       Private Walls
                     </span>
@@ -152,7 +152,7 @@ export default async function WorksForPrivateWallsPage() {
                       .filter(Boolean)
                       .join(" · ")}
                   </p>
-                  <p className="mt-0.5 text-[10px] uppercase tracking-widest text-gallery-muted">
+                  <p className="mt-0.5 text-micro uppercase tracking-widest text-gallery-muted">
                     {TYPE_LABELS[work.artworkType] ?? work.artworkType}
                   </p>
                   {work.significance && (
@@ -164,12 +164,12 @@ export default async function WorksForPrivateWallsPage() {
                     {work.publicSlug ? (
                       <Link
                         href={`/art-work-for-private-walls/${work.publicSlug}`}
-                        className="inline-flex items-center gap-1.5 text-[11px] font-medium uppercase tracking-widest text-gallery-accent transition-colors hover:text-gallery-text"
+                        className="inline-flex items-center gap-1.5 text-micro font-medium uppercase tracking-widest text-gallery-accent transition-colors hover:text-gallery-text"
                       >
                         View work →
                       </Link>
                     ) : (
-                      <span className="text-[10px] uppercase tracking-widest text-gallery-muted">
+                      <span className="text-micro uppercase tracking-widest text-gallery-muted">
                         By request
                       </span>
                     )}
@@ -185,7 +185,7 @@ export default async function WorksForPrivateWallsPage() {
       <div className="border-t border-gallery-border bg-gallery-surface">
         <Container className="py-10">
           <div className="max-w-lg">
-            <p className="mb-3 text-[10px] font-semibold uppercase tracking-widest text-gallery-muted">
+            <p className="mb-3 text-micro font-semibold uppercase tracking-widest text-gallery-muted">
               How works become listed here
             </p>
             <p className="text-sm leading-relaxed text-gallery-muted">

@@ -186,7 +186,7 @@ export default async function ArtworkDetailPage({
           <h1 className="text-lg font-semibold text-gallery-text mb-2">
             Artwork temporarily unavailable
           </h1>
-          <p className="text-sm text-gallery-muted mb-4">
+          <p className="text-body text-gallery-muted mb-4">
             We could not load this artwork right now. Please refresh shortly.
           </p>
           <Link href="/archive" className="text-sm text-gallery-accent hover:underline">
@@ -414,51 +414,51 @@ export default async function ArtworkDetailPage({
                 <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
                   Artist
                 </p>
-                <p className="text-sm text-gallery-text">{artworkFacts.artist}</p>
+                <p className="text-body text-gallery-text">{artworkFacts.artist}</p>
               </div>
               <div>
                 <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
                   Title
                 </p>
-                <p className="text-sm text-gallery-text">{artworkFacts.title}</p>
+                <p className="text-body text-gallery-text">{artworkFacts.title}</p>
               </div>
               <div>
                 <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
                   Year
                 </p>
-                <p className="text-sm text-gallery-text">{artworkFacts.year || "Not disclosed"}</p>
+                <p className="text-body text-gallery-text">{artworkFacts.year || "Not disclosed"}</p>
               </div>
               <div>
                 <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
                   Medium
                 </p>
-                <p className="text-sm text-gallery-text">{artworkFacts.medium || "Not disclosed"}</p>
+                <p className="text-body text-gallery-text">{artworkFacts.medium || "Not disclosed"}</p>
               </div>
               {artworkFacts.materials && (
                 <div>
                   <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
                     Materials
                   </p>
-                  <p className="text-sm text-gallery-text">{artworkFacts.materials}</p>
+                  <p className="text-body text-gallery-text">{artworkFacts.materials}</p>
                 </div>
               )}
               <div>
                 <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
                   Dimensions
                 </p>
-                <p className="text-sm text-gallery-text">{artworkFacts.dimensions || "On request"}</p>
+                <p className="text-body text-gallery-text">{artworkFacts.dimensions || "On request"}</p>
               </div>
               <div>
                 <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
                   Location
                 </p>
-                <p className="text-sm text-gallery-text">{artworkFacts.location}</p>
+                <p className="text-body text-gallery-text">{artworkFacts.location}</p>
               </div>
               <div>
                 <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-1">
                   Availability
                 </p>
-                <p className="text-sm text-gallery-text">{artworkFacts.availability}</p>
+                <p className="text-body text-gallery-text">{artworkFacts.availability}</p>
               </div>
             </div>
           </div>
@@ -469,7 +469,7 @@ export default async function ArtworkDetailPage({
               <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-2">
                 Curator Note
               </p>
-              <p className="text-sm text-gallery-muted leading-relaxed">
+              <p className="text-body text-gallery-muted leading-relaxed">
                 {curatorNote}
               </p>
             </div>
@@ -500,7 +500,7 @@ export default async function ArtworkDetailPage({
               <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-2">
                 Process Narrative
               </p>
-              <p className="text-sm text-gallery-muted leading-relaxed">
+              <p className="text-body text-gallery-muted leading-relaxed">
                 {artwork.narrative}
               </p>
             </div>
@@ -512,7 +512,7 @@ export default async function ArtworkDetailPage({
               <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-2">
                 About the Artist
               </p>
-              <p className="text-sm text-gallery-muted leading-relaxed">
+              <p className="text-body text-gallery-muted leading-relaxed">
                 {artwork.artist.bio}
               </p>
             </div>
@@ -527,7 +527,7 @@ export default async function ArtworkDetailPage({
             <p className="text-xs font-medium text-gallery-muted uppercase tracking-wide mb-2">
               Viewing & Enquiries
             </p>
-            <p className="text-sm text-gallery-muted leading-relaxed mb-4">
+            <p className="text-body text-gallery-muted leading-relaxed mb-4">
               Viewings are by appointment at Bayview Hub Gallery.
               <br />
               We respond within 1-2 business days.
@@ -577,19 +577,19 @@ export default async function ArtworkDetailPage({
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
               <div className="rounded-md border border-gallery-border p-3">
-                <p className="text-[11px] uppercase tracking-wide text-gallery-muted">Body</p>
+                <p className="text-micro uppercase tracking-wide text-gallery-muted">Body</p>
                 <p className="text-sm font-medium text-gallery-text">{scores.B.toFixed(1)}</p>
               </div>
               <div className="rounded-md border border-gallery-border p-3">
-                <p className="text-[11px] uppercase tracking-wide text-gallery-muted">Process</p>
+                <p className="text-micro uppercase tracking-wide text-gallery-muted">Process</p>
                 <p className="text-sm font-medium text-gallery-text">{scores.P.toFixed(1)}</p>
               </div>
               <div className="rounded-md border border-gallery-border p-3">
-                <p className="text-[11px] uppercase tracking-wide text-gallery-muted">Material</p>
+                <p className="text-micro uppercase tracking-wide text-gallery-muted">Material</p>
                 <p className="text-sm font-medium text-gallery-text">{scores.M.toFixed(1)}</p>
               </div>
               <div className="rounded-md border border-gallery-border p-3">
-                <p className="text-[11px] uppercase tracking-wide text-gallery-muted">Surface</p>
+                <p className="text-micro uppercase tracking-wide text-gallery-muted">Surface</p>
                 <p className="text-sm font-medium text-gallery-text">{scores.S.toFixed(1)}</p>
               </div>
             </div>
@@ -604,7 +604,7 @@ export default async function ArtworkDetailPage({
           </>
         ) : (
           <div className="rounded-md border border-gallery-border bg-gallery-surface-alt p-4">
-            <p className="text-sm font-medium text-gallery-text">Assessment pending / Not assessed</p>
+            <p className="text-body font-medium text-gallery-text">Assessment pending / Not assessed</p>
             <p className="text-xs text-gallery-muted mt-1">
               This artwork does not currently display a complete Mend Index result.
             </p>
@@ -614,7 +614,7 @@ export default async function ArtworkDetailPage({
 
       {/* Disclaimer */}
       <div className="mt-12 border-t border-gallery-border pt-6">
-        <p className="text-[11px] text-gallery-muted/60 leading-relaxed max-w-4xl">
+        <p className="text-micro text-gallery-muted/60 leading-relaxed max-w-4xl">
           {DISCLAIMERS.report}
         </p>
       </div>

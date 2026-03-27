@@ -64,12 +64,12 @@ export default function ProtocolPage() {
     <div className="container mx-auto px-4 py-8 sm:py-12">
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
-          <h1 className="text-xl font-medium tracking-forensic text-noir-text">
+          <h1 className="text-h3 font-medium tracking-forensic text-noir-text md:text-h2">
             Mend Index Protocol
           </h1>
           <Badge variant="muted">Mend Index V1</Badge>
         </div>
-        <p className="text-xs text-noir-muted leading-relaxed max-w-2xl">
+        <p className="text-helper text-noir-muted leading-relaxed max-w-2xl">
           The Mend Index is a structured curatorial evaluation framework that
           assesses material sincerity across four forensic axes. It produces a
           composite score reflecting the coherence between declared intent and
@@ -79,10 +79,10 @@ export default function ProtocolPage() {
 
       {/* Legal framing */}
       <div className="border border-noir-accent/20 bg-noir-accent/5 p-4 mb-8">
-        <p className="text-[10px] text-noir-accent tracking-widest uppercase font-medium mb-2">
+        <p className="text-micro text-noir-accent tracking-widest uppercase font-medium mb-2">
           Important Disclosure
         </p>
-        <p className="text-xs text-noir-muted leading-relaxed">
+        <p className="text-caption text-noir-muted leading-relaxed">
           {DISCLAIMERS.global}
         </p>
       </div>
@@ -95,23 +95,23 @@ export default function ProtocolPage() {
           <Panel key={axis.key}>
             <div className="flex items-start gap-4">
               <div className="flex-shrink-0 w-10 h-10 border border-noir-border bg-noir-bg flex items-center justify-center">
-                <span className="text-sm font-medium text-noir-text">
+                <span className="text-body font-medium text-noir-text">
                   {axis.key}
                 </span>
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
-                  <h2 className="text-sm font-medium text-noir-text">
+                  <h2 className="text-nav font-medium text-noir-text">
                     {axis.name}
                   </h2>
-                  <span className="text-[10px] text-noir-muted tracking-widest uppercase">
+                  <span className="text-micro text-noir-muted tracking-widest uppercase">
                     — {axis.subtitle}
                   </span>
                   <Badge variant="muted" className="ml-auto">
                     {axis.weight}
                   </Badge>
                 </div>
-                <p className="text-xs text-noir-muted leading-relaxed">
+                <p className="text-helper text-noir-muted leading-relaxed">
                   {axis.description}
                 </p>
               </div>
@@ -125,13 +125,13 @@ export default function ProtocolPage() {
       {/* Formula */}
       <Panel className="mb-8">
         <div className="text-center py-4">
-          <p className="text-[10px] text-noir-muted tracking-widest uppercase mb-3">
+          <p className="text-micro text-noir-muted tracking-widest uppercase mb-3">
             Mend Index Formula
           </p>
-          <p className="text-sm text-noir-text font-medium tracking-wide font-mono">
+          <p className="text-body text-noir-text font-medium tracking-wide font-mono">
             V = (B × 0.25) + (P × 0.20) + (M × 0.35) + (S × 0.20)
           </p>
-          <p className="text-[10px] text-noir-muted mt-3 leading-relaxed max-w-lg mx-auto">
+          <p className="text-micro text-noir-muted mt-3 leading-relaxed max-w-lg mx-auto">
             Each axis is scored on a 0–10 scale by independent assessors under
             blind review protocol. The composite Mend Index (V) is rounded to
             two decimal places. Material (M) carries the highest weight,
@@ -145,10 +145,10 @@ export default function ProtocolPage() {
       <Panel className="mb-8">
         <div className="space-y-4">
           <div>
-            <h3 className="text-xs font-medium text-noir-text tracking-widest uppercase mb-1.5">
+            <h3 className="text-caption font-medium text-noir-text tracking-widest uppercase mb-1.5">
               Blind Review
             </h3>
-            <p className="text-xs text-noir-muted leading-relaxed">
+            <p className="text-helper text-noir-muted leading-relaxed">
               During the initial scoring phase, assessors evaluate work without
               access to artist identity, market history, or source attribution.
               This ensures that scores reflect material evidence alone, not
@@ -157,10 +157,10 @@ export default function ProtocolPage() {
           </div>
           <Divider />
           <div>
-            <h3 className="text-xs font-medium text-noir-text tracking-widest uppercase mb-1.5">
+            <h3 className="text-caption font-medium text-noir-text tracking-widest uppercase mb-1.5">
               Variance Review
             </h3>
-            <p className="text-xs text-noir-muted leading-relaxed">
+            <p className="text-helper text-noir-muted leading-relaxed">
               When significant scoring variance is detected between assessors,
               the session is flagged for variance review. Assessors are prompted
               to provide additional justification. The variance threshold and
@@ -169,10 +169,10 @@ export default function ProtocolPage() {
           </div>
           <Divider />
           <div>
-            <h3 className="text-xs font-medium text-noir-text tracking-widest uppercase mb-1.5">
+            <h3 className="text-caption font-medium text-noir-text tracking-widest uppercase mb-1.5">
               Score Range
             </h3>
-            <p className="text-xs text-noir-muted leading-relaxed">
+            <p className="text-helper text-noir-muted leading-relaxed">
               All axis scores use a 0.0–10.0 continuous scale with 0.1
               granularity. A score of 0 indicates no evidence of the assessed
               quality. A score of 10 represents exceptional coherence across all
@@ -187,26 +187,26 @@ export default function ProtocolPage() {
       {/* Disclaimers */}
       <div className="space-y-3 mb-8">
         <Panel>
-          <p className="text-[10px] text-noir-muted tracking-widest uppercase font-medium mb-2">
+          <p className="text-micro text-noir-muted tracking-widest uppercase font-medium mb-2">
             Assessment Disclaimer
           </p>
-          <p className="text-[10px] text-noir-muted/70 leading-relaxed">
+          <p className="text-caption text-noir-muted/70 leading-relaxed">
             {DISCLAIMERS.report}
           </p>
         </Panel>
         <Panel>
-          <p className="text-[10px] text-noir-muted tracking-widest uppercase font-medium mb-2">
+          <p className="text-micro text-noir-muted tracking-widest uppercase font-medium mb-2">
             Assessor Disclosure
           </p>
-          <p className="text-[10px] text-noir-muted/70 leading-relaxed">
+          <p className="text-caption text-noir-muted/70 leading-relaxed">
             {DISCLAIMERS.assessorDisclosure}
           </p>
         </Panel>
         <Panel>
-          <p className="text-[10px] text-noir-muted tracking-widest uppercase font-medium mb-2">
+          <p className="text-micro text-noir-muted tracking-widest uppercase font-medium mb-2">
             Submission Consent
           </p>
-          <p className="text-[10px] text-noir-muted/70 leading-relaxed">
+          <p className="text-caption text-noir-muted/70 leading-relaxed">
             {DISCLAIMERS.submissionConsent}
           </p>
         </Panel>

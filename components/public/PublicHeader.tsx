@@ -47,10 +47,10 @@ export function PublicHeader() {
               priority
             />
             <div className="hidden sm:flex flex-col">
-              <span className="text-xl md:text-2xl font-serif font-semibold leading-tight text-white">
+              <span className="text-lead md:text-h4 font-serif font-semibold leading-tight text-white">
                 Bayview Hub
               </span>
-              <span className="text-xs tracking-[0.16em] uppercase text-white/70">
+              <span className="text-caption tracking-[0.16em] uppercase text-white/70">
                 Art Gallery
               </span>
             </div>
@@ -71,8 +71,8 @@ export function PublicHeader() {
                     aria-current={isActive ? "page" : undefined}
                     className={
                       isActive
-                        ? "rounded-md bg-white/12 px-3 py-2 text-xs font-medium tracking-wide text-white md:text-sm"
-                        : "rounded-md px-3 py-2 text-xs font-medium tracking-wide text-white/75 transition-colors duration-200 hover:bg-white/8 hover:text-white md:text-sm"
+                        ? "rounded-md bg-white/12 px-3 py-2 text-body font-medium tracking-wide text-white md:text-nav"
+                        : "rounded-md px-3 py-2 text-body font-medium tracking-wide text-white/75 transition-colors duration-200 hover:bg-white/8 hover:text-white md:text-nav"
                     }
                   >
                     {item.label}
@@ -115,8 +115,8 @@ export function PublicHeader() {
                   aria-current={isActive ? "page" : undefined}
                   className={
                     isActive
-                      ? "px-3 py-3 text-base font-medium rounded-md bg-white/12 text-white"
-                      : "px-3 py-3 text-base font-medium rounded-md text-white/80 hover:bg-white/10 hover:text-white"
+                      ? "px-3 py-3 text-body font-medium rounded-md bg-white/12 text-white"
+                      : "px-3 py-3 text-body font-medium rounded-md text-white/80 hover:bg-white/10 hover:text-white"
                   }
                 >
                   {item.label}

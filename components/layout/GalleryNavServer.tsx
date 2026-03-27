@@ -27,8 +27,8 @@ export function GalleryNavServer() {
               aria-current={isActive ? "page" : undefined}
               className={
                 isActive
-                  ? "px-3 py-2 text-sm font-medium rounded-md text-gallery-accent bg-gallery-accent/10"
-                  : "px-3 py-2 text-sm font-medium rounded-md text-gallery-muted hover:text-gallery-text hover:bg-gallery-surface-alt transition-colors duration-200"
+                  ? "px-3 py-2 text-body md:text-nav font-medium rounded-md text-gallery-accent bg-gallery-accent/10"
+                  : "px-3 py-2 text-body md:text-nav font-medium rounded-md text-gallery-muted hover:text-gallery-text hover:bg-gallery-surface-alt transition-colors duration-200"
               }
             >
               {item.label}
@@ -54,8 +54,8 @@ export function GalleryNavServer() {
             aria-current={isActive ? "page" : undefined}
             className={
               isActive
-                ? "px-4 py-4 text-xs font-medium tracking-widest uppercase text-white bg-noir-surface border-l border-noir-border"
-                : "px-4 py-4 text-xs font-medium tracking-widest uppercase text-noir-muted hover:text-noir-text hover:bg-noir-surface/50 border-l border-noir-border transition-colors duration-120"
+                ? "px-4 py-4 text-body md:text-nav font-medium tracking-widest uppercase text-white bg-noir-surface border-l border-noir-border"
+                : "px-4 py-4 text-body md:text-nav font-medium tracking-widest uppercase text-noir-muted hover:text-noir-text hover:bg-noir-surface/50 border-l border-noir-border transition-colors duration-120"
             }
           >
             {item.label}

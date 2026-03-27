@@ -39,7 +39,7 @@ export function WizardProgress({
                 <div
                   aria-current={isCurrent ? "step" : undefined}
                   className={`
-                    w-6 h-6 flex items-center justify-center border text-[10px] font-medium
+                    w-6 h-6 flex items-center justify-center border text-micro font-medium
                     ${isCurrent
                       ? "border-noir-text text-noir-text"
                       : isCompleted || isPast
@@ -56,7 +56,7 @@ export function WizardProgress({
                 </div>
                 <span
                   className={`
-                    text-[9px] tracking-widest uppercase mt-1.5 text-center truncate w-full
+                    text-micro tracking-widest uppercase mt-1.5 text-center truncate w-full
                     ${isCurrent ? "text-noir-text" : "text-noir-muted"}
                   `}
                 >

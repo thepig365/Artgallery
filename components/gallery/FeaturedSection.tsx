@@ -84,7 +84,7 @@ export function FeaturedSection({ artworks }: FeaturedSectionProps) {
         {/* Header */}
         <div className="flex items-end justify-between mb-10">
           <div>
-            <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
+            <p className="text-caption font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
               Recently Assessed
             </p>
             <h2 className="text-2xl sm:text-3xl font-bold text-gallery-text tracking-tight">
@@ -118,12 +118,12 @@ export function FeaturedSection({ artworks }: FeaturedSectionProps) {
                     {hero.title}
                   </h3>
                   {hero.artist && (
-                    <p className="text-sm text-gallery-muted mt-1">
+                    <p className="text-caption text-gallery-muted mt-1">
                       {hero.artist.name}
                     </p>
                   )}
                   {(hero.medium || hero.year) && (
-                    <p className="text-xs text-subtle mt-2 tracking-wide">
+                    <p className="text-micro text-subtle mt-2 tracking-wide">
                       {[hero.medium, hero.year].filter(Boolean).join(" · ")}
                     </p>
                   )}
@@ -150,21 +150,21 @@ export function FeaturedSection({ artworks }: FeaturedSectionProps) {
                   className="w-28 sm:w-36 flex-shrink-0 aspect-square"
                 />
                 <div className="flex flex-col justify-center px-4 py-3 min-w-0">
-                  <h3 className="text-[13px] sm:text-sm font-semibold text-gallery-text group-hover:text-gallery-accent transition-colors duration-200 leading-snug line-clamp-2">
+                  <h3 className="text-caption sm:text-body font-semibold text-gallery-text group-hover:text-gallery-accent transition-colors duration-200 leading-snug line-clamp-2">
                     {artwork.title}
                   </h3>
                   {artwork.artist && (
-                    <p className="text-[11px] sm:text-xs text-gallery-muted mt-1">
+                    <p className="text-caption text-gallery-muted mt-1">
                       {artwork.artist.name}
                     </p>
                   )}
-                  <p className="text-[10px] text-subtle mt-1.5 tracking-wide">
+                  <p className="text-micro text-subtle mt-1.5 tracking-wide">
                     {[artwork.medium, artwork.year]
                       .filter(Boolean)
                       .join(" · ")}
                   </p>
                   {artwork.finalV != null && (
-                    <span className="inline-flex self-start items-center mt-2 px-2 py-0.5 bg-gallery-accent/10 text-gallery-accent text-[10px] font-semibold rounded tabular-nums">
+                    <span className="inline-flex self-start items-center mt-2 px-2 py-0.5 bg-gallery-accent/10 text-gallery-accent text-micro font-semibold rounded tabular-nums">
                       V {artwork.finalV.toFixed(2)}
                     </span>
                   )}

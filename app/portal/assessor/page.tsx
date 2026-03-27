@@ -31,7 +31,7 @@ export default async function AssessorPortalPage() {
       });
       return (
         <div className="container mx-auto px-4 py-16 sm:py-24">
-          <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
+          <p className="text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
             Assessor Portal
           </p>
           <h1 className="text-3xl sm:text-4xl font-bold text-gallery-text tracking-tight mb-4">
@@ -89,7 +89,7 @@ export default async function AssessorPortalPage() {
   if (hasLoadError) {
     return (
       <div className="container mx-auto px-4 py-16 sm:py-24">
-        <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
+        <p className="text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
           Assessor Portal
         </p>
         <h1 className="text-3xl sm:text-4xl font-bold text-gallery-text tracking-tight mb-4">
@@ -131,7 +131,7 @@ export default async function AssessorPortalPage() {
 
   return (
     <div className="container mx-auto px-4 py-12 sm:py-16">
-      <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
+      <p className="text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
         Assessor Portal
       </p>
       <h1 className="text-2xl sm:text-3xl font-bold text-gallery-text tracking-tight mb-8">
@@ -194,9 +194,9 @@ export default async function AssessorPortalPage() {
                         ? "Draft saved"
                         : "Awaiting your score"}
                   </p>
-                  <p className="text-[10px] text-gallery-muted/80 mt-1 uppercase tracking-wide">
+                  <p className="text-micro text-gallery-muted/80 mt-1 uppercase tracking-wide">
                     Source:{" "}
-                    <span className="inline-flex items-center rounded border border-gallery-border px-1.5 py-0.5 text-[10px] text-gallery-text">
+                    <span className="inline-flex items-center rounded border border-gallery-border px-1.5 py-0.5 text-micro text-gallery-text">
                       {item.source === "assignment" ? "Assignment" : "Audit Session Fallback"}
                     </span>
                   </p>

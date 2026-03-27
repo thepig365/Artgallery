@@ -43,11 +43,11 @@ export default function ForgotPasswordPage() {
       <div className="w-full max-w-sm">
         <div className="flex items-center gap-3 mb-2">
           <Shield className="w-5 h-5 text-gallery-muted" strokeWidth={1} aria-hidden="true" />
-          <h1 className="text-lg font-semibold text-gallery-text tracking-tight">
+          <h1 className="text-h4 font-semibold text-gallery-text tracking-tight">
             Forgot Password
           </h1>
         </div>
-        <p className="text-sm text-gallery-muted mb-6">
+        <p className="text-helper text-gallery-muted mb-6">
           Enter your account email and we&apos;ll send you a reset link.
         </p>
 
@@ -55,14 +55,14 @@ export default function ForgotPasswordPage() {
           <div className="border border-green-300 bg-green-50 p-4 rounded-lg">
             <div className="flex items-start gap-2">
               <MailCheck className="w-4 h-4 text-green-700 mt-0.5" />
-              <p className="text-xs text-green-800 leading-relaxed">
+              <p className="text-caption text-green-800 leading-relaxed">
                 If that email exists in our system, a password reset link has been sent.
                 Please check your inbox and spam folder.
               </p>
             </div>
             <Link
               href="/login"
-              className="inline-block mt-4 text-xs text-gallery-accent hover:underline"
+              className="inline-block mt-4 text-caption text-gallery-accent hover:underline"
             >
               Back to sign in
             </Link>
@@ -78,14 +78,14 @@ export default function ForgotPasswordPage() {
                   className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5"
                   strokeWidth={1.5}
                 />
-                <p className="text-xs text-red-700">{error}</p>
+                <p className="text-caption text-red-700">{error}</p>
               </div>
             )}
 
             <div>
               <label
                 htmlFor="email"
-                className="block text-xs font-medium text-gallery-muted mb-1.5"
+                className="block text-caption md:text-helper font-medium text-gallery-muted mb-1.5"
               >
                 Email
               </label>
@@ -96,7 +96,7 @@ export default function ForgotPasswordPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
-                className="w-full bg-white border border-gallery-border text-gallery-text text-sm rounded-lg px-3 py-2.5 placeholder:text-gallery-muted/50 focus:outline-none focus:ring-2 focus:ring-gallery-accent/30 focus:border-gallery-accent transition-colors"
+                className="w-full bg-white border border-gallery-border text-gallery-text text-body rounded-lg px-3 py-2.5 placeholder:text-gallery-muted/50 focus:outline-none focus:ring-2 focus:ring-gallery-accent/30 focus:border-gallery-accent transition-colors"
                 placeholder="you@example.com"
               />
             </div>
@@ -104,11 +104,11 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={loading || !email}
-              className="w-full bg-gallery-accent text-white rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-gallery-accent-hover transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-full bg-gallery-accent text-white rounded-lg px-4 py-2.5 text-body font-medium hover:bg-gallery-accent-hover transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {loading ? "Sending..." : "Send reset link"}
             </button>
-            <p className="text-[11px] text-gallery-muted/70 text-center">
+            <p className="text-micro text-gallery-muted/70 text-center">
               <Link href="/login" className="hover:underline text-gallery-accent">
                 Back to sign in
               </Link>

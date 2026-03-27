@@ -69,7 +69,7 @@ export default function StudyIndexPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
+      <p className="text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
         Study Guides
       </p>
       <h1 className="text-3xl sm:text-4xl font-bold text-gallery-text tracking-tight mb-3">

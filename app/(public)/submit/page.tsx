@@ -27,13 +27,13 @@ export default function SubmitPage() {
   return (
     <div className="container mx-auto px-4 py-10 sm:py-16">
       <header className="mb-8">
-        <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
+        <p className="text-caption font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
           Submission
         </p>
         <h1 className="text-3xl sm:text-4xl font-bold text-gallery-text tracking-tight mb-3">
           Submit Artwork
         </h1>
-        <p className="text-sm text-gallery-muted max-w-2xl leading-relaxed">
+        <p className="text-body text-gallery-muted max-w-2xl leading-relaxed">
           Submit your work for optional Mend Index assessment and archive
           consideration. Sign in to begin.
         </p>
@@ -46,11 +46,11 @@ export default function SubmitPage() {
       >
         <h2
           id="submission-requirements-heading"
-          className="text-sm font-semibold text-gallery-text uppercase tracking-widest mb-4"
+          className="text-body font-semibold text-gallery-text uppercase tracking-widest mb-4"
         >
           Submission Requirements
         </h2>
-        <ul className="text-sm text-gallery-muted space-y-2 list-disc list-inside max-w-2xl">
+        <ul className="text-body text-gallery-muted space-y-2 list-disc list-inside max-w-2xl">
           <li>
             <strong className="text-gallery-text">Accepted formats:</strong> JPG,
             PNG, WebP (TIFF also accepted for archival quality).
@@ -80,7 +80,7 @@ export default function SubmitPage() {
             business days for initial review.
           </li>
         </ul>
-        <p className="mt-4 pt-4 border-t border-gallery-border/60 text-sm text-gallery-muted">
+        <p className="mt-4 pt-4 border-t border-gallery-border/60 text-body text-gallery-muted">
           <Link href="/takedown" className="text-gallery-accent hover:underline">
             Takedown / Removal
           </Link>

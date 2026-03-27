@@ -121,7 +121,7 @@ export function PassportActions({
 
       {/* ── Primary actions ──────────────────────────────────────── */}
       <div className="border border-gallery-border bg-gallery-surface p-6 sm:p-8">
-        <p className="mb-5 text-[10px] uppercase tracking-widest text-gallery-muted">
+        <p className="mb-5 text-micro uppercase tracking-widest text-gallery-muted">
           Actions
         </p>
 
@@ -129,14 +129,14 @@ export function PassportActions({
         <div className="mb-3 grid grid-cols-2 gap-3">
           <button
             onClick={handleDownloadQR}
-            className="flex items-center justify-center gap-2 border border-gallery-border bg-transparent px-4 py-3 text-[11px] font-medium uppercase tracking-[0.15em] text-gallery-text transition-colors hover:border-gallery-text hover:bg-gallery-surface-alt"
+            className="flex items-center justify-center gap-2 border border-gallery-border bg-transparent px-4 py-3 text-micro font-medium uppercase tracking-[0.15em] text-gallery-text transition-colors hover:border-gallery-text hover:bg-gallery-surface-alt"
           >
             <span aria-hidden>↓</span>
             Download QR
           </button>
           <button
             onClick={handleCopyLink}
-            className="flex items-center justify-center gap-2 border border-gallery-border bg-transparent px-4 py-3 text-[11px] font-medium uppercase tracking-[0.15em] text-gallery-text transition-colors hover:border-gallery-text hover:bg-gallery-surface-alt"
+            className="flex items-center justify-center gap-2 border border-gallery-border bg-transparent px-4 py-3 text-micro font-medium uppercase tracking-[0.15em] text-gallery-text transition-colors hover:border-gallery-text hover:bg-gallery-surface-alt"
           >
             {copied ? (
               <>
@@ -155,7 +155,7 @@ export function PassportActions({
         {/* Register another work */}
         <Link
           href="/passport/register"
-          className="flex w-full items-center justify-center gap-2 border border-gallery-border/50 bg-transparent px-4 py-3 text-[11px] font-medium uppercase tracking-[0.15em] text-gallery-muted transition-colors hover:border-gallery-border hover:text-gallery-text"
+          className="flex w-full items-center justify-center gap-2 border border-gallery-border/50 bg-transparent px-4 py-3 text-micro font-medium uppercase tracking-[0.15em] text-gallery-muted transition-colors hover:border-gallery-border hover:text-gallery-text"
         >
           <span aria-hidden>+</span>
           Register Another Work
@@ -164,7 +164,7 @@ export function PassportActions({
 
       {/* ── What happens next ────────────────────────────────────── */}
       <div className="border border-gallery-border bg-gallery-surface p-6 sm:p-8">
-        <p className="mb-5 text-[10px] uppercase tracking-widest text-gallery-muted">
+        <p className="mb-5 text-micro uppercase tracking-widest text-gallery-muted">
           What Happens Next
         </p>
         <ul className="space-y-4">
@@ -203,7 +203,7 @@ export function PassportActions({
 
       {/* ── Curatorial consideration ─────────────────────────────── */}
       <div className="border border-gallery-border bg-gallery-surface p-6 sm:p-8">
-        <p className="mb-2 text-[10px] uppercase tracking-widest text-gallery-muted">
+        <p className="mb-2 text-micro uppercase tracking-widest text-gallery-muted">
           Curatorial Consideration
         </p>
         <p className="mb-2 font-serif text-lg font-semibold leading-snug text-gallery-text">
@@ -245,7 +245,7 @@ export function PassportActions({
                 <span className="block text-sm font-medium text-gallery-text">
                   {opt.label}
                 </span>
-                <span className="block text-[11px] leading-relaxed text-gallery-muted">
+                <span className="block text-micro leading-relaxed text-gallery-muted">
                   {opt.sublabel}
                 </span>
               </span>
@@ -256,19 +256,19 @@ export function PassportActions({
         {/* Action area */}
         <div className="mt-5 space-y-3">
           {curatorialSelection === "private" ? (
-            <p className="text-[11px] text-gallery-muted">
+            <p className="text-micro text-gallery-muted">
               No action required — this record remains private by default.
             </p>
           ) : (
             <>
               <button
                 onClick={handleExpressInterest}
-                className="flex w-full items-center justify-center gap-2 border border-gallery-border bg-transparent px-4 py-3 text-[11px] font-medium uppercase tracking-[0.15em] text-gallery-text transition-colors hover:border-gallery-text hover:bg-gallery-surface-alt"
+                className="flex w-full items-center justify-center gap-2 border border-gallery-border bg-transparent px-4 py-3 text-micro font-medium uppercase tracking-[0.15em] text-gallery-text transition-colors hover:border-gallery-text hover:bg-gallery-surface-alt"
               >
                 Express Interest via Email →
               </button>
               {emailOpened && (
-                <p className="text-[11px] text-gallery-muted">
+                <p className="text-micro text-gallery-muted">
                   Your email client has been opened with a pre-filled message
                   to the gallery.
                 </p>
@@ -278,7 +278,7 @@ export function PassportActions({
         </div>
 
         {/* Disclaimer */}
-        <p className="mt-5 border-t border-gallery-border pt-4 text-[10px] leading-relaxed text-gallery-muted">
+        <p className="mt-5 border-t border-gallery-border pt-4 text-micro leading-relaxed text-gallery-muted">
           Expressing interest does not guarantee selection, display, sale, or
           representation. All curatorial decisions remain entirely at Bayview
           Hub&rsquo;s discretion.
@@ -289,19 +289,19 @@ export function PassportActions({
       <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 px-4 pb-4">
         <Link
           href="/passport"
-          className="text-[11px] text-gallery-muted underline underline-offset-4 hover:text-gallery-text"
+          className="text-micro text-gallery-muted underline underline-offset-4 hover:text-gallery-text"
         >
           Learn how private viewing works
         </Link>
         <a
           href={`mailto:${contactEmail}`}
-          className="text-[11px] text-gallery-muted underline underline-offset-4 hover:text-gallery-text"
+          className="text-micro text-gallery-muted underline underline-offset-4 hover:text-gallery-text"
         >
           Contact the gallery
         </a>
         <Link
           href="/passport"
-          className="text-[11px] text-gallery-muted underline underline-offset-4 hover:text-gallery-text"
+          className="text-micro text-gallery-muted underline underline-offset-4 hover:text-gallery-text"
         >
           About the Artwork Passport programme
         </Link>

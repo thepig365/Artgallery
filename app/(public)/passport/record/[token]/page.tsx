@@ -83,7 +83,7 @@ export default async function PassportRecordPage({
         <Container className="py-5">
           <Link
             href="/passport"
-            className="text-[11px] font-medium uppercase tracking-[0.2em] text-family-accent transition-colors hover:text-white"
+            className="text-micro font-medium uppercase tracking-[0.2em] text-family-accent transition-colors hover:text-white"
           >
             ← Bayview Hub · Artwork Passport
           </Link>
@@ -95,7 +95,7 @@ export default async function PassportRecordPage({
 
           {/* ── Success confirmation ─────────────────────────────── */}
           <div className="border border-gallery-border bg-gallery-surface px-6 py-5 sm:px-8">
-            <p className="mb-1 text-[10px] uppercase tracking-widest text-gallery-muted">
+            <p className="mb-1 text-micro uppercase tracking-widest text-gallery-muted">
               Preliminary Passport Created
             </p>
             <p className="font-serif text-lg font-semibold leading-snug text-gallery-text sm:text-xl">
@@ -126,7 +126,7 @@ export default async function PassportRecordPage({
                 </div>
               ) : (
                 <div className="flex aspect-[4/3] w-full items-center justify-center bg-gallery-surface-alt">
-                  <p className="text-[11px] uppercase tracking-widest text-gallery-muted">
+                  <p className="text-micro uppercase tracking-widest text-gallery-muted">
                     Image not available
                   </p>
                 </div>
@@ -147,14 +147,14 @@ export default async function PassportRecordPage({
                     .filter(Boolean)
                     .join(" · ")}
                 </p>
-                <p className="text-[11px] uppercase tracking-widest text-gallery-muted">
+                <p className="text-micro uppercase tracking-widest text-gallery-muted">
                   {artworkType}
                 </p>
               </div>
 
               {/* Host note */}
               <div className="mb-5 border-l-2 border-accent/40 pl-3">
-                <p className="text-[10px] uppercase tracking-widest text-gallery-muted">
+                <p className="text-micro uppercase tracking-widest text-gallery-muted">
                   Host note
                 </p>
                 <p className="mt-1 text-sm italic leading-relaxed text-gallery-muted">
@@ -167,7 +167,7 @@ export default async function PassportRecordPage({
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0 space-y-3">
                     <div>
-                      <p className="text-[10px] uppercase tracking-widest text-gallery-muted">
+                      <p className="text-micro uppercase tracking-widest text-gallery-muted">
                         Passport ID
                       </p>
                       <p className="break-all font-mono text-xs text-gallery-text">
@@ -175,7 +175,7 @@ export default async function PassportRecordPage({
                       </p>
                     </div>
                     <div>
-                      <p className="text-[10px] uppercase tracking-widest text-gallery-muted">
+                      <p className="text-micro uppercase tracking-widest text-gallery-muted">
                         Status
                       </p>
                       <span className="inline-flex items-center gap-1.5 text-xs text-gallery-muted">
@@ -192,7 +192,7 @@ export default async function PassportRecordPage({
                       </span>
                     </div>
                     <div>
-                      <p className="text-[10px] uppercase tracking-widest text-gallery-muted">
+                      <p className="text-micro uppercase tracking-widest text-gallery-muted">
                         Registered
                       </p>
                       <p className="text-xs text-gallery-muted">
@@ -211,7 +211,7 @@ export default async function PassportRecordPage({
                       height={90}
                       className="border border-gallery-border"
                     />
-                    <p className="mt-1.5 text-[9px] leading-snug text-gallery-muted">
+                    <p className="mt-1.5 text-micro leading-snug text-gallery-muted">
                       Scan to view · use beside the work
                       <br />
                       or for invited sharing
@@ -223,7 +223,7 @@ export default async function PassportRecordPage({
               {/* Preliminary disclaimer */}
               <div className="mt-5 border-t border-gallery-border pt-5">
                 <div className="border border-accent/20 bg-accent/5 p-3">
-                  <p className="text-[10px] leading-relaxed text-gallery-muted">
+                  <p className="text-micro leading-relaxed text-gallery-muted">
                     <strong className="font-semibold text-gallery-text">
                       Preliminary Record.
                     </strong>{" "}

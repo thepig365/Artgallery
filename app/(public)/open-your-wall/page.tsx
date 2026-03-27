@@ -132,7 +132,7 @@ export default function OpenYourWallPage() {
           <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
             {/* Left: text content */}
             <div>
-              <p className="mb-5 text-[11px] font-medium uppercase tracking-[0.22em] text-family-accent">
+              <p className="mb-5 text-micro font-medium uppercase tracking-[0.22em] text-family-accent">
                 Bayview Hub · Private Viewing Network
               </p>
               <h1 className="mb-6 font-serif text-4xl font-semibold leading-tight sm:text-5xl md:text-6xl">
@@ -179,7 +179,7 @@ export default function OpenYourWallPage() {
                   <p className="text-xs font-medium text-white/90">
                     Dandenong Ranges Botanic Garden
                   </p>
-                  <p className="text-[11px] text-white/55">Chelsey L · 2024</p>
+                  <p className="text-micro text-white/55">Chelsey L · 2024</p>
                 </div>
               </div>
             </div>
@@ -190,7 +190,7 @@ export default function OpenYourWallPage() {
       {/* ── §2 Why This Exists ──────────────────────────────────────── */}
       <section className="border-b border-gallery-border">
         <Container className="py-16 sm:py-20">
-          <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent">
+          <p className="mb-2 text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent">
             Why This Exists
           </p>
           <h2 className="mb-10 font-serif text-2xl font-semibold text-gallery-text sm:text-3xl">
@@ -205,7 +205,7 @@ export default function OpenYourWallPage() {
                 <h3 className="mb-2.5 text-sm font-medium text-gallery-text">
                   {p.headline}
                 </h3>
-                <p className="text-sm leading-relaxed text-gallery-muted">
+                <p className="text-body leading-relaxed text-gallery-muted">
                   {p.body}
                 </p>
               </div>
@@ -217,14 +217,14 @@ export default function OpenYourWallPage() {
       {/* ── §3 Why BayviewHub ───────────────────────────────────────── */}
       <section className="border-b border-gallery-border bg-gallery-surface-alt">
         <Container className="py-16 sm:py-20">
-          <p className="mb-6 text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent">
+          <p className="mb-6 text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent">
             The Mediated Layer
           </p>
           <blockquote className="mb-8 max-w-2xl border-l-2 border-gallery-accent pl-6 font-serif text-lg font-medium leading-snug text-gallery-text sm:text-xl md:text-2xl">
             We do not open private walls to the public. We organise carefully
             curated viewing relationships around selected works.
           </blockquote>
-          <div className="max-w-2xl space-y-4 text-sm leading-relaxed text-gallery-muted">
+          <div className="max-w-2xl space-y-4 text-body leading-relaxed text-gallery-muted">
             <p>
               BayviewHub becomes the trusted layer between work, space, host,
               and viewer. Every introduction is mediated. Every visit is by
@@ -243,7 +243,7 @@ export default function OpenYourWallPage() {
       {/* ── §4 How It Works ─────────────────────────────────────────── */}
       <section id="how-it-works" className="border-b border-gallery-border">
         <Container className="py-16 sm:py-20">
-          <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent">
+          <p className="mb-2 text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent">
             The Process
           </p>
           <h2 className="mb-10 font-serif text-2xl font-semibold text-gallery-text sm:text-3xl">
@@ -258,7 +258,7 @@ export default function OpenYourWallPage() {
                 <h3 className="mb-2 text-xs font-semibold uppercase tracking-widest text-gallery-text">
                   {step.label}
                 </h3>
-                <p className="text-sm leading-relaxed text-gallery-muted">
+                <p className="text-body leading-relaxed text-gallery-muted">
                   {step.body}
                 </p>
               </Panel>
@@ -270,7 +270,7 @@ export default function OpenYourWallPage() {
       {/* ── §5 Who It Is For ────────────────────────────────────────── */}
       <section className="border-b border-gallery-border bg-gallery-surface-alt">
         <Container className="py-16 sm:py-20">
-          <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent">
+          <p className="mb-2 text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent">
             The Participants
           </p>
           <h2 className="mb-10 font-serif text-2xl font-semibold text-gallery-text sm:text-3xl">
@@ -285,7 +285,7 @@ export default function OpenYourWallPage() {
                 <h3 className="mb-2.5 text-xs font-semibold uppercase tracking-widest text-gallery-text">
                   {a.label}
                 </h3>
-                <p className="text-sm leading-relaxed text-gallery-muted">
+                <p className="text-body leading-relaxed text-gallery-muted">
                   {a.body}
                 </p>
               </div>
@@ -297,7 +297,7 @@ export default function OpenYourWallPage() {
       {/* ── §6 The Rules ────────────────────────────────────────────── */}
       <section className="border-b border-gallery-border bg-family-navy text-white">
         <Container className="py-16 sm:py-20">
-          <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.22em] text-family-accent">
+          <p className="mb-2 text-micro font-medium uppercase tracking-[0.22em] text-family-accent">
             The Rules
           </p>
           <h2 className="mb-4 font-serif text-2xl font-semibold sm:text-3xl">
@@ -308,7 +308,7 @@ export default function OpenYourWallPage() {
           </p>
           <ul className="mb-8 max-w-2xl space-y-4 border-l-2 border-white/20 pl-6">
             {RULES.map((rule) => (
-              <li key={rule} className="text-sm leading-relaxed text-white/75">
+              <li key={rule} className="text-body leading-relaxed text-white/75">
                 — {rule}
               </li>
             ))}
@@ -323,13 +323,13 @@ export default function OpenYourWallPage() {
       {/* ── §7 The Preliminary Passport ─────────────────────────────── */}
       <section className="border-b border-gallery-border">
         <Container className="py-16 sm:py-20">
-          <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent">
+          <p className="mb-2 text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent">
             The Record Layer
           </p>
           <h2 className="mb-4 font-serif text-2xl font-semibold text-gallery-text sm:text-3xl">
             The Preliminary Passport is the record beneath the relationship.
           </h2>
-          <p className="mb-10 max-w-xl text-sm leading-relaxed text-gallery-muted">
+          <p className="mb-10 max-w-xl text-body leading-relaxed text-gallery-muted">
             When you register a work through this programme, you receive a
             Preliminary Passport — a private digital record generated from the
             information you submit as host. It contains artwork details, a
@@ -337,14 +337,14 @@ export default function OpenYourWallPage() {
           </p>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div className="border border-gallery-border p-5 sm:p-6">
-              <p className="mb-4 text-[10px] font-semibold uppercase tracking-widest text-gallery-accent">
+              <p className="mb-4 text-micro font-semibold uppercase tracking-widest text-gallery-accent">
                 What it is
               </p>
               <ul className="space-y-3">
                 {PASSPORT_IS.map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
                     <span className="mt-[5px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gallery-accent" />
-                    <span className="text-sm leading-relaxed text-gallery-muted">
+                    <span className="text-body leading-relaxed text-gallery-muted">
                       {item}
                     </span>
                   </li>
@@ -352,14 +352,14 @@ export default function OpenYourWallPage() {
               </ul>
             </div>
             <div className="border border-gallery-border p-5 sm:p-6">
-              <p className="mb-4 text-[10px] font-semibold uppercase tracking-widest text-gallery-muted">
+              <p className="mb-4 text-micro font-semibold uppercase tracking-widest text-gallery-muted">
                 What it is not
               </p>
               <ul className="space-y-3">
                 {PASSPORT_IS_NOT.map((item) => (
                   <li key={item} className="flex items-start gap-2.5">
                     <span className="mt-[5px] h-1.5 w-1.5 flex-shrink-0 rounded-full bg-gallery-muted/40" />
-                    <span className="text-sm leading-relaxed text-gallery-muted">
+                    <span className="text-body leading-relaxed text-gallery-muted">
                       {item}
                     </span>
                   </li>
@@ -378,14 +378,14 @@ export default function OpenYourWallPage() {
       {/* ── §8 Why This Matters ─────────────────────────────────────── */}
       <section className="border-b border-gallery-border bg-gallery-surface-alt">
         <Container className="py-16 sm:py-20">
-          <p className="mb-2 text-[11px] font-medium uppercase tracking-[0.2em] text-gallery-accent">
+          <p className="mb-2 text-micro font-medium uppercase tracking-[0.2em] text-gallery-accent">
             For Bayview Hub
           </p>
           <div className="max-w-2xl">
             <h2 className="mb-5 font-serif text-2xl font-semibold text-gallery-text sm:text-3xl">
               This is our higher-quality intake path.
             </h2>
-            <div className="space-y-4 text-sm leading-relaxed text-gallery-muted">
+            <div className="space-y-4 text-body leading-relaxed text-gallery-muted">
               <p>
                 Open Your Wall is not a submission portal. It is how BayviewHub
                 discovers works that belong in more serious conversation — works
@@ -408,13 +408,13 @@ export default function OpenYourWallPage() {
         <Container className="py-16 sm:py-20">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div className="border border-gallery-border bg-gallery-surface p-6 sm:p-8">
-              <p className="mb-1 text-[10px] font-medium uppercase tracking-widest text-gallery-accent">
+              <p className="mb-1 text-micro font-medium uppercase tracking-widest text-gallery-accent">
                 For hosts &amp; artists
               </p>
               <h3 className="mb-3 font-serif text-xl font-semibold text-gallery-text">
                 I want to register a work
               </h3>
-              <p className="mb-6 text-sm leading-relaxed text-gallery-muted">
+              <p className="mb-6 text-body leading-relaxed text-gallery-muted">
                 For artists, collectors, and private hosts who want to create a
                 Preliminary Passport for a selected work.
               </p>
@@ -426,13 +426,13 @@ export default function OpenYourWallPage() {
               </Link>
             </div>
             <div className="border border-gallery-border bg-gallery-surface p-6 sm:p-8">
-              <p className="mb-1 text-[10px] font-medium uppercase tracking-widest text-gallery-accent">
+              <p className="mb-1 text-micro font-medium uppercase tracking-widest text-gallery-accent">
                 For viewers &amp; collectors
               </p>
               <h3 className="mb-3 font-serif text-xl font-semibold text-gallery-text">
                 I want to request viewing access
               </h3>
-              <p className="mb-6 text-sm leading-relaxed text-gallery-muted">
+              <p className="mb-6 text-body leading-relaxed text-gallery-muted">
                 For art lovers, collectors, and curators who would like to be
                 considered for invited viewing introductions.
               </p>
@@ -454,7 +454,7 @@ export default function OpenYourWallPage() {
             <h2 className="mb-5 font-serif text-2xl font-semibold sm:text-3xl">
               By arrangement. By introduction. By BayviewHub.
             </h2>
-            <p className="mb-10 text-sm leading-relaxed text-white/60">
+            <p className="mb-10 text-body leading-relaxed text-white/60">
               If you have a work you would like to share more carefully, or
               would like to be considered for invited viewing introductions,
               enquiries are welcome.
@@ -473,7 +473,7 @@ export default function OpenYourWallPage() {
                 Request Viewing Access
               </a>
             </div>
-            <p className="mt-12 text-[10px] uppercase tracking-[0.2em] text-white/30">
+            <p className="mt-12 text-micro uppercase tracking-[0.2em] text-white/30">
               Bayview Hub · Private Viewing Network · By Arrangement Only
             </p>
           </div>

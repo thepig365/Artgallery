@@ -33,7 +33,7 @@ export function ForensicViewer({
       {isPlaceholder ? (
         <div className="flex flex-col items-center justify-center gap-3 py-16 px-4">
           <ImageOff className="w-6 h-6 text-noir-muted/50" strokeWidth={1} aria-hidden="true" />
-          <span className="text-[10px] text-noir-muted tracking-widest uppercase">
+          <span className="text-micro text-noir-muted tracking-widest uppercase">
             No Evidence Linked
           </span>
         </div>
@@ -54,7 +54,7 @@ export function ForensicViewer({
 
       {sourceUrl && (
         <div className="absolute bottom-0 left-0 right-0 border-t border-noir-border bg-noir-bg/90 px-3 py-2 flex items-center justify-between">
-          <span className="text-[10px] text-noir-muted tracking-wider uppercase truncate">
+          <span className="text-micro text-noir-muted tracking-wider uppercase truncate">
             {sourceLabel || "Source"}
           </span>
           <a

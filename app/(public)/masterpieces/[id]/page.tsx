@@ -365,7 +365,7 @@ export default async function MasterpieceDetailPage({ params }: PageProps) {
 
       {/* Attribution footer */}
       <div className="mt-12 border-t border-gallery-border pt-6">
-        <p className="text-[11px] text-gallery-muted/60 leading-relaxed max-w-4xl">
+        <p className="text-micro text-gallery-muted/60 leading-relaxed max-w-4xl">
           This image is sourced from the open-access program of {sourceName} and
           is used under the {licenseInfo?.label || masterpiece.license} license.
           The platform does not claim ownership of this work. For full ownership

@@ -28,11 +28,11 @@ export default function RightsPage() {
       <div className="mb-8">
         <div className="flex items-center gap-2 mb-2">
           <Scale className="w-5 h-5 text-gallery-accent" strokeWidth={1.5} />
-          <span className="text-xs font-medium text-gallery-accent uppercase tracking-wide">
+          <span className="text-caption font-medium text-gallery-accent uppercase tracking-wide">
             Legal
           </span>
         </div>
-        <h1 className="text-3xl font-bold text-gallery-text tracking-tight mb-4">
+        <h1 className="font-bold text-gallery-text tracking-tight mb-4">
           Rights & Takedown
         </h1>
         <p className="text-gallery-muted leading-relaxed">
@@ -43,11 +43,11 @@ export default function RightsPage() {
       <div className="space-y-8">
         {/* Artwork Ownership */}
         <section className="border border-gallery-border rounded-lg p-6">
-          <h2 className="text-lg font-semibold text-gallery-text mb-3 flex items-center gap-2">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3 flex items-center gap-2">
             <Shield className="w-5 h-5 text-gallery-muted" strokeWidth={1.5} />
             Artwork Ownership
           </h2>
-          <div className="text-sm text-gallery-muted leading-relaxed space-y-3">
+          <div className="text-helper text-gallery-muted leading-relaxed space-y-3">
             <p>
               All artworks displayed in the Bayview Hub Gallery collection remain the intellectual property of their respective creators. The gallery does not claim ownership of any artwork unless explicitly transferred through a formal agreement.
             </p>
@@ -59,11 +59,11 @@ export default function RightsPage() {
 
         {/* Image Usage */}
         <section className="border border-gallery-border rounded-lg p-6">
-          <h2 className="text-lg font-semibold text-gallery-text mb-3 flex items-center gap-2">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3 flex items-center gap-2">
             <FileText className="w-5 h-5 text-gallery-muted" strokeWidth={1.5} />
             Image Usage & Reproduction
           </h2>
-          <div className="text-sm text-gallery-muted leading-relaxed space-y-3">
+          <div className="text-helper text-gallery-muted leading-relaxed space-y-3">
             <p>
               Images of artworks displayed on this website are provided for informational and educational purposes only. Reproduction, distribution, or commercial use of any artwork image without explicit permission from the copyright holder is prohibited.
             </p>
@@ -75,10 +75,10 @@ export default function RightsPage() {
 
         {/* Open Masterpieces */}
         <section className="border border-gallery-border rounded-lg p-6">
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             Open Masterpieces Collection
           </h2>
-          <div className="text-sm text-gallery-muted leading-relaxed space-y-3">
+          <div className="text-helper text-gallery-muted leading-relaxed space-y-3">
             <p>
               Works in our Open Masterpieces Library are sourced from museum open-access programs and are available under public domain licenses (CC0, Public Domain Mark, or equivalent). These works may be used freely without permission.
             </p>
@@ -90,10 +90,10 @@ export default function RightsPage() {
 
         {/* Mend Index Assessment */}
         <section className="border border-gallery-border rounded-lg p-6">
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             Mend Index Assessment Disclaimer
           </h2>
-          <div className="text-sm text-gallery-muted leading-relaxed space-y-3">
+          <div className="text-helper text-gallery-muted leading-relaxed space-y-3">
             <p>
               The Mend Index scoring system is a curatorial opinion tool designed to evaluate material sincerity across four axes: Body, Process, Material, and Surface. Assessment scores do not constitute financial appraisals, market valuations, or investment recommendations.
             </p>
@@ -105,16 +105,16 @@ export default function RightsPage() {
 
         {/* Takedown Requests */}
         <section className="border border-gallery-border rounded-lg p-6 bg-gallery-surface-alt">
-          <h2 className="text-lg font-semibold text-gallery-text mb-3">
+          <h2 className="text-h4 font-semibold text-gallery-text mb-3">
             Content Removal & Takedown Requests
           </h2>
-          <div className="text-sm text-gallery-muted leading-relaxed space-y-3">
+          <div className="text-helper text-gallery-muted leading-relaxed space-y-3">
             <p>
               If you believe content displayed on this site infringes your rights or should be removed for any reason, you may submit a formal takedown request.
             </p>
             <Link
               href="/takedown"
-              className="inline-flex items-center gap-2 px-4 py-2 mt-2 bg-gallery-accent text-white text-sm font-medium rounded-lg hover:bg-gallery-accent-hover transition-colors duration-200"
+              className="inline-flex items-center gap-2 px-4 py-2 mt-2 bg-gallery-accent text-white text-body font-medium rounded-lg hover:bg-gallery-accent-hover transition-colors duration-200"
             >
               Submit Takedown Request
               <ExternalLink className="w-4 h-4" strokeWidth={1.5} />
@@ -124,7 +124,7 @@ export default function RightsPage() {
 
         {/* Contact */}
         <section className="border-t border-gallery-border pt-6">
-          <p className="text-sm text-gallery-muted">
+          <p className="text-helper text-gallery-muted">
             For questions about rights, licensing, or any legal matters, please contact us at{" "}
             <a href="mailto:gallery@bayviewhub.me" className="text-gallery-accent hover:underline">
               gallery@bayviewhub.me

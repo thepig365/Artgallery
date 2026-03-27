@@ -297,7 +297,7 @@ export default function ArtistSubmitClient() {
           ← Previous
         </Button>
         <span
-          className="text-[10px] text-noir-muted tracking-widest uppercase"
+          className="text-micro text-noir-muted tracking-widest uppercase"
           aria-live="polite"
         >
           Step {currentIndex + 1} of {STEP_ORDER.length}

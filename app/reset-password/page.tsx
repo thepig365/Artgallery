@@ -94,23 +94,23 @@ export default function ResetPasswordPage() {
       <div className="w-full max-w-sm">
         <div className="flex items-center gap-3 mb-2">
           <Shield className="w-5 h-5 text-gallery-muted" strokeWidth={1} aria-hidden="true" />
-          <h1 className="text-lg font-semibold text-gallery-text tracking-tight">
+          <h1 className="text-h4 font-semibold text-gallery-text tracking-tight">
             Reset Password
           </h1>
         </div>
 
         {tokenState === "checking" && (
-          <p className="text-sm text-gallery-muted">Verifying reset link...</p>
+          <p className="text-helper text-gallery-muted">Verifying reset link...</p>
         )}
 
         {tokenState === "invalid" && (
           <div className="border border-red-300 bg-red-50 p-4 rounded-lg">
-            <p className="text-xs text-red-700 leading-relaxed">
+            <p className="text-caption text-red-700 leading-relaxed">
               This reset link is invalid or expired. Please request a new one.
             </p>
             <Link
               href="/forgot-password"
-              className="inline-block mt-3 text-xs text-gallery-accent hover:underline"
+              className="inline-block mt-3 text-caption text-gallery-accent hover:underline"
             >
               Request new reset link
             </Link>
@@ -128,14 +128,14 @@ export default function ResetPasswordPage() {
                   className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5"
                   strokeWidth={1.5}
                 />
-                <p className="text-xs text-red-700">{error}</p>
+                <p className="text-caption text-red-700">{error}</p>
               </div>
             )}
 
             <div>
               <label
                 htmlFor="password"
-                className="block text-xs font-medium text-gallery-muted mb-1.5"
+                className="block text-caption md:text-helper font-medium text-gallery-muted mb-1.5"
               >
                 New Password
               </label>
@@ -147,14 +147,14 @@ export default function ResetPasswordPage() {
                 required
                 minLength={8}
                 autoComplete="new-password"
-                className="w-full bg-white border border-gallery-border text-gallery-text text-sm rounded-lg px-3 py-2.5 placeholder:text-gallery-muted/50 focus:outline-none focus:ring-2 focus:ring-gallery-accent/30 focus:border-gallery-accent transition-colors"
+                className="w-full bg-white border border-gallery-border text-gallery-text text-body rounded-lg px-3 py-2.5 placeholder:text-gallery-muted/50 focus:outline-none focus:ring-2 focus:ring-gallery-accent/30 focus:border-gallery-accent transition-colors"
               />
             </div>
 
             <div>
               <label
                 htmlFor="confirm-password"
-                className="block text-xs font-medium text-gallery-muted mb-1.5"
+                className="block text-caption md:text-helper font-medium text-gallery-muted mb-1.5"
               >
                 Confirm Password
               </label>
@@ -166,14 +166,14 @@ export default function ResetPasswordPage() {
                 required
                 minLength={8}
                 autoComplete="new-password"
-                className="w-full bg-white border border-gallery-border text-gallery-text text-sm rounded-lg px-3 py-2.5 placeholder:text-gallery-muted/50 focus:outline-none focus:ring-2 focus:ring-gallery-accent/30 focus:border-gallery-accent transition-colors"
+                className="w-full bg-white border border-gallery-border text-gallery-text text-body rounded-lg px-3 py-2.5 placeholder:text-gallery-muted/50 focus:outline-none focus:ring-2 focus:ring-gallery-accent/30 focus:border-gallery-accent transition-colors"
               />
             </div>
 
             <button
               type="submit"
               disabled={loading || !password || !confirm}
-              className="w-full bg-gallery-accent text-white rounded-lg px-4 py-2.5 text-sm font-medium hover:bg-gallery-accent-hover transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-full bg-gallery-accent text-white rounded-lg px-4 py-2.5 text-body font-medium hover:bg-gallery-accent-hover transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
             >
               {loading ? "Updating..." : "Update Password"}
             </button>
@@ -184,13 +184,13 @@ export default function ResetPasswordPage() {
           <div className="border border-green-300 bg-green-50 p-4 rounded-lg mt-2">
             <div className="flex items-start gap-2">
               <CheckCircle2 className="w-4 h-4 text-green-700 mt-0.5" />
-              <p className="text-xs text-green-800 leading-relaxed">
+              <p className="text-caption text-green-800 leading-relaxed">
                 Password updated successfully. You can now sign in with your new password.
               </p>
             </div>
             <Link
               href="/login"
-              className="inline-block mt-3 text-xs text-gallery-accent hover:underline"
+              className="inline-block mt-3 text-caption text-gallery-accent hover:underline"
             >
               Go to sign in
             </Link>
