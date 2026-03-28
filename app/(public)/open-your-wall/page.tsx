@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Container } from "@/components/layout/Container";
+import { PageShareStrip } from "@/components/public/PageShareStrip";
 import { Panel } from "@/components/ui/Panel";
 import { GALLERY_EMAIL } from "@/lib/brand";
+import { SITE_URL } from "@/lib/site-url";
 
 const TITLE = "Open Your Private Wall | Bayview Hub Private Viewing Network";
 const DESCRIPTION =
@@ -32,6 +34,8 @@ export const metadata: Metadata = {
 const VIEWING_HREF = `mailto:${GALLERY_EMAIL}?subject=${encodeURIComponent(
   "Viewing Access Request — Bayview Hub Private Viewing Network"
 )}`;
+
+const SHARE_PAGE_URL = `${SITE_URL}/open-your-wall`;
 
 // ── §2 Problem cards ─────────────────────────────────────────────
 const PROBLEMS = [
@@ -161,6 +165,13 @@ export default function OpenYourWallPage() {
                   How It Works ↓
                 </a>
               </div>
+              <PageShareStrip
+                className="mt-10 max-w-xl"
+                url={SHARE_PAGE_URL}
+                mailtoSubject="Bayview Hub — Private Viewing / Open Your Wall"
+                mailtoIntro="Sharing the Bayview Hub Private Viewing Network page — selective, mediated viewing and Open Your Wall registration."
+                variant="on-dark"
+              />
             </div>
 
             {/* Right: featured artwork */}
