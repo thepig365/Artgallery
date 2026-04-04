@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Panel } from "@/components/ui/Panel";
 import { Divider } from "@/components/ui/Divider";
 import { Badge } from "@/components/ui/Badge";
@@ -211,6 +212,28 @@ export default function ProtocolPage() {
           </p>
         </Panel>
       </div>
+
+      <footer className="border-t border-noir-border pt-6">
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-caption uppercase tracking-[0.16em] text-noir-muted">
+          <a
+            href="https://www.bayviewhub.me/about"
+            className="transition-colors hover:text-noir-text"
+          >
+            About Bayview Hub
+          </a>
+          <span aria-hidden>·</span>
+          <a
+            href="https://www.bayviewhub.me/mendpress"
+            className="transition-colors hover:text-noir-text"
+          >
+            Mendpress
+          </a>
+          <span aria-hidden>·</span>
+          <Link href="/submit" className="transition-colors hover:text-noir-text">
+            Submit artwork
+          </Link>
+        </div>
+      </footer>
     </div>
   );
 }
