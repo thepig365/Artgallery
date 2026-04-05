@@ -39,12 +39,47 @@ const schema = {
   },
 };
 
+const privateViewingFAQSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a private viewing at Bayview Arts Gallery?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A private viewing is a mediated, appointment-based access to the Bayview Arts Gallery collection. It takes place at the estate in Main Ridge, runs 60–90 minutes, and gives collectors and serious art enquirers access to the works, the Mend Index Protocol documentation, and a direct conversation with someone from the gallery."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I request a private viewing at Bayview Arts Gallery?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Submit a request via the form at gallery.bayviewhub.me/private-viewing. Provide your name, email, and optionally a brief note about your interest. The gallery responds within 5 business days."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a cost for a private viewing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Contact the gallery directly for current terms. Submit an enquiry at gallery.bayviewhub.me/private-viewing or email gallery@bayviewhub.me."
+      }
+    }
+  ]
+};
+
 export default function PrivateViewingPage() {
   return (
     <div className="min-h-screen bg-bg">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema).replace(/</g, "\\u003c") }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(privateViewingFAQSchema).replace(/</g, "\\u003c") }}
       />
 
       <section className="bg-family-navy text-white">

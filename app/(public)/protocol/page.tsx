@@ -8,12 +8,12 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Mend Index Protocol | Bayview Hub Gallery",
   description:
-    "Read the Mend Index assessment framework, methodology, and legal disclaimers.",
+    "The Mend Index Protocol is Bayview Arts Gallery's proprietary curatorial framework. It evaluates artworks across four forensic axes — Body, Process, Material, Surface — to assess material sincerity and coherence between declared intent and material reality.",
   alternates: { canonical: "/protocol" },
   openGraph: {
     title: "Mend Index Protocol | Bayview Hub Gallery",
     description:
-      "Read the Mend Index assessment framework, methodology, and legal disclaimers.",
+      "The Mend Index Protocol is Bayview Arts Gallery's proprietary curatorial framework. It evaluates artworks across four forensic axes — Body, Process, Material, Surface — to assess material sincerity and coherence between declared intent and material reality.",
     type: "article",
     url: "/protocol",
   },
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Mend Index Protocol | Bayview Hub Gallery",
     description:
-      "Read the Mend Index assessment framework, methodology, and legal disclaimers.",
+      "The Mend Index Protocol is Bayview Arts Gallery's proprietary curatorial framework. It evaluates artworks across four forensic axes — Body, Process, Material, Surface — to assess material sincerity and coherence between declared intent and material reality.",
   },
 };
 

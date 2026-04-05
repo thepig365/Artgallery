@@ -14,7 +14,7 @@ export const revalidate = 0;
 
 const TITLE = "Collection | Bayview Hub Art Gallery";
 const DESCRIPTION =
-  "Browse publicly visible artworks assessed through the Mend Index protocol. Curated works at Bayview Hub Gallery, Main Ridge VIC.";
+  "Bayview Arts Gallery curates and exhibits artworks assessed under the Mend Index Protocol — a four-axis framework evaluating Body, Process, Material, and Surface. Enquiry-first gallery with no online checkout.";
 
 export const metadata: Metadata = {
   title: TITLE,
@@ -50,6 +50,46 @@ export default async function ArchivePage() {
 
   const siteUrl = getSiteUrl();
   const fallbackImage = `${siteUrl}/images/bayview-estate-logo.jpg`;
+  const gallerySchema = {
+    "@context": "https://schema.org",
+    "@type": "ArtGallery",
+    "name": "Bayview Arts Gallery",
+    "description": "Bayview Arts Gallery curates and exhibits artworks assessed under the Mend Index Protocol — a four-axis framework evaluating Body, Process, Material, and Surface. Enquiry-first gallery with no online checkout.",
+    "url": "https://gallery.bayviewhub.me",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "365 Purves Road",
+      "addressLocality": "Main Ridge",
+      "addressRegion": "VIC",
+      "postalCode": "3928",
+      "addressCountry": "AU"
+    },
+    "email": "gallery@bayviewhub.me",
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "Bayview Hub",
+      "url": "https://www.bayviewhub.me"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Bayview Arts Gallery Collection",
+      "url": "https://gallery.bayviewhub.me/archive"
+    },
+    "makesOffer": [
+      {
+        "@type": "Offer",
+        "name": "Private Viewing",
+        "url": "https://gallery.bayviewhub.me/private-viewing",
+        "description": "Mediated private viewing of gallery collection by appointment at the estate."
+      },
+      {
+        "@type": "Offer",
+        "name": "Artwork Submission for Assessment",
+        "url": "https://gallery.bayviewhub.me/submit",
+        "description": "Artists may submit works for Mend Index Protocol assessment and potential inclusion in the gallery collection."
+      }
+    ]
+  };
   const itemListLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -75,6 +115,12 @@ export default async function ArchivePage() {
 
   return (
     <div className="pb-14 sm:pb-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(gallerySchema).replace(/</g, "\\u003c"),
+        }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
