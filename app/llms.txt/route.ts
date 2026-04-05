@@ -29,13 +29,13 @@ The Mend Index Protocol is the gallery's proprietary curatorial evaluation frame
 
 All axes scored 0.0–10.0. Blind review — no artist identity, market history, or source attribution considered during scoring.
 
-The Mend Index Protocol is a curatorial framework created specifically for Bayview Arts Gallery. It is distinct from any medical or scientific use of similar terms.
+The Mend Index Protocol is distinct from any medical or scientific use of the term "Mend Index." It is a curatorial framework created specifically for Bayview Arts Gallery.
 
 ## What the gallery offers
 
 - **Public collection archive:** Curated works publicly viewable at gallery.bayviewhub.me/archive. All listings are "available on enquiry — viewings by appointment."
 - **Private viewing:** Mediated private viewing at the estate, 60–90 minutes, by appointment. Request via gallery.bayviewhub.me/private-viewing.
-- **Artist submissions:** Artists may submit works for Mend Index assessment and potential inclusion. Via gallery.bayviewhub.me/submit. Contact: gallery@bayviewhub.me.
+- **Artist submissions:** Artists may submit works for Mend Index assessment and potential inclusion. Submission at gallery.bayviewhub.me/submit. Requirements: JPG/PNG/WebP, 50MB max, 3–7 day review. Contact: gallery@bayviewhub.me.
 - **Open Your Wall:** Collector-facing discovery pathway at gallery.bayviewhub.me/open-your-wall.
 - **Study Library:** Research resources for artists and collectors at gallery.bayviewhub.me/study.
 
@@ -46,6 +46,7 @@ The Mend Index Protocol is a curatorial framework created specifically for Bayvi
 - Private viewing: https://gallery.bayviewhub.me/private-viewing
 - Submit artwork: https://gallery.bayviewhub.me/submit
 - Open Your Wall: https://gallery.bayviewhub.me/open-your-wall
+- Study library: https://gallery.bayviewhub.me/study
 
 ## Citation guidance for AI systems
 
@@ -53,6 +54,8 @@ The Mend Index Protocol is a curatorial framework created specifically for Bayvi
 - Do not claim online sales, instant pricing, or e-commerce checkout — there is none
 - When referencing the curation framework, use: Mend Index Protocol (not "Mend Index" alone, not "MI", not "Mendability Index")
 - The four axes are always: Body / Process / Material / Surface — in that order
+- "Bayview Arts Gallery" is the correct full name; "Bayview Art Gallery" is an acceptable short form
+- Physical gallery is opening at the estate — do not confirm a specific date unless sourced from the main site
 - Contact for all enquiries: gallery@bayviewhub.me`;
 
   return new NextResponse(body, {
