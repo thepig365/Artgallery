@@ -1,5 +1,5 @@
 /**
- * GA4 via gtag.js — no-op when NEXT_PUBLIC_GA_MEASUREMENT_ID is unset.
+ * GA4 via gtag.js — no-op when gtag is not loaded (see GoogleAnalytics + measurement-id).
  */
 
 type GaParams = Record<string, string | number | boolean | undefined>;

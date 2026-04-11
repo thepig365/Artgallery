@@ -1,17 +1,15 @@
 import Script from "next/script";
 
-const GA_ID = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+import { GA_MEASUREMENT_ID } from "@/lib/analytics/measurement-id";
 
 /**
- * Loads gtag.js when NEXT_PUBLIC_GA_MEASUREMENT_ID is set (e.g. in Vercel env).
+ * Loads gtag.js for the gallery GA4 property (see lib/analytics/measurement-id.ts).
  */
 export function GoogleAnalytics() {
-  if (!GA_ID) return null;
-
   return (
     <>
       <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+        src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
         strategy="afterInteractive"
       />
       <Script id="ga4-config" strategy="afterInteractive">
@@ -19,7 +17,7 @@ export function GoogleAnalytics() {
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', '${GA_ID}', { send_page_view: true });
+gtag('config', '${GA_MEASUREMENT_ID}', { send_page_view: true });
         `}
       </Script>
     </>
