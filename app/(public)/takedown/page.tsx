@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
+import { trackFormStart, trackFormSubmit } from "@/lib/analytics/events";
 import { Shield, AlertTriangle, Plus, X, CheckCircle } from "lucide-react";
 import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
 import { createTakedownRequestSchema } from "@/lib/validation/schemas";
@@ -26,6 +27,7 @@ const INITIAL_FORM: TakedownFormData = {
 };
 
 export default function TakedownRequestPage() {
+  const formStartTracked = useRef(false);
   const [form, setForm] = useState<TakedownFormData>(INITIAL_FORM);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitState, setSubmitState] = useState<
@@ -106,7 +108,12 @@ export default function TakedownRequestPage() {
       }
 
       const result = await res.json();
-      setReferenceId(result.referenceId ?? `TKD-${Date.now().toString(36).toUpperCase()}`);
+      const refId =
+        typeof result.referenceId === "string" && result.referenceId
+          ? result.referenceId
+          : `TKD-${Date.now().toString(36).toUpperCase()}`;
+      setReferenceId(refId);
+      trackFormSubmit("takedown", { reference_id: refId });
       setSubmitState("success");
     } catch {
       setSubmitState("error");
@@ -182,7 +189,14 @@ export default function TakedownRequestPage() {
         </div>
       )}
 
-      <div className="space-y-6">
+      <div
+        className="space-y-6"
+        onFocusCapture={() => {
+          if (formStartTracked.current) return;
+          formStartTracked.current = true;
+          trackFormStart("takedown");
+        }}
+      >
         {/* Complainant info */}
         <div className="bg-gallery-surface border border-gallery-border rounded-xl p-6">
           <h2 className="text-base font-semibold text-gallery-text mb-4">

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
+import { GoogleAnalytics } from "@/components/analytics/GoogleAnalytics";
 import { ZoneProvider } from "@/components/layout/ZoneProvider";
 import { SITE_URL } from "@/lib/site-url";
 
@@ -64,6 +65,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} ${cormorant.variable} font-sans`}>
       <body className="min-h-screen bg-bg font-sans text-fg antialiased">
+        <GoogleAnalytics />
         <ZoneProvider>{children}</ZoneProvider>
       </body>
     </html>

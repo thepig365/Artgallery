@@ -1,6 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import {
+  trackFormStart,
+  trackFormSubmit,
+  trackPrivateViewingRequest,
+} from "@/lib/analytics/events";
 
 type PrivateViewingRequestFormProps = {
   sourceUrl: string;
@@ -18,6 +23,13 @@ export function PrivateViewingRequestForm({
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
+  const formStartTracked = useRef(false);
+
+  function markFormStart() {
+    if (formStartTracked.current) return;
+    formStartTracked.current = true;
+    trackFormStart("private_viewing");
+  }
 
   function currentSourceUrl() {
     if (typeof window === "undefined") return sourceUrl;
@@ -59,6 +71,8 @@ export function PrivateViewingRequestForm({
         return;
       }
 
+      trackFormSubmit("private_viewing");
+      trackPrivateViewingRequest();
       setDone(true);
       setForm({
         name: "",
@@ -87,7 +101,11 @@ export function PrivateViewingRequestForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form
+      onSubmit={handleSubmit}
+      className="space-y-4"
+      onFocusCapture={markFormStart}
+    >
       <div className="hidden" aria-hidden="true">
         <input
           type="text"

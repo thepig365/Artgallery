@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ArtistSubmitClient from "@/app/portal/submit/ArtistSubmitClient";
 import { CONTACT_EMAIL } from "@/lib/site-config";
+import { SITE_URL } from "@/lib/site-url";
 
 export const metadata: Metadata = {
   title: "Submit Artwork | Bayview Hub Gallery",
@@ -23,9 +24,29 @@ export const metadata: Metadata = {
   },
 };
 
+const submitWebPageLd = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: "Submit Artwork",
+  description:
+    "Submit your artwork for optional Mend Index assessment and archive consideration.",
+  url: `${SITE_URL}/submit`,
+  isPartOf: {
+    "@type": "WebSite",
+    name: "Bayview Hub Art Gallery",
+    url: SITE_URL,
+  },
+};
+
 export default function SubmitPage() {
   return (
     <div className="container mx-auto px-4 py-10 sm:py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(submitWebPageLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <header className="mb-8">
         <p className="text-caption font-medium uppercase tracking-[0.2em] text-gallery-accent mb-2">
           Submission

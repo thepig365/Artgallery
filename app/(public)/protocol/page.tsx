@@ -3,6 +3,7 @@ import { Panel } from "@/components/ui/Panel";
 import { Divider } from "@/components/ui/Divider";
 import { Badge } from "@/components/ui/Badge";
 import { DISCLAIMERS } from "@/lib/compliance/disclaimers";
+import { SITE_URL } from "@/lib/site-url";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -60,9 +61,58 @@ const AXES = [
   },
 ] as const;
 
+const protocolTechArticleLd = {
+  "@context": "https://schema.org",
+  "@type": "TechArticle",
+  headline: "Mend Index Protocol",
+  name: "Mend Index Protocol",
+  description:
+    "The Mend Index Protocol is Bayview Arts Gallery's proprietary curatorial framework. It evaluates artworks across four forensic axes — Body, Process, Material, Surface.",
+  url: `${SITE_URL}/protocol`,
+  inLanguage: "en-AU",
+  author: {
+    "@type": "Organization",
+    name: "Bayview Arts Gallery",
+    url: SITE_URL,
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "Bayview Arts Gallery",
+    url: SITE_URL,
+  },
+  about: {
+    "@type": "Thing",
+    name: "Mend Index Protocol",
+    description:
+      "Curatorial evaluation framework with axes Body, Process, Material, and Surface.",
+  },
+  isAccessibleForFree: true,
+};
+
+const protocolBreadcrumbLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Gallery", item: SITE_URL },
+    { "@type": "ListItem", position: 2, name: "Mend Index Protocol", item: `${SITE_URL}/protocol` },
+  ],
+};
+
 export default function ProtocolPage() {
   return (
     <div className="container mx-auto px-4 py-8 sm:py-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(protocolTechArticleLd).replace(/</g, "\\u003c"),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(protocolBreadcrumbLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <h1 className="text-h3 font-medium tracking-forensic text-noir-text md:text-h2">

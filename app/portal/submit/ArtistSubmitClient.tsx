@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import type {
   WizardStep,
@@ -22,6 +22,12 @@ import { StepNarrative } from "@/components/portal/StepNarrative";
 import { StepConsent } from "@/components/portal/StepConsent";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import {
+  trackArtistSubmissionComplete,
+  trackArtistSubmissionStart,
+  trackFormStart,
+  trackFormSubmit,
+} from "@/lib/analytics/events";
 
 const STEP_ORDER: WizardStep[] = [
   "identity",
@@ -39,6 +45,7 @@ const stepMotion = {
 };
 
 export default function ArtistSubmitClient() {
+  const submissionStartTracked = useRef(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [currentStep, setCurrentStep] = useState<WizardStep>("identity");
   const [completedSteps, setCompletedSteps] = useState<Set<WizardStep>>(
@@ -154,6 +161,12 @@ export default function ArtistSubmitClient() {
         return;
       }
       setReferenceId(data.referenceId);
+      trackArtistSubmissionComplete(
+        typeof data.referenceId === "string" ? data.referenceId : null
+      );
+      trackFormSubmit("artist_submission", {
+        reference_id: typeof data.referenceId === "string" ? data.referenceId : "",
+      });
       setIsSubmitted(true);
     } catch {
       setSubmitError("Network error — please try again");
@@ -219,8 +232,19 @@ export default function ArtistSubmitClient() {
     );
   }
 
+  const onWizardEngage = () => {
+    if (submissionStartTracked.current) return;
+    submissionStartTracked.current = true;
+    trackFormStart("artist_submission");
+    trackArtistSubmissionStart();
+  };
+
   return (
-    <div className="border-t border-gallery-border pt-10">
+    <div
+      className="border-t border-gallery-border pt-10"
+      onFocusCapture={onWizardEngage}
+      onPointerDownCapture={onWizardEngage}
+    >
       <div className="mb-8">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-medium tracking-forensic text-gallery-text">

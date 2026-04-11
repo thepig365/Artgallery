@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { trackFormStart, trackFormSubmit } from "@/lib/analytics/events";
 
 type CtaType = "enquire" | "viewing" | "price";
 
@@ -37,6 +38,8 @@ export function EnquiryModalTrigger({
     return window.location.href;
   }
 
+  const formStartTracked = useRef(false);
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -44,6 +47,12 @@ export function EnquiryModalTrigger({
     message: "",
     website: "", // honeypot
   });
+
+  function markEnquiryFormStart() {
+    if (formStartTracked.current) return;
+    formStartTracked.current = true;
+    trackFormStart("artwork_enquiry", { cta_type: ctaType });
+  }
 
   function openModal() {
     const currentSourceUrl = getSourceUrl();
@@ -78,6 +87,7 @@ export function EnquiryModalTrigger({
     }));
     setError(null);
     setDone(false);
+    formStartTracked.current = false;
     setOpen(true);
   }
 
@@ -111,6 +121,10 @@ export function EnquiryModalTrigger({
         setError(data?.error ?? `Submit failed (${res.status})`);
         return;
       }
+      trackFormSubmit("artwork_enquiry", {
+        cta_type: ctaType,
+        artwork_slug: artworkSlug ?? "",
+      });
       setDone(true);
     } catch {
       setError("Network error. Please try again.");
@@ -159,7 +173,7 @@ export function EnquiryModalTrigger({
                   </button>
                 </div>
 
-                <div className="space-y-3">
+                <div className="space-y-3" onFocusCapture={markEnquiryFormStart}>
                   <input
                     value={form.name}
                     onChange={(e) => setForm((s) => ({ ...s, name: e.target.value }))}
