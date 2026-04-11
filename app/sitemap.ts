@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/db/client";
-import { Prisma } from "@prisma/client";
+import { Prisma, WallPublication } from "@prisma/client";
 
 import { MODERN_MASTERS_DATA } from "@/lib/data/modern-masters";
 import { STUDY_PACKS_TOP50 } from "@/lib/data/study-packs-top50";
@@ -50,10 +50,39 @@ async function loadArchiveArtworks(): Promise<{ slug: string; updatedAt: Date; i
   }
 }
 
+/**
+ * Public Private Walls detail URLs — only rows published to the programme with a slug.
+ */
+async function loadPrivateWallSlugs(): Promise<{ publicSlug: string; updatedAt: Date }[]> {
+  try {
+    const rows = await prisma.hostPassport.findMany({
+      where: {
+        wallPublication: WallPublication.PUBLIC_PRIVATE_WALLS,
+        publicSlug: { not: null },
+      },
+      select: { publicSlug: true, updatedAt: true },
+      orderBy: { updatedAt: "desc" },
+      take: 500,
+    });
+    return rows.filter((r): r is { publicSlug: string; updatedAt: Date } => r.publicSlug != null);
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2021") {
+      console.warn("[Sitemap] host_passports table missing; skipping private walls URLs.");
+      return [];
+    }
+    console.error("[Sitemap] Failed to load private walls slugs:", err);
+    return [];
+  }
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${SITE_URL}/`, changeFrequency: "weekly", priority: 1.0 },
     { url: `${SITE_URL}/archive`, changeFrequency: "daily", priority: 0.9 },
+    { url: `${SITE_URL}/open-your-wall`, changeFrequency: "monthly", priority: 0.75 },
+    { url: `${SITE_URL}/art-work-for-private-walls`, changeFrequency: "weekly", priority: 0.72 },
+    { url: `${SITE_URL}/passport`, changeFrequency: "monthly", priority: 0.65 },
+    { url: `${SITE_URL}/passport/register`, changeFrequency: "monthly", priority: 0.65 },
     { url: `${SITE_URL}/private-viewing`, changeFrequency: "monthly", priority: 0.7 },
     { url: `${SITE_URL}/submit`, changeFrequency: "weekly", priority: 0.7 },
     { url: `${SITE_URL}/rights`, changeFrequency: "monthly", priority: 0.5 },
@@ -61,6 +90,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/study`, changeFrequency: "weekly", priority: 0.7 },
     { url: `${SITE_URL}/protocol`, changeFrequency: "monthly", priority: 0.6 },
     { url: `${SITE_URL}/takedown`, changeFrequency: "monthly", priority: 0.3 },
+    { url: `${SITE_URL}/privacy`, changeFrequency: "yearly", priority: 0.2 },
+    { url: `${SITE_URL}/terms`, changeFrequency: "yearly", priority: 0.2 },
   ];
 
   const studySlugs = [
@@ -93,5 +124,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     images: toGalleryPublicUrl(a.imageUrl) ? [toGalleryPublicUrl(a.imageUrl)!] : [],
   }));
 
-  return [...staticRoutes, ...archiveRoutes, ...studyRoutes, ...masterpieceRoutes];
+  const privateWallRows = await loadPrivateWallSlugs();
+  const privateWallRoutes: MetadataRoute.Sitemap = privateWallRows.map((w) => ({
+    url: `${SITE_URL}/art-work-for-private-walls/${w.publicSlug}`,
+    lastModified: w.updatedAt,
+    changeFrequency: "weekly" as const,
+    priority: 0.65,
+  }));
+
+  return [
+    ...staticRoutes,
+    ...archiveRoutes,
+    ...privateWallRoutes,
+    ...studyRoutes,
+    ...masterpieceRoutes,
+  ];
 }
