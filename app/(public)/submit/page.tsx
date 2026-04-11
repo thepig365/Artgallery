@@ -5,7 +5,7 @@ import { CONTACT_EMAIL } from "@/lib/site-config";
 import { SITE_URL } from "@/lib/site-url";
 
 export const metadata: Metadata = {
-  title: "Submit Artwork | Bayview Hub Gallery",
+  title: { absolute: "Submit Artwork | Bayview Hub Gallery" },
   description:
     "Submit your artwork for optional Mend Index assessment and archive consideration.",
   alternates: { canonical: "/submit" },

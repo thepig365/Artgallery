@@ -128,7 +128,9 @@ export async function generateMetadata({
 
   if (hasError) {
     return {
-      title: "Artwork temporarily unavailable | Bayview Hub Gallery",
+      title: {
+        absolute: "Artwork temporarily unavailable | Bayview Hub Gallery",
+      },
       description: "This artwork record is temporarily unavailable. Please try again shortly.",
       robots: { index: false, follow: false },
       alternates: { canonical: `/archive/${slug}` },
@@ -137,7 +139,7 @@ export async function generateMetadata({
 
   if (!artwork) {
     return {
-      title: "Artwork not found | Bayview Hub Gallery",
+      title: { absolute: "Artwork not found | Bayview Hub Gallery" },
       description: "The requested artwork could not be found.",
     };
   }
@@ -151,7 +153,7 @@ export async function generateMetadata({
   const canonicalUrl = `${siteUrl}/archive/${artwork.slug}`;
 
   return {
-    title,
+    title: { absolute: title },
     description,
     alternates: {
       canonical: canonicalUrl,

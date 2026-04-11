@@ -7,7 +7,7 @@ import { SITE_URL } from "@/lib/site-url";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Mend Index Protocol | Bayview Hub Gallery",
+  title: { absolute: "Mend Index Protocol | Bayview Hub Gallery" },
   description:
     "The Mend Index Protocol is Bayview Arts Gallery's proprietary curatorial framework. It evaluates artworks across four forensic axes — Body, Process, Material, Surface — to assess material sincerity and coherence between declared intent and material reality.",
   alternates: { canonical: "/protocol" },

@@ -17,7 +17,7 @@ const DESCRIPTION =
   "Bayview Arts Gallery curates and exhibits artworks assessed under the Mend Index Protocol — a four-axis framework evaluating Body, Process, Material, and Surface. Enquiry-first gallery with no online checkout.";
 
 export const metadata: Metadata = {
-  title: TITLE,
+  title: { absolute: TITLE },
   description: DESCRIPTION,
   metadataBase: new URL(getSiteUrl()),
   alternates: {
